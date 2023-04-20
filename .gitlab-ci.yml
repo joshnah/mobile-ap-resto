@@ -10,10 +10,7 @@ lint: # Vérification de la qualité du code js
   image: node
   script:
     - npm install
-    - cd backendsqlite
-    - npx eslint src/ > ../lint_report.txt # On redirige la sortie dans un fichier
-    - cd ../frontend
-    - npx eslint src/ >> ../lint_report.txt
+    - npm run test > lint_report.txt
   artifacts: # Les rapports seront disponibles pour d'autres jobs
     paths:
       - lint_report.txt

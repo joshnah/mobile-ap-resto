@@ -1,0 +1,20 @@
+{
+  "name": "projet_anthony_rococo_loris_martinez1_tien_dat_phan",
+  "version": "1.0.0",
+  "description": "- fonctionnalités de base - DB: modele relationnel - backend frontend",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd frontend && npm install && cd ../backendsqlite && npm install",
+    "test": "cd frontend && npm run test  && cd ../backendsqlite && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/grenoble-inp-ensimag/4MM1CAW/ProjetCAW/Projet_anthony_rococo_loris_martinez1_tien_dat_phan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/grenoble-inp-ensimag/4MM1CAW/ProjetCAW/Projet_anthony_rococo_loris_martinez1_tien_dat_phan/issues"
+  },
+  "homepage": "https://gitlab.com/grenoble-inp-ensimag/4MM1CAW/ProjetCAW/Projet_anthony_rococo_loris_martinez1_tien_dat_phan#readme"
+}
