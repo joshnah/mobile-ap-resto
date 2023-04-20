@@ -15,18 +15,32 @@ stages:
 #     paths:
 #       - lint_report.txt
 
-test:
+test-e2e:
   stage: test
   image: cypress/base:16.18.1 # Image fournie par cypress avec ce qu'il faut
   tags:
     - docker
-  image: node
   script:
+    - cd frontend
     - npm i # Installe ce qui est décrit dans package.json
-    - npm run test > test_report.txt # On redirige la sortie d'erreur dans un fichier
+    - npm run test > ../test-e2e.txt
   artifacts:
     paths:
-      - test_report.txt # Le fichier de sortie est disponible pour d'autres jobs
+      - test-e2e.txt # Le fichier de sortie est disponible pour d'autres jobs
+
+
+test-api:
+  stage: test
+  image: node
+  tags:
+    - docker
+  script:
+    - cd backendsqlite
+    - npm i # Installe ce qui est décrit dans package.json
+    - npm run test > ../test-api.txt 
+  artifacts:
+    paths:
+      - test-api.txt # Le fichier de sortie est disponible pour d'autres jobs
 
 # badges:
 #   stage: deploy
