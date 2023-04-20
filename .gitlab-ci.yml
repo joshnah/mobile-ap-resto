@@ -1,0 +1,49 @@
+stages:
+  - lint
+  - test
+  - deploy
+
+lint: # Vérification de la qualité du code js
+  stage: lint # Dans l'étape lint
+  tags:
+    - docker
+  image: node
+  script:
+    - npm install
+    - cd backendsqlite
+    - npx eslint src/ > ../lint_report.txt # On redirige la sortie dans un fichier
+    - cd ../frontend
+    - npx eslint src/ >> ../lint_report.txt
+  artifacts: # Les rapports seront disponibles pour d'autres jobs
+    paths:
+      - lint_report.txt
+
+# test:
+#   stage: test
+#   tags:
+#     - docker
+#   image: node
+#   script:
+#     - npm i # Installe ce qui est décrit dans package.json
+#     - npm run test 2> api_report.txt # On redirige la sortie d'erreur dans un fichier
+#   artifacts:
+#     paths:
+#       - api_report.txt # Le fichier de sortie est disponible pour d'autres jobs
+
+# badges:
+#   stage: deploy
+#   image: python:latest
+#   script:
+#     - pip install anybadge # installe le module anybadge
+#     - chmod u+x badge_script.sh # rend le script exécutable
+#     - ./badge_script.sh # Script de génération des badges
+#   dependencies: # Les badges sont générés à partir des rapports s'ils sont disponibles
+#     - test
+#     - lint
+#   artifacts:
+#     paths:
+#       - api.svg
+#       - lint.svg
+#   when: always
+
+
