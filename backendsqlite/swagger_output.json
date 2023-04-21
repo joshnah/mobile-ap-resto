@@ -167,28 +167,6 @@
         }
       }
     },
-    "/api/getjwtDeleg/{email}": {
-      "get": {
-        "tags": [
-          "Token"
-        ],
-        "summary": "Generate token",
-        "description": "",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/login": {
       "post": {
         "tags": [
@@ -217,6 +195,27 @@
                 "password"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get All products",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {

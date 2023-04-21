@@ -145,7 +145,7 @@ module.exports = {
   },
   async verifyUser(req, res, next) {
     // Si user non admin or not the correct client, on retourne 401
-    if (req.user.isAdmin || req.user.userId === req.params.userId) {
+    if (req.user.isAdmin || req.user.userId === Number(req.params.userId)) {
       next();
     } else {
       throw new CodeError("UNAUTHORIZED", status.UNAUTHORIZED);
