@@ -41,7 +41,6 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "Name and email",
             "schema": {
               "type": "object",
               "properties": {
@@ -51,11 +50,11 @@
                 },
                 "email": {
                   "type": "string",
-                  "example": "John.Doe@acme.com"
+                  "example": "abcde@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "1m02P@SsF0rt!"
+                  "example": "abcd123"
                 }
               },
               "required": [
@@ -71,7 +70,9 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/users/{userId}": {
       "put": {
         "tags": [
           "Users"
@@ -80,6 +81,17 @@
         "description": "",
         "parameters": [
           {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "schema": {
@@ -87,23 +99,38 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "example": "John Doe"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "John.Doe@acme.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "1m02P@SsF0rt!"
+                  "example": "new name"
                 }
               },
               "required": [
-                "name",
-                "email",
-                "password"
+                "name"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete User",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -126,27 +153,10 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/users/{id}": {
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Delete User",
-        "description": "",
-        "parameters": [
+          },
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "x-access-token",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -195,11 +205,11 @@
               "properties": {
                 "email": {
                   "type": "string",
-                  "example": "John.Doe@acme.com"
+                  "example": "admin@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "12345"
+                  "example": "a123456"
                 }
               },
               "required": [

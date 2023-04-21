@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database.js')
 const users = db.define('users', {
-  id: {
+  userId: {
     primaryKey: true,
     type: Sequelize.INTEGER,
     autoIncrement: true
@@ -14,6 +14,7 @@ const users = db.define('users', {
   },
   email: {
     type: Sequelize.STRING(128),
+    allowNull: false,
     unique: true,
     validate: {
       isEmail: true
@@ -27,7 +28,6 @@ const users = db.define('users', {
   },
   phone: {
     type: Sequelize.STRING,
-    allowNull: false
   },
   address: {
     type: Sequelize.STRING

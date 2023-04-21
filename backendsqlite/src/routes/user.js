@@ -1,17 +1,35 @@
-const express = require('express')
-const router = express.Router()
-const user = require('../controllers/user.js')
+const express = require("express");
+const router = express.Router();
+const user = require("../controllers/user.js");
 
-router.get('/api/users', user.verifyToken, user.checkAdmin, user.getUsers)
-router.post('/api/users', user.newUser)
+router.get(
+  "/api/users",
+  user.verifyTokenAndFindUser,
+  user.verifyAdmin,
+  user.getUsers
+);
+router.post("/api/users", user.newUser);
 
-router.get('/api/users/:email', user.getUserByEmail)
-router.put('/api/users', user.updateUser)
-router.delete('/api/users/:id', user.deleteUser)
+router.put(
+  "/api/users/:userId",
+  user.verifyTokenAndFindUser,
+  user.verifyUser,
+  user.updateUser
+);
+router.delete(
+  "/api/users/:userId",
+  user.verifyTokenAndFindUser,
+  user.verifyUser,
+  user.deleteUser
+);
 
-// Token
-router.get('/api/getjwtDeleg/:email', user.generateToken)
+router.get(
+  "/api/users/:email",
+  user.verifyTokenAndFindUser,
+  user.verifyAdmin,
+  user.getUserByEmail
+);
 
-router.post('/login', user.login)
+router.post("/login", user.login);
 
-module.exports = router
+module.exports = router;

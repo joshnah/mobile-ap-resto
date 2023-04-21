@@ -1,98 +1,122 @@
-const status = require('http-status')
-const userModel = require('../models/users.js')
-const has = require('has-keys')
-const CodeError = require('../util/CodeError.js')
-const bcrypt = require('bcrypt')
-const jws = require('jws')
-require('mandatoryenv').load(['TOKENSECRET'])
-const { TOKENSECRET } = process.env
+const status = require("http-status");
+const userModel = require("../models/users.js");
+const has = require("has-keys");
+const CodeError = require("../util/CodeError.js");
+const bcrypt = require("bcrypt");
+const jws = require("jws");
+require("mandatoryenv").load(["TOKENSECRET"]);
+const { TOKENSECRET } = process.env;
 
-function validPassword (password) {
-  return /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(password)
+// 6 characters, at least one letter and one number
+function validPassword(password) {
+  return /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/.test(password);
 }
 
 module.exports = {
-  async getUserByEmail (req, res) {
+  async getUserByEmail(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Get user by Email'
-    if (!has(req.params, 'email')) throw new CodeError('You must specify the email', status.BAD_REQUEST)
-    const { email } = req.params
-    const data = await userModel.findOne({ where: { email }, attributes: ['id', 'name', 'email'] })
-    if (!data) throw new CodeError('User not found', status.NOT_FOUND)
-    res.json({ status: true, message: 'Returning user', data })
+    if (!has(req.params, "email"))
+      throw new CodeError("You must specify the email", status.BAD_REQUEST);
+    const { email } = req.params;
+    const data = await userModel.findOne({
+      where: { email },
+      attributes: ["userId", "name", "email", "phone", "address", "isAdmin"],
+    });
+    if (!data) throw new CodeError("User not found", status.NOT_FOUND);
+    res.json({ status: true, message: "Returning user", data });
   },
-  async getUsers (req, res) {
-    // TODO : verify if the user that wants to get All users is an admin (using token...)
+  async getUsers(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Get All users'
-    const data = await userModel.findAll({ attributes: ['id', 'name', 'email'] })
-    res.json({ status: true, message: 'Returning users', data })
+    const data = await userModel.findAll();
+    res.json({ status: true, message: "Returning users", data });
   },
-  async newUser (req, res) {
+  async newUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'New User'
-    // #swagger.parameters['obj'] = { in: 'body', description:'Name and email', schema: { $name: 'John Doe', $email: 'John.Doe@acme.com', $password: '1m02P@SsF0rt!'}}
-    if (!has(req.body, ['name', 'email', 'password'])) throw new CodeError('You must specify the name and email', status.BAD_REQUEST)
-    const { name, email, password } = req.body
-    console.log(req.body)
-    if (!validPassword(password)) throw new CodeError('Weak password!', status.BAD_REQUEST)
-    await userModel.create({ name, email, passhash: await bcrypt.hash(password, 2) })
-    res.json({ status: true, message: 'User Added' })
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'John Doe', $email: 'abcde@gmail.com', $password: 'abcd123'}}
+    if (!has(req.body, ["name", "email", "password"]))
+      throw new CodeError(
+        "You must specify the name, email and password ",
+        status.BAD_REQUEST
+      );
+    const { name, password, email } = req.body;
+    if (!validPassword(password))
+      throw new CodeError("Weak password!", status.BAD_REQUEST);
+    await userModel.create({
+      name,
+      email,
+      passhash: await bcrypt.hash(password, 2),
+    });
+    res.json({ status: true, message: "User Added" });
   },
-  async updateUser (req, res) {
-    // TODO : verify if the user that wants to update this user is an admin or the user himself (using token...)
+  async updateUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Update User'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'John Doe', $email: 'John.Doe@acme.com', $password: '1m02P@SsF0rt!'}}
-    if ((!has(req.body, ['name', 'email', 'password']))) throw new CodeError('You must specify the name, email and password', status.BAD_REQUEST)
-    const { name, email, password } = req.body
-    await userModel.update({ name, passhash: await bcrypt.hash(password, 2) }, { where: { email } })
-    res.json({ status: true, message: 'User updated' })
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'new name'}}
+    const data = req.body;
+    if (
+      has(data, ["email"]) ||
+      has(data, ["name"]) ||
+      has(data, ["phone"]) ||
+      has(data, ["address"]) ||
+      has(data, ["password"])
+    ) {
+      // check if pass word is updated
+      if (has(data, ["password"])) {
+        const { password } = data;
+        if (!validPassword(password))
+          throw new CodeError("Weak password!", status.BAD_REQUEST);
+        data.passhash = await bcrypt.hash(password, 2);
+      }
+      await userModel.update(
+        { ...data },
+        { where: { userId: req.user.userId } }
+      );
+      res.json({ status: true, message: "User updated" });
+    } else {
+      throw new CodeError("BAD REQUEST ", status.BAD_REQUEST);
+    }
   },
-  async deleteUser (req, res) {
-    // TODO : verify if the user that wants to update user is an admin (using token...)
+  async deleteUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
-    if (!has(req.params, 'id')) throw new CodeError('You must specify the id', status.BAD_REQUEST)
-    const { id } = req.params
-    await userModel.destroy({ where: { id } })
-    res.json({ status: true, message: 'User deleted' })
+    if (!has(req.params, "userId"))
+      throw new CodeError("You must specify the id", status.BAD_REQUEST);
+    const { userId } = req.params;
+    await userModel.destroy({ where: { userId } });
+    res.json({ status: true, message: "User deleted" });
   },
-  async login (req, res) {
+  async login(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Verify credentials of user using email and password and return token'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $email: 'John.Doe@acme.com', $password: '12345'}}
-    if (!has(req.body, ['email', 'password'])) throw new CodeError('You must specify the email and password', status.BAD_REQUEST)
-    const { email, password } = req.body
-    const user = await userModel.findOne({ where: { email } })
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $email: 'admin@gmail.com', $password: 'a123456'}}
+    const data = req.body;
+    if (!has(data, ["email", "password"]))
+      throw new CodeError(
+        "You must specify the email and password",
+        status.BAD_REQUEST
+      );
+    const { email, password } = data;
+    const user = await userModel.findOne({ where: { email } });
     if (user) {
       if (await bcrypt.compare(password, user.passhash)) {
-        const token = jws.sign({ header: { alg: 'HS256' }, payload: email, secret: TOKENSECRET })
-        res.json({ status: true, message: 'Login/Password ok', token })
-        return
+        const token = jws.sign({
+          header: { alg: "HS256" },
+          payload: email,
+          secret: TOKENSECRET,
+        });
+        res.json({ status: true, message: "Login/Password ok", token });
+        return;
       }
     }
-    res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong email/password' })
+    res
+      .status(status.FORBIDDEN)
+      .json({ status: false, message: "Wrong email/password" });
   },
-  async generateToken(req, res) {
-    // #swagger.tags = ['Token']
-    // #swagger.summary = 'Generate token'
-
-    // Si le paramètre mail n'est pas passé dans l'url, on retourne 400
-    if (!has(req.params, 'email')) throw new CodeError('You must specify the email in the URL', status.BAD_REQUEST)
-    const {email} = req.params
-    // On cherche le user correspondant au mail dans la db
-    const user = await userModel.findOne({ where: { email } })
-    // Si aucun user trouvé, on retourne 403
-    if (!user) throw new CodeError('User not found', status.FORBIDDEN)
-    // Génération du token avec jws
-    const token = jws.sign({ header: { alg: 'HS256' }, payload: email, secret: TOKENSECRET })
-    res.json({ status: true, token: token })
-    return
-  },
-  async verifyToken(req, res, next) {
+  async verifyTokenAndFindUser(req, res, next) {
     const token = req.headers["x-access-token"];
-
     if (!token) {
       throw new CodeError("No token provided", 403);
     }
@@ -101,21 +125,30 @@ module.exports = {
     if (!verified) {
       throw new CodeError("Failed to authenticate token", 403);
     }
-    req.emailDecoded = jws.decode(token).payload;
+    const email = jws.decode(token).payload;
+    const user = await userModel.findOne({
+      where: { email },
+    });
+    if (!user) {
+      throw new CodeError("User not found", status.NOT_FOUND);
+    }
+    req.user = user;
     next();
   },
-  async checkAdmin(req, res, next) {
-    const user = await userModel.findOne({
-      where: { email: req.emailDecoded },
-      attributes: ["isAdmin"],
-    });
-    // Si aucun user trouvé, on retourne 404
-    if (!user) throw new CodeError('User not found', status.NOT_FOUND)
+  async verifyAdmin(req, res, next) {
     // Si user non admin, on retourne 401
-    if (user.isAdmin) {
-      next()
+    if (req.user.isAdmin) {
+      next();
     } else {
-      throw new CodeError('User is not an admin', status.UNAUTHORIZED)
+      throw new CodeError("User is not an admin", status.UNAUTHORIZED);
     }
-  }
-}
+  },
+  async verifyUser(req, res, next) {
+    // Si user non admin or not the correct client, on retourne 401
+    if (req.user.isAdmin || req.user.userId === req.params.userId) {
+      next();
+    } else {
+      throw new CodeError("UNAUTHORIZED", status.UNAUTHORIZED);
+    }
+  },
+};

@@ -9,11 +9,14 @@ const productModel = require('../models/products.js');
   await require('../models/database.js').sync({ force: true })
   console.log('Base de données créée.')
   // Initialise la base avec quelques données
-  const passhash = await bcrypt.hash('123456', 2)
-  console.log(passhash)
   await userModel.create({
-    name: 'Sebastien Viardot', email: 'Sebastien.Viardot@grenoble-inp.fr', passhash, phone: '12345', isAdmin: true
+    name: 'admin', email: 'admin@gmail.com',passhash: await bcrypt.hash('a123456', 2), phone: '12345', isAdmin: true
   })
+
+  await userModel.create({
+    name: 'user', email: 'user@gmail.com',passhash: await bcrypt.hash('a123456', 2), phone: '12345', isAdmin: false
+  })
+
   // Ajouter ici le code permettant d'initialiser par défaut la base de donnée
   await productModel.create({
     name: 'My burger', type: 'burger', price: 8.75, description: 'A very good burger'
