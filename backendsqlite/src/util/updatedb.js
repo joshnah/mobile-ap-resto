@@ -1,6 +1,7 @@
 const userModel = require('../models/users.js')
 const bcrypt = require('bcrypt');
 // Ajouter ici les nouveaux require des nouveaux modèles
+const productModel = require('../models/products.js');
 
 // eslint-disable-next-line no-unexpected-multiline
 (async () => {
@@ -14,4 +15,7 @@ const bcrypt = require('bcrypt');
     name: 'Sebastien Viardot', email: 'Sebastien.Viardot@grenoble-inp.fr', passhash, phone: '12345', isAdmin: true
   })
   // Ajouter ici le code permettant d'initialiser par défaut la base de donnée
+  await productModel.create({
+    name: 'My burger', type: 'burger', price: 8.75, description: 'A very good burger'
+  })
 })()

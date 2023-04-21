@@ -157,6 +157,28 @@
         }
       }
     },
+    "/api/getjwtDeleg/{email}": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "Generate token",
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/login": {
       "post": {
         "tags": [
