@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
   const passhash = await bcrypt.hash('123456', 2)
   console.log(passhash)
   await userModel.create({
-    name: 'Sebastien Viardot', email: 'Sebastien.Viardot@grenoble-inp.fr', passhash
+    name: 'Sebastien Viardot', email: 'Sebastien.Viardot@grenoble-inp.fr', passhash, phone: '12345', isAdmin: true
   })
   // Ajouter ici le code permettant d'initialiser par défaut la base de donnée
 })()

@@ -25,3 +25,5 @@ orderProduct:
 Restaurant:
 - restaurantId, name, address, phone, email
 
+
+Token admin : eyJhbGciOiJIUzI1NiJ9.U2ViYXN0aWVuLlZpYXJkb3RAZ3Jlbm9ibGUtaW5wLmZy.HyL1rkJZ9HAK9EHga37067JcjKHNcfr5h0xwCB6n08I

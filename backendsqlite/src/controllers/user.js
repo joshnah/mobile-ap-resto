@@ -73,5 +73,49 @@ module.exports = {
       }
     }
     res.status(status.FORBIDDEN).json({ status: false, message: 'Wrong email/password' })
+  },
+  async generateToken(req, res) {
+    // #swagger.tags = ['Token']
+    // #swagger.summary = 'Generate token'
+
+    // Si le paramètre mail n'est pas passé dans l'url, on retourne 400
+    if (!has(req.params, 'email')) throw new CodeError('You must specify the email in the URL', status.BAD_REQUEST)
+    const {email} = req.params
+    // On cherche le user correspondant au mail dans la db
+    const user = await userModel.findOne({ where: { email } })
+    // Si aucun user trouvé, on retourne 403
+    if (!user) throw new CodeError('User not found', status.FORBIDDEN)
+    // Génération du token avec jws
+    const token = jws.sign({ header: { alg: 'HS256' }, payload: email, secret: TOKENSECRET })
+    res.json({ status: true, token: token })
+    return
+  },
+  async verifyToken(req, res, next) {
+    const token = req.headers["x-access-token"];
+
+    if (!token) {
+      throw new CodeError("No token provided", 403);
+    }
+
+    const verified = jws.verify(token, "HS256", TOKENSECRET);
+    if (!verified) {
+      throw new CodeError("Failed to authenticate token", 403);
+    }
+    req.emailDecoded = jws.decode(token).payload;
+    next();
+  },
+  async checkAdmin(req, res, next) {
+    const user = await userModel.findOne({
+      where: { email: req.emailDecoded },
+      attributes: ["isAdmin"],
+    });
+    // Si aucun user trouvé, on retourne 404
+    if (!user) throw new CodeError('User not found', status.NOT_FOUND)
+    // Si user non admin, on retourne 401
+    if (user.isAdmin) {
+      next()
+    } else {
+      throw new CodeError('User is not an admin', status.UNAUTHORIZED)
+    }
   }
 }
