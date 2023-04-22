@@ -223,6 +223,166 @@
             "description": "OK"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "New Product",
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "My burger"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "burger"
+                },
+                "price": {
+                  "type": "string",
+                  "example": "8.5"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "A very good burger"
+                }
+              },
+              "required": [
+                "name",
+                "type",
+                "price",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/products/{type}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get products by type",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update Product",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "My burger"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "burger"
+                },
+                "price": {
+                  "type": "string",
+                  "example": "8.5"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "A very good burger"
+                }
+              },
+              "required": [
+                "name",
+                "type",
+                "price",
+                "description"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete Product",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }
