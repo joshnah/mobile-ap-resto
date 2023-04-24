@@ -1,11 +1,23 @@
 const app = require("../app");
 const request = require("supertest");
 describe("PRODUCT TEST", () => {
-  // admin@gmail.com
-  const TOKEN_ADMIN =
-    "eyJhbGciOiJIUzI1NiJ9.YWRtaW5AZ21haWwuY29t.di6JXEWZ2fNaFsGMjcsIj_qywIJxXcytzyJtqUToKKk";
-  // test@gmail.com
-    const TOKEN_USER = "eyJhbGciOiJIUzI1NiJ9.dGVzdEBnbWFpbC5jb20.ydxkCpj2i8QWHWrXWQmlY6pwc59_fTD6enOy-NX3Ts0";
+ // admin@gmail.com
+ let TOKEN_ADMIN = "";
+ let TOKEN_USER = "";
+ test("Login", async () => {
+   const response = await request(app)
+     .post("/login")
+     .send({ email: "admin@gmail.com", password: "admin" });
+   expect(response.statusCode).toBe(200);
+   TOKEN_ADMIN = response.body.token;
+
+    const response2 = await request(app)
+      .post("/login")
+      .send({ email: "test@gmail.com", password: "test" });
+    expect(response2.statusCode).toBe(200);
+    TOKEN_USER = response2.body.token;
+ });
+
   test("Get all products", async () => {
     const response = await request(app)
       .get("/api/products")

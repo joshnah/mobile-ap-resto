@@ -82,10 +82,7 @@ module.exports = {
   async deleteUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
-    if (!has(req.params, "id"))
-      throw new CodeError("You must specify the id", status.BAD_REQUEST);
-    const { id } = req.params;
-    await userModel.destroy({ where: { id } });
+    await userModel.destroy({ where: { id:req.user.id } });
     res.json({ status: true, message: "User deleted" });
   },
   async login(req, res) {
@@ -141,14 +138,6 @@ module.exports = {
       next();
     } else {
       throw new CodeError("User is not an admin", status.UNAUTHORIZED);
-    }
-  },
-  async verifyUser(req, res, next) {
-    // Si user non admin or not the correct client, on retourne 401
-    if (req.user.isAdmin || req.user.id === Number(req.params.id)) {
-      next();
-    } else {
-      throw new CodeError("UNAUTHORIZED", status.UNAUTHORIZED);
     }
   },
 };

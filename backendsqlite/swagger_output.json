@@ -70,9 +70,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/users/{userId}": {
+      },
       "put": {
         "tags": [
           "Users"
@@ -80,12 +78,6 @@
         "summary": "Update User",
         "description": "",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "x-access-token",
             "in": "header",
@@ -121,12 +113,6 @@
         "summary": "Delete User",
         "description": "",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "x-access-token",
             "in": "header",

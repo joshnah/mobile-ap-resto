@@ -11,15 +11,13 @@ router.get(
 router.post("/api/users", user.newUser);
 
 router.put(
-  "/api/users/:id",
+  "/api/users",
   user.verifyTokenAndFindUser,
-  user.verifyUser,
   user.updateUser
 );
 router.delete(
-  "/api/users/:id",
+  "/api/users",
   user.verifyTokenAndFindUser,
-  user.verifyUser,
   user.deleteUser
 );
 
