@@ -24,7 +24,7 @@ const orderModel = require("../models/order.js");
   });
 
   // Ajouter ici le code permettant d'initialiser par défaut la base de donnée
-  await productModel.create({
+  const product = await productModel.create({
     name: "My burger",
     type: "burger",
     price: 8.75,
@@ -43,4 +43,7 @@ const orderModel = require("../models/order.js");
   });
   o.setUser(c);
   o1.setUser(c);
+
+  await o.addProduct(product, { through: { quantity: 2 }});
+
 })();
