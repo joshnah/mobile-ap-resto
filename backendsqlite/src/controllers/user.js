@@ -21,7 +21,7 @@ module.exports = {
     const { email } = req.params;
     const data = await userModel.findOne({
       where: { email },
-      attributes: ["userId", "name", "email", "phone", "address", "isAdmin"],
+      attributes: ["id", "name", "email", "phone", "address", "isAdmin"],
     });
     if (!data) throw new CodeError("User not found", status.NOT_FOUND);
     res.json({ status: true, message: "Returning user", data });
@@ -72,7 +72,7 @@ module.exports = {
       }
       await userModel.update(
         { ...data },
-        { where: { userId: req.user.userId } }
+        { where: { id: req.user.id } }
       );
       res.json({ status: true, message: "User updated" });
     } else {
@@ -82,10 +82,10 @@ module.exports = {
   async deleteUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
-    if (!has(req.params, "userId"))
+    if (!has(req.params, "id"))
       throw new CodeError("You must specify the id", status.BAD_REQUEST);
-    const { userId } = req.params;
-    await userModel.destroy({ where: { userId } });
+    const { id } = req.params;
+    await userModel.destroy({ where: { id } });
     res.json({ status: true, message: "User deleted" });
   },
   async login(req, res) {
@@ -145,7 +145,7 @@ module.exports = {
   },
   async verifyUser(req, res, next) {
     // Si user non admin or not the correct client, on retourne 401
-    if (req.user.isAdmin || req.user.userId === Number(req.params.userId)) {
+    if (req.user.isAdmin || req.user.id === Number(req.params.id)) {
       next();
     } else {
       throw new CodeError("UNAUTHORIZED", status.UNAUTHORIZED);
