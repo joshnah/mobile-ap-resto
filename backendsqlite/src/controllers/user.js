@@ -1,5 +1,5 @@
 const status = require("http-status");
-const userModel = require("../models/users.js");
+const userModel = require("../models/user.js");
 const has = require("has-keys");
 const CodeError = require("../util/CodeError.js");
 const bcrypt = require("bcrypt");

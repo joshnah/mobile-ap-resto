@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database.js')
-const users = db.define('users', {
-  userId: {
+const user = db.define('user', {
+  id: {
     primaryKey: true,
     type: Sequelize.INTEGER,
     autoIncrement: true
@@ -37,4 +37,4 @@ const users = db.define('users', {
     defaultValue: false
   }
 }, { timestamps: false })
-module.exports = users
+module.exports = user

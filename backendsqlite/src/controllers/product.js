@@ -1,5 +1,5 @@
 const status = require('http-status')
-const productModel = require('../models/products.js')
+const productModel = require('../models/product.js')
 const has = require('has-keys')
 const CodeError = require('../util/CodeError.js')
 
