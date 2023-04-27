@@ -67,7 +67,7 @@ module.exports = {
       has(data, ['price']) ||
       has(data, ['description'])
     ) {
-      await productModel.update({ ...data }, { where: { id } })
+      await productModel.update({ data }, { where: { id } })
       res.json({ status: true, message: 'Product updated' })
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST)

@@ -31,7 +31,7 @@ const user = db.define(
     phone: {
       type: Sequelize.STRING,
       validate: {
-        isNumeric: true,
+        is: /^[0-9]*$/i,
       },
     },
     address: {

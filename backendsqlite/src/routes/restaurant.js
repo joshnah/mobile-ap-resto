@@ -1,38 +1,36 @@
 const express = require('express')
 const router = express.Router()
-const product = require('../controllers/product.js')
 const user = require('../controllers/user.js')
-
+const restaurant = require('../controllers/restaurant.js')
 // Get
-router.get('/api/products', user.verifyTokenAndFindUser, product.getProducts)
 router.get(
-  '/api/products/:type',
+  '/api/restaurants',
   user.verifyTokenAndFindUser,
-  product.getProductsByType
+  restaurant.getRestaurants
 )
 
 // Post
 router.post(
-  '/api/products',
+  '/api/restaurants/',
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
-  product.newProduct
+  restaurant.newRestaurant
 )
 
 // Put
 router.put(
-  '/api/products/:id',
+  '/api/restaurants/:id',
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
-  product.updateProduct
+  restaurant.updateRestaurant
 )
 
 // Delete
 router.delete(
-  '/api/products/:id',
+  '/api/restaurants/:id',
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
-  product.deleteProduct
+  restaurant.deleteRestaurant
 )
 
 module.exports = router

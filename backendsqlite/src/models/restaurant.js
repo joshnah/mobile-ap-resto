@@ -20,7 +20,7 @@ const restaurant = db.define(
     phone: {
       type: Sequelize.STRING(128),
       validate: {
-        isNumeric: true,
+        is: /^[0-9]*$/i,
       },
       allowNull: false,
     },
