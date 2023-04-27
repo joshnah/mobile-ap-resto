@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "npx cypress run"
+    "test": "npx cypress run",
+    "lint": "eslint . --ext .js"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
@@ -26,6 +27,7 @@
     "@babel/core": "^7.20.0",
     "@babel/eslint-parser": "^7.21.3",
     "eslint": "^8.38.0",
+    "eslint-plugin-cypress": "^2.13.2",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-native": "^4.0.0"
   },

@@ -9,7 +9,8 @@
         "doc": "node src/util/swagger.js",
         "start": "npm run doc && npm run updatedb  && node src/server.js",
         "startdev": "npm run doc && nodemon src/server.js",
-        "test": "DB=bmttest.sqlite npm run updatedb && DB=bmttest.sqlite jest"
+        "test": "DB=bmttest.sqlite npm run updatedb && DB=bmttest.sqlite jest",
+        "lint": "eslint src"
     },
     "keywords": [
         "express",

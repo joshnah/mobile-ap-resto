@@ -3,17 +3,17 @@ stages:
   - test
   - deploy
 
-# lint: # Vérification de la qualité du code js
-#   stage: lint # Dans l'étape lint
-#   tags:
-#     - docker
-#   image: node
-#   script:
-#     - npm install
-#     - npm lint 2> lint_report.txt # On redirige la sortie d'erreur dans un fichier
-#   artifacts: # Les rapports seront disponibles pour d'autres jobs
-#     paths:
-#       - lint_report.txt
+lint: # Vérification de la qualité du code js
+  stage: lint # Dans l'étape lint
+  tags:
+    - docker
+  image: node
+  script:
+    - npm install
+    - npm run lint 2> lint_report.txt # On redirige la sortie d'erreur dans un fichier
+  artifacts: # Les rapports seront disponibles pour d'autres jobs
+    paths:
+      - lint_report.txt
 
 test-e2e:
   stage: test
@@ -28,7 +28,6 @@ test-e2e:
     paths:
       - test-e2e.txt # Le fichier de sortie est disponible pour d'autres jobs
 
-
 test-api:
   stage: test
   image: node
@@ -37,7 +36,7 @@ test-api:
   script:
     - cd backendsqlite
     - npm i # Installe ce qui est décrit dans package.json
-    - npm run test > ../test-api.txt 
+    - npm run test > ../test-api.txt
   artifacts:
     paths:
       - test-api.txt # Le fichier de sortie est disponible pour d'autres jobs
@@ -76,7 +75,6 @@ scalingo:
     - dpl --provider=scalingo --app=$SCALINGO_APP_NAME --api-token=$SCALINGO_API_TOKEN --region=$SCALINGO_REGION --branch=refs/heads/main
     # la variable SCALINGO_API_TOKEN contient le token que vous avez généré chez scalingo via le menu `User Settings > API tokens`
     #
-    # Afin que la variable SCALINGO_API_TOKEN n'apparaissent pas en clair sur notre dépôt public gitlab, on définit cette variable via 
+    # Afin que la variable SCALINGO_API_TOKEN n'apparaissent pas en clair sur notre dépôt public gitlab, on définit cette variable via
     # le menu `Settings > CI/CD > Variables` et on la masque dans le résultat des logs des jobs en lui appliquant la propriété "Masked"
     # Plus de détails sur https://docs.gitlab.com/ee/ci/variables/index.html.
-

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "install": "cd frontend && npm install && cd ../backendsqlite && npm install",
-    "test": "cd frontend && npm run test  && cd ../backendsqlite && npm run test"
+    "test": "cd frontend && npm run test  && cd ../backendsqlite && npm run test",
+    "lint": "cd frontend && npm run lint && cd ../backendsqlite && npm run lint"
   },
   "repository": {
     "type": "git",
