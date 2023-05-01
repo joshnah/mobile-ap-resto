@@ -8,7 +8,7 @@ describe("USER TEST", () => {
       .post("/login")
       .send({ email: "admin@gmail.com", password: "admin" });
     expect(response.statusCode).toBe(200);
-    TOKEN_ADMIN = response.body.token;
+    TOKEN_ADMIN = response.body.user.token;
   });
 
   test("Wrong password", async () => {
@@ -46,7 +46,7 @@ describe("USER TEST", () => {
     const response = await request(app)
       .post("/login")
       .send({ email: "newuser@gmail.com", password: "12312A" });
-    TOKEN_NEWUSER = response.body.token;
+    TOKEN_NEWUSER = response.body.user.token;
     expect(response.statusCode).toBe(200);
   });
 

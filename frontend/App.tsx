@@ -1,8 +1,14 @@
 import React from "react";
 // 1. import `NativeBaseProvider` component
-import { NativeBaseProvider, Text, Box } from "native-base";
+import { Box, NativeBaseProvider, Text } from "native-base";
+import { login } from "./src/services/dataService";
+import { store } from "./src/store/store";
 
 export default function App() {
+  login("admin@gmail.com", "admin");
+
+  store.subscribe(() => console.log(store.getState()));
+
   // 2. Use at the root of your app
   return (
     <NativeBaseProvider>

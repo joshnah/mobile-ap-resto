@@ -84,7 +84,7 @@ module.exports = {
   },
   async login(req, res) {
     // #swagger.tags = ['Users']
-    // #swagger.summary = 'Verify credentials of user using email and password and return token'
+    // #swagger.summary = 'Verify credentials of user using email and password and return user data and token'
     // #swagger.parameters['obj'] = { in: 'body', schema: { $email: 'admin@gmail.com', $password: 'a123456'}}
     const data = req.body
     if (!has(data, ['email', 'password']))
@@ -93,7 +93,10 @@ module.exports = {
         status.BAD_REQUEST
       )
     const { email, password } = data
-    const user = await userModel.findOne({ where: { email } })
+    const user = await userModel.findOne({
+      where: { email },
+    })
+
     if (user) {
       if (await bcrypt.compare(password, user.passhash)) {
         const token = jws.sign({
@@ -101,7 +104,13 @@ module.exports = {
           payload: email,
           secret: TOKENSECRET,
         })
-        res.json({ status: true, message: 'Login/Password ok', token })
+        // eslint-disable-next-line no-unused-vars
+        const { passhash, ...returnDataUser } = user.toJSON()
+        res.json({
+          status: true,
+          message: 'Login/Password ok',
+          user: { ...returnDataUser, token },
+        })
         return
       }
     }

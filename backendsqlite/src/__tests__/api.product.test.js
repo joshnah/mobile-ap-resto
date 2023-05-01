@@ -9,13 +9,13 @@ describe("PRODUCT TEST", () => {
      .post("/login")
      .send({ email: "admin@gmail.com", password: "admin" });
    expect(response.statusCode).toBe(200);
-   TOKEN_ADMIN = response.body.token;
+   TOKEN_ADMIN = response.body.user.token;
 
     const response2 = await request(app)
       .post("/login")
       .send({ email: "test@gmail.com", password: "test" });
     expect(response2.statusCode).toBe(200);
-    TOKEN_USER = response2.body.token;
+    TOKEN_USER = response2.body.user.token;
  });
 
   test("Get all products", async () => {
