@@ -1,5 +1,3 @@
-import { store } from "../store/store";
-
 export default function LoginPage() {
     // get list of resaurants from store
     // store.subscribe(() => console.log(store.getState()));

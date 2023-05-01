@@ -1,6 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const SET_USER = "SET_USER";
 export type RootState = ReturnType<typeof store.getState>;
 
 const appStateSlice = createSlice({

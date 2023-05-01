@@ -4,7 +4,7 @@ import { setProducts, setRestaurants, setUser, store } from "../store/store";
 const API_BASE_URL = "https://fkh-resto.osc-fr1.scalingo.io/";
 
 export const fetchRestaurants = async (token: string) => {
-  const response = await axios
+  await axios
     .get(API_BASE_URL + "api/restaurants/", {
       headers: {
         "x-access-token": token,
@@ -20,7 +20,7 @@ export const fetchRestaurants = async (token: string) => {
 };
 
 export const fetchProducts = async (token: string) => {
-  const response = await axios
+  await axios
     .get(API_BASE_URL + "api/products/", {
       headers: {
         "x-access-token": token,

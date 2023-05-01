@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "npx cypress run",
-    "lint": "eslint . --ext .js"
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
