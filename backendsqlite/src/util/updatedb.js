@@ -25,22 +25,29 @@ const restaurantModel= require("../models/restaurant.js");
   });
 
   // Ajouter ici le code permettant d'initialiser par défaut la base de donnée
-  const product = await productModel.create({
+  const product1 = await productModel.create({
     name: "My burger",
     type: "burger",
     price: 8.75,
     description: "A very good burger",
   });
 
+  const product2 = await productModel.create({
+    name: "My fries",
+    type: "frites",
+    price: 3,
+    description: "Very good fries",
+  });
+
   const order1 = await orderModel.create({
-    status: false,
-    date: new Date()
+    date: new Date(),
+    address: "7 lotissement la riverate 1, 38420 Le Versoud"
   });
 
 
   const order2 = await orderModel.create({
-    status: false,
-    date: new Date()
+    date: new Date(),
+    address: "7 avenue du 14 juillet 1789, 38420 Le Versoud"
   });
   order1.setUser(c);
   order2.setUser(c);
@@ -58,8 +65,10 @@ const restaurantModel= require("../models/restaurant.js");
   });
 
 
-  await order1.addProduct(product, { through: { quantity: 2 }});
-  await order2.addProduct(product, { through: { quantity: 1 }});
+  await order1.addProduct(product1, { through: { quantity: 2 }});
+  await order1.addProduct(product2, { through: { quantity: 1 }});
+
+  await order2.addProduct(product1, { through: { quantity: 1 }});
 
   await order1.setRestaurant(restaurant1);
   await order2.setRestaurant(restaurant2);

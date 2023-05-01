@@ -23,7 +23,7 @@ describe("PRODUCT TEST", () => {
       .get("/api/products")
       .set("x-access-token", TOKEN_ADMIN);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.length).toBe(1);
+    expect(response.body.data.length).toBe(2);
   });
 
   test("Create product", async () => {

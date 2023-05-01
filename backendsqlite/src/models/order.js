@@ -20,8 +20,11 @@ const order = db.define(
       type: Sequelize.DATE,
       allowNull: false,
     },
-  },
-  { timestamps: false }
+    address: {
+      type: Sequelize.STRING(128),
+      allowNull: false
+    }
+  }, { timestamps: false }
 )
 
 order.belongsTo(user)
