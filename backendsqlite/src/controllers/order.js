@@ -2,6 +2,7 @@ const status = require('http-status')
 const orderModel = require('../models/order.js')
 const productModel = require('../models/product.js')
 const orderProductModel = require('../models/orderProduct.js')
+const restaurantModel = require('../models/restaurant.js')
 const has = require('has-keys')
 const CodeError = require('../util/CodeError.js')
 
@@ -9,7 +10,7 @@ module.exports = {
   async getOrders(req, res) {
     // #swagger.tags = ['Orders']
     // #swagger.summary = 'Get All orders'
-    const orders = await orderModel.findAll({ attributes: ['id', 'userId', 'status', 'date', 'address'] });
+    const orders = await orderModel.findAll({ attributes: ['id', 'restaurantId', 'userId', 'status', 'date', 'address'] });
     const result = [];
 
     await Promise.all(orders.map(async (order) => {
@@ -25,26 +26,27 @@ module.exports = {
   async newOrder(req, res) {
     // #swagger.tags = ['Orders']
     // #swagger.summary = 'New Order'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $address: '7 lotissement la riverate 1, 38420 Le Versoud', $products: [{'productId':1, 'quantity': 3}]}}
-    if (!has(req.body, ["address", "products"])) {
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $address: '7 lotissement la riverate 1, 38420 Le Versoud', $products: [{'productId':1, 'quantity': 3}], $restaurantId: 1}}
+    if (!has(req.body, ["address", "products", "restaurantId"])) {
       throw new CodeError(
-        "You must specify the client id, address, and products list of the order",
+        "You must specify the address, products list and restaurant id of the order",
         status.BAD_REQUEST
       );
     }
-    const { address, products } = req.body;
+    const { address, products, restaurantId } = req.body;
     const order = await orderModel.create({
       date: new Date(),
       userId: req.user.id,
       address
     });
 
-    const orderProducts = JSON.parse(products)
+    const restaurant = await restaurantModel.findByPk(restaurantId);
+    if (!restaurant) {
+      throw new CodeError('Restaurant not found', status.NOT_FOUND)
+    }
+    order.setRestaurant(restaurant)
 
-    console.log("ORDER PRODUCTS: " + orderProducts)
-
-    for (const product of orderProducts) {
+    for (const product of products) {
       const productData = await productModel.findByPk(product.productId);
       await order.addProduct(productData, {
         through: { quantity: product.quantity }
@@ -91,25 +93,32 @@ module.exports = {
     // #swagger.parameters['obj'] = { in: 'body', schema: { $address: 'new address'}}
     const data = req.body
     const { id } = req.params
-    if (has(data, ['products']) || has(data, ['status']) || has(data, ['address'])) {
+    if (has(data, ['products']) || has(data, ['status']) || has(data, ['address']) || has(data, ['restaurantId'])) {
+      const order = await orderModel.findByPk(id);
       if (has(data, ['products'])) {
-        const order = await orderModel.findByPk(id);
         // Suppression de la liste des produits
         await order.setProducts([]);
   
-        // Parsing des produits
-        const { products } = data;
-        const orderProducts = JSON.parse(products)
-  
         // Ajout de chaque produit à la liste des produits de la commande
-        for (const product of orderProducts) {
+        const { products } = data;
+        for (const product of products) {
           const productData = await productModel.findByPk(product.productId);
           await order.addProduct(productData, {
             through: { quantity: product.quantity }
           });
         }
       }
+      if (has(data, ['restaurantId'])) {
+        const restaurantId = data.restaurantId;
+        const restaurant = await restaurantModel.findByPk(restaurantId);
+        if (!restaurant) {
+          throw new CodeError('Restaurant not found', status.NOT_FOUND)
+        }
+        order.setRestaurant(restaurant)
+      }
+      console.log("OK1")
       await orderModel.update({ ...data }, { where: { id } })
+      console.log("OK2")
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST)
     }

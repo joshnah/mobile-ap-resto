@@ -158,7 +158,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Verify credentials of user using email and password and return token",
+        "summary": "Verify credentials of user using email and password and return user data and token",
         "description": "",
         "parameters": [
           {
@@ -518,11 +518,16 @@
                       }
                     }
                   }
+                },
+                "restaurantId": {
+                  "type": "number",
+                  "example": 1
                 }
               },
               "required": [
                 "address",
-                "products"
+                "products",
+                "restaurantId"
               ]
             }
           }
