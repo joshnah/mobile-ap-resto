@@ -27,7 +27,7 @@ export default function App() {
     return (
       <Tab.Navigator
         screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: ({focused}) => {
             let iconName;
             if (route.name == "Login") {
             iconName = "log-in-outline"
@@ -53,7 +53,7 @@ export default function App() {
       >
         <Tab.Screen name ='Accueil' component={ProductList}/>
         <Tab.Screen name ='Panier' component={Basket}/>
-        <Tab.Screen name ='Infos' component={UserInfos}/>
+        <Tab.Screen name ='Infos' component={UserInfos} options={{headerShown: false}}/>
         <Tab.Screen name ='Commandes' component={Orders}/>
       </Tab.Navigator>
     );
@@ -67,7 +67,7 @@ export default function App() {
             component={SplashScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Home" component={MainNavigation} />
+          <Stack.Screen name="Home" component={MainNavigation} options={{headerShown: false}} />
           <Stack.Screen name="Login" component={Login} />
         </Stack.Navigator>
 
