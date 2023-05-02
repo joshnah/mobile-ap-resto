@@ -8,22 +8,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { loginAction } from '../store/auth/auth.action';
+import { useAppDispatch } from '../store/store';
 
 export default function Login() {
+  const dispatch = useAppDispatch();
   // 2. Use at the root of your app
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleUsernameChange(e) {
-    setUsername(e.target.value);
-  }
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
-  function handleLogin(e) {
-    //...//
-    navigation.navigate('Home');
+  function handleLogin() {
+    dispatch(
+      loginAction({
+        email: 'admin@gmail.com',
+        password: 'admin',
+      })
+    ).then(() => {
+      navigation.navigate('Home' as never);
+    });
   }
   return (
     <View style={styles.container}>
