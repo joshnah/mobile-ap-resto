@@ -23,7 +23,7 @@ export default function Login() {
   }
   function handleLogin(e) {
     //...//
-    navigation.navigate('ProductList');
+    navigation.navigate('Home');
   }
   return (
     <View style={styles.container}>
