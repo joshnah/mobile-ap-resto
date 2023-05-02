@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-const Sequelize = require('sequelize')
-const db = require('./database.js')
+const Sequelize = require('sequelize');
+const db = require('./database.js');
 const restaurant = db.define(
   'restaurant',
   {
@@ -26,5 +26,5 @@ const restaurant = db.define(
     },
   },
   { timestamps: false }
-)
-module.exports = restaurant
+);
+module.exports = restaurant;

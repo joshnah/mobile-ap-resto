@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const db = require('./database.js')
-const user = require('./user.js')
-const orderProduct = require('./orderProduct.js')
-const product = require('./product.js')
-const restaurant = require('./restaurant.js')
+const Sequelize = require('sequelize');
+const db = require('./database.js');
+const user = require('./user.js');
+const orderProduct = require('./orderProduct.js');
+const product = require('./product.js');
+const restaurant = require('./restaurant.js');
 const order = db.define(
   'order',
   {
@@ -22,19 +22,19 @@ const order = db.define(
     },
     address: {
       type: Sequelize.STRING(128),
-      allowNull: false
-    }
-  }, { timestamps: false }
-)
+      allowNull: false,
+    },
+  },
+  { timestamps: false }
+);
 
-order.belongsTo(user)
-user.hasMany(order)
+order.belongsTo(user);
+user.hasMany(order);
 
-order.belongsToMany(product, { through: orderProduct })
-product.belongsToMany(order, { through: orderProduct })
+order.belongsToMany(product, { through: orderProduct });
+product.belongsToMany(order, { through: orderProduct });
 
+order.belongsTo(restaurant);
+restaurant.hasMany(order);
 
-order.belongsTo(restaurant)
-restaurant.hasMany(order)
-
-module.exports = order
+module.exports = order;

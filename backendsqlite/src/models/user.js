@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('./database.js')
+const Sequelize = require('sequelize');
+const db = require('./database.js');
 const user = db.define(
   'user',
   {
@@ -43,5 +43,5 @@ const user = db.define(
     },
   },
   { timestamps: false }
-)
-module.exports = user
+);
+module.exports = user;

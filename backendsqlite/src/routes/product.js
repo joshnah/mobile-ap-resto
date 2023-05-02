@@ -1,15 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const product = require('../controllers/product.js')
-const user = require('../controllers/user.js')
+const express = require('express');
+const router = express.Router();
+const product = require('../controllers/product.js');
+const user = require('../controllers/user.js');
 
 // Get
-router.get('/api/products', user.verifyTokenAndFindUser, product.getProducts)
+router.get('/api/products', user.verifyTokenAndFindUser, product.getProducts);
 router.get(
   '/api/products/:type',
   user.verifyTokenAndFindUser,
   product.getProductsByType
-)
+);
 
 // Post
 router.post(
@@ -17,7 +17,7 @@ router.post(
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
   product.newProduct
-)
+);
 
 // Put
 router.put(
@@ -25,7 +25,7 @@ router.put(
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
   product.updateProduct
-)
+);
 
 // Delete
 router.delete(
@@ -33,6 +33,6 @@ router.delete(
   user.verifyTokenAndFindUser,
   user.verifyAdmin,
   product.deleteProduct
-)
+);
 
-module.exports = router
+module.exports = router;
