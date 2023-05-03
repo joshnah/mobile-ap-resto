@@ -25,7 +25,7 @@ export const loginAction = createAsyncThunk(
             );
           }
 
-          dispatch({ type: LOGIN_SUCCESS });
+          dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
 
           return response.data.user;
         },
@@ -62,5 +62,13 @@ export const registerAction = createAsyncThunk(
           return rejectWithValue(error.response.message);
         }
       );
+  }
+);
+
+export const logoutAction = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    localStorage.removeItem('userToken');
+    dispatch({ type: 'LOGOUT' });
   }
 );

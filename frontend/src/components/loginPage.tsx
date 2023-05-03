@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { loginAction } from '../store/auth/auth.action';
+import { fetchData } from '../store/data/appData.action';
 import { useAppDispatch } from '../store/store';
 
 export default function Login() {
@@ -25,6 +26,7 @@ export default function Login() {
         password: 'admin',
       })
     ).then(() => {
+      dispatch(fetchData());
       navigation.navigate('Home' as never);
     });
   }
