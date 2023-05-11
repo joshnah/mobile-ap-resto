@@ -1,9 +1,10 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 export const API_BASE_URL = 'https://fkh-resto.osc-fr1.scalingo.io/';
 
-export const authHeader = () => {
-  const token = JSON.parse(localStorage.getItem('userToken'));
+export const authHeader = async () => {
+  const token = await AsyncStorage.getItem('userToken');
 
   if (token) {
     // for Node.js Express back-end
@@ -12,14 +13,14 @@ export const authHeader = () => {
     return {};
   }
 };
-export const fetchRestaurants = () => {
+export const fetchRestaurants = async () => {
   return axios.get(API_BASE_URL + 'api/restaurants/', {
-    headers: authHeader(),
+    headers: await authHeader(),
   });
 };
 
-export const fetchProducts = () => {
+export const fetchProducts = async () => {
   return axios.get(API_BASE_URL + 'api/products/', {
-    headers: authHeader(),
+    headers: await authHeader(),
   });
 };

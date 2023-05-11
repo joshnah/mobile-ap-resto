@@ -33,7 +33,7 @@ export default function Login() {
           message: 'Welcome',
           closable: true,
           status: 'success',
-          autoClose: false,
+          autoClose: true,
         })
       );
       navigation.navigate('Home' as never);

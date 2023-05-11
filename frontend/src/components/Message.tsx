@@ -6,6 +6,7 @@ import {
   Text,
   VStack,
 } from 'native-base';
+import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { CLEAR_MESSAGE } from '../store/message/message.reducer';
 import { RootState, useAppDispatch } from '../store/store';
@@ -23,9 +24,14 @@ export default function Message() {
   }
 
   return (
-    <Alert w="100%" status={message.status} position={'absolute'} zIndex={'1'}>
+    <Alert status={message.status} style={styles.container}>
       <VStack space={2} flexShrink={1} w="100%">
-        <HStack flexShrink={1} space={2} justifyContent="space-between">
+        <HStack
+          flexShrink={1}
+          space={2}
+          justifyContent="space-between"
+          alignItems={'center'}
+        >
           <HStack space={2} flexShrink={1}>
             <Alert.Icon mt="1" />
             <Text fontSize="md" color="coolGray.800">
@@ -50,3 +56,12 @@ export default function Message() {
     </Alert>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    zIndex: 1,
+    width: '50%',
+    right: 0,
+  },
+});

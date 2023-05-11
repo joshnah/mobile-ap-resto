@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { registerRootComponent } from 'expo';
 import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +17,7 @@ import { store } from './src/store/store';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+registerRootComponent(App);
 
 export default function App() {
   const MainNavigation = () => {

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_BASE_URL, authHeader } from '../../services/data.service';
@@ -16,13 +17,10 @@ export const loginAction = createAsyncThunk(
         password,
       })
       .then(
-        (response) => {
+        async (response) => {
           // save user token in local storage
           if (response.data.user) {
-            localStorage.setItem(
-              'userToken',
-              JSON.stringify(response.data.user.token)
-            );
+            await AsyncStorage.setItem('userToken', response.data.user.token);
           }
 
           dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
@@ -51,7 +49,7 @@ export const registerAction = createAsyncThunk(
           email,
           password,
         },
-        { headers: authHeader() }
+        { headers: await authHeader() }
       )
       .then(
         () => {
@@ -68,7 +66,7 @@ export const registerAction = createAsyncThunk(
 export const logoutAction = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch }) => {
-    localStorage.removeItem('userToken');
+    await AsyncStorage.removeItem('userToken');
     dispatch({ type: 'LOGOUT' });
   }
 );
