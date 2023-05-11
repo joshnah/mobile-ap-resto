@@ -1,6 +1,7 @@
 import { AnyAction, ThunkDispatch, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { authReducer } from './auth/auth.reducer';
+import { cartReducer } from './cart/cart.reducer';
 import { appDataReducer } from './data/appData.reducer';
 import { messageReducer } from './message/message.reducer';
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authReducer,
     message: messageReducer,
     appData: appDataReducer,
+    cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -18,5 +20,8 @@ export const store = configureStore({
     }),
 });
 
+store.subscribe(() => {
+  console.log(store.getState());
+});
 export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();

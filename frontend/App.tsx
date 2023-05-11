@@ -6,14 +6,14 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 import Basket from './src/components/Basket';
+import HomePage from './src/components/HomePage';
+import Message from './src/components/Message';
 import Orders from './src/components/Orders';
-import ProductList from './src/components/ProductList';
 import UserInfos from './src/components/UserInfos';
 import Login from './src/components/loginPage';
 import SplashScreen from './src/components/splashScreen';
 import { store } from './src/store/store';
 
-// 1. import `NativeBaseProvider` component
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +46,7 @@ export default function App() {
           tabBarLabel: () => null,
         })}
       >
-        <Tab.Screen name="Accueil" component={ProductList} />
+        <Tab.Screen name="Accueil" component={HomePage} />
         <Tab.Screen name="Panier" component={Basket} />
         <Tab.Screen
           name="Infos"
@@ -79,6 +79,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <Provider store={store}>
+        <Message></Message>
         <NavigationContainer>
           <AuthNavigation />
         </NavigationContainer>

@@ -7,11 +7,11 @@ const appDataSlice = createSlice({
   },
   reducers: {
     SET_RESTAURANTS: (state, action) => {
-      state.restaurants = action.payload;
+      state.restaurants = action.payload.data;
       console.log(state.restaurants);
     },
     SET_PRODUCTS: (state, action) => {
-      state.products = action.payload;
+      state.products = action.payload.data;
       console.log(state.products);
     },
   },

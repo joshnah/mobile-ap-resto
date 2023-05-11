@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { loginAction } from '../store/auth/auth.action';
 import { fetchData } from '../store/data/appData.action';
+import { SET_MESSAGE } from '../store/message/message.reducer';
 import { useAppDispatch } from '../store/store';
 
 export default function Login() {
@@ -27,6 +28,14 @@ export default function Login() {
       })
     ).then(() => {
       dispatch(fetchData());
+      dispatch(
+        SET_MESSAGE({
+          message: 'Welcome',
+          closable: true,
+          status: 'success',
+          autoClose: false,
+        })
+      );
       navigation.navigate('Home' as never);
     });
   }
