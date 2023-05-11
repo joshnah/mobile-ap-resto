@@ -94,7 +94,6 @@ function CartItem(props: any) {
 }
 
 export default function Basket() {
-  const dispatch = useAppDispatch();
   const cart = useSelector((state: RootState) => {
     let total = 0;
     const cartItems = state.cart.cartItems.map((item) => {
