@@ -35,7 +35,7 @@ function CartItem(props: any) {
           <Image
             style={{ width: '100%', height: '100%' }}
             source={{
-              uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
+              uri: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg',
             }}
             alt="image"
             resizeMode="cover"
