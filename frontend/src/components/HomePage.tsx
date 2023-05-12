@@ -7,23 +7,19 @@ import { useSelector } from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 export default function HomePage() {
-  // const productsArray: { [key in ProductType]: any[] } = {} as any;
   const products: any[] = useSelector((state: any) => state.appData.products);
-  const [productsArray, setProductsArray] = useState({});
+  const [dictProduits, setDictArray] = useState({});
 
   useEffect(() => {
-    const copy = { ...productsArray };
+    const newDict = {};
 
     products.forEach((product: any) => {
-      if (!productsArray[product.type]) {
-        copy[product.type] = [];
+      if (!newDict[product.type]) {
+        newDict[product.type] = [];
       }
-      copy[product.type].push(product);
+      newDict[product.type].push(product);
     });
-    setProductsArray(copy);
-    Object.keys(copy).forEach((key) => {
-      console.log(copy[key]);
-    });
+    setDictArray(newDict);
   }, [products]);
 
   const ProductPage = (props: any) => {
@@ -50,15 +46,15 @@ export default function HomePage() {
         <View style={styles.header}>
           <Text>HEADER</Text>
         </View>
-        {Object.keys(productsArray).length > 0 && (
+        {Object.keys(dictProduits).length > 0 && (
           <Tab.Navigator>
-            {Object.keys(productsArray).map((keyProduct) => {
+            {Object.keys(dictProduits).map((keyProduct) => {
               return (
                 <Tab.Screen
                   key={keyProduct}
                   name={keyProduct}
                   component={ProductPage}
-                  initialParams={{ products: productsArray[keyProduct] }}
+                  initialParams={{ products: dictProduits[keyProduct] }}
                 />
               );
             })}
