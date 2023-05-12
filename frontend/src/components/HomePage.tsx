@@ -46,8 +46,10 @@ export default function HomePage() {
   };
   return (
     <>
-      <View flexDirection={'column'}>
-        <View style={styles.header}> METTEZ LE LOGE COMME DANS FIGMA</View>
+      <View flexDirection={'column'} flex={1}>
+        <View style={styles.header}>
+          <Text>HEADER</Text>
+        </View>
         {Object.keys(productsArray).length > 0 && (
           <Tab.Navigator>
             {Object.keys(productsArray).map((keyProduct) => {
