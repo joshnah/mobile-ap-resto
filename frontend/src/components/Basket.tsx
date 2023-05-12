@@ -11,7 +11,7 @@ import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import BottomButton from '../commons/BottomButton';
+import FKHButton from '../commons/Button';
 import { DECREMENT_CART, INCREMENT_CART } from '../store/cart/cart.reducer';
 import { RootState, useAppDispatch } from '../store/store';
 
@@ -122,22 +122,26 @@ export default function Basket() {
         )}
         keyExtractor={(item) => item.product.id}
       />
-
-      <BottomButton>
+      <FKHButton style={styles.bottomButton}>
         Payer {cart.total} {'\u20AC'}
-      </BottomButton>
+      </FKHButton>
     </View>
   );
 }
 const styles = StyleSheet.create({
   pageContainer: {
     alignSelf: 'center',
-    width: '80%',
-    height: '100%',
+    flex: 1,
+    width: '100%',
   },
   cartItem: {
     width: '100%',
     flex: 1,
     alignContent: 'center',
+  },
+  bottomButton: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
 });
