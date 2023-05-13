@@ -71,7 +71,13 @@ module.exports = {
         data.passhash = await bcrypt.hash(password, 2);
       }
       await userModel.update({ ...data }, { where: { id: req.user.id } });
-      res.json({ status: true, message: 'User updated' });
+      const user = await userModel.findOne({
+        where: { id: req.user.id },
+      });
+      // eslint-disable-next-line no-unused-vars
+      const { passhash, ...userData } = user.toJSON();
+      const token = req.token;
+      res.json({ status: true, message: 'User updated', user: {...userData, token} });
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
     }
@@ -136,6 +142,7 @@ module.exports = {
       throw new CodeError('User not found', status.NOT_FOUND);
     }
     req.user = user;
+    req.token = token
     next();
   },
   async verifyAdmin(req, res, next) {
