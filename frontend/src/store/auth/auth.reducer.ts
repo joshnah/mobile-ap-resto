@@ -28,7 +28,6 @@ const authSlice = createSlice({
       state.user = null;
     },
     MODIFY: (state) => {
-      state = state;
     }
   },
 });
