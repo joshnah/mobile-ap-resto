@@ -73,6 +73,7 @@ export const logoutAction = createAsyncThunk(
   }
 );
 
+// Action pour la modification des infos suivantes : mail, phone, address
 export const modifyInfosAction = createAsyncThunk(
   'auth/modify',
   async (
@@ -81,6 +82,7 @@ export const modifyInfosAction = createAsyncThunk(
   ) => {
     const { name, phone, address } = data;
     console.log(data);
+    // Requête put avec les infos modifiées
     axios
       .put(API_BASE_URL + 'api/users', {
         name,
@@ -90,11 +92,14 @@ export const modifyInfosAction = createAsyncThunk(
       .then(
         async (response) => {
 
-          dispatch({ type: MODIFY });
+          // Appel au reducer pour changer le user dans le state
+          dispatch({ type: MODIFY, payload: response.data.user });
 
           return response.data.user;
         },
         (error) => {
+          console.log(error);
+
           return rejectWithValue(error.response.message);
         }
       );

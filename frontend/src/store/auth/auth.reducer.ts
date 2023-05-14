@@ -26,6 +26,9 @@ const authSlice = createSlice({
     LOGOUT: (state) => {
       state.isLoggedIn = false;
       state.user = null;
+    },
+    MODIFY: (state, action) => {
+      state.user = action.payload;
     }
   },
 });
@@ -35,7 +38,8 @@ export const {
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  MODIFY
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

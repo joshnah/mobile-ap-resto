@@ -12,12 +12,17 @@ import { RootState, useAppDispatch } from '../store/store';
 export default function UserInfos() {
     const navigation = useNavigation();
     const dispatch = useAppDispatch();
+
+    // Variables pour les infos
     let name: string;
     let phone: string;
     let address: string;
-    let password: string;
-    let confirmedPassword: string;
+    // Etat de modification des infos
     const [infosModified, setInfosModified] = useState(false);
+    // Variables pour le password
+    const [password, setPassword] = useState('');
+    const [confirmedPassword, setConfirmedPassword] = useState('');
+    // Récupération des infos du user dans le state auth
     const user = useSelector((state: RootState) => {
       const userStored = state.auth.user;
       const name = userStored.name;
@@ -33,17 +38,23 @@ export default function UserInfos() {
       return {name, email, phone, address};
     });
 
+    // Fonction appelée pour modifier les infos du user
     function modifyUserInfos() {
+      // Si les infos n'ont pas été modifiées, on remplace par les données du user
       const modifiedName = name?name:user.name;
       const modifiedPhone = phone?phone:user.phone;
       const modifiedAddress = address?address:user.address;
+      // Appel de l'action de modification
       dispatch(
         modifyInfosAction({
           name: modifiedName,
           phone: modifiedPhone,
           address: modifiedAddress
         })
-      )
+      ).then(() => {
+        setInfosModified(false);
+      });
+      // Affichage d'un message de succès
       dispatch(
         SET_MESSAGE({
           message: 'Informations mises à jour',
@@ -54,7 +65,9 @@ export default function UserInfos() {
       )
     }
 
+    // Fonction appelée pour modifier le mot de passe du user
     function modifyPassword() {
+      // Si le mot de passe n'a pas été correctement confirmé, on affiche un message d'erreur
       if (password != confirmedPassword) {
         dispatch(
           SET_MESSAGE({
@@ -64,7 +77,7 @@ export default function UserInfos() {
             autoClose: true,
           })
         );
-      } else {
+      } else { // sinon, on appelle l'action de modification
         dispatch(
           modifyPasswordAction({
             password
@@ -73,13 +86,17 @@ export default function UserInfos() {
       }
     }
 
+    // Fonction de déconnexion
     function logOut() {
+      // Appel de l'action de déconnexion
       dispatch(
         logoutAction()
       );
+      // On retourne sur la page de login
       navigation.navigate('Login' as never);
     }
 
+    // Fonction d'affichage de l'information liée au mail non modifiable
     function displayInfo() {
       dispatch(
         SET_MESSAGE({
@@ -91,31 +108,28 @@ export default function UserInfos() {
       );
     }
 
-    const handleNameChange = (e) => {
+    // Gestion de la modification du nom
+    const handleNameChange = (e: string) => {
       name = e;
       checkModifications();
     };
-    const handlePhoneChange = (e) => {
+    // Gestion de la modification du téléphone
+    const handlePhoneChange = (e: string) => {
       phone = e;
       checkModifications();
     };
-    const handleAddressChange = (e) => {
+    // Gestion de la modification de l'adresse
+    const handleAddressChange = (e: string) => {
       address = e;
       checkModifications();
     };
-    const handlePasswordChange = (e) => {
-      password = e;
-    };
-    const handleConfirmedPasswordChange = (e) => {
-      confirmedPassword = e;
-    };
+    // Fonction qui permet de vérifier si au moins une info a été modifiée
     function checkModifications() {
       if ((name != undefined && name != user.name) || (phone != undefined && phone != user.phone) || (address != undefined && address != user.address)) {
         setInfosModified(true);
       } else {
         setInfosModified(false);
       }
-      console.log(infosModified);
     }
 
     return (
@@ -159,13 +173,13 @@ export default function UserInfos() {
                   style={styles.passwordInput}
                   placeholder="Nouveau Mot de Passe"
                   secureTextEntry
-                  onChangeText={handlePasswordChange}
+                  onChangeText={setPassword}
               />
               <TextInput
                   style={styles.passwordInput}
                   placeholder="Confirmer le nouveau Mot de Passe"
                   secureTextEntry
-                  onChangeText={handleConfirmedPasswordChange}
+                  onChangeText={setConfirmedPassword}
               />
               <TouchableOpacity style={styles.buttonPassword} onPress={modifyPassword}>
                   <Text style={styles.buttonText}>Modifier le mot de passe</Text>
@@ -260,7 +274,6 @@ const styles = StyleSheet.create({
       width: '50%',
       backgroundColor: '#06C167',
       borderRadius: 5,
-      flexShrink: 0,
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 20
