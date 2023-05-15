@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { registerRootComponent } from 'expo';
 import { NativeBaseProvider } from 'native-base';
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 import Basket from './src/components/Basket';
@@ -17,7 +17,6 @@ import { store } from './src/store/store';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-registerRootComponent(App);
 
 export default function App() {
   const MainNavigation = () => {
@@ -79,13 +78,15 @@ export default function App() {
   };
 
   return (
-    <NativeBaseProvider>
-      <Provider store={store}>
-        <Message></Message>
-        <NavigationContainer>
-          <AuthNavigation />
-        </NavigationContainer>
-      </Provider>
-    </NativeBaseProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NativeBaseProvider>
+        <Provider store={store}>
+          <Message></Message>
+          <NavigationContainer>
+            <AuthNavigation />
+          </NavigationContainer>
+        </Provider>
+      </NativeBaseProvider>
+    </SafeAreaView>
   );
 }

@@ -1,16 +1,9 @@
-import {
-  Box,
-  Center,
-  FlatList,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-} from 'native-base';
+import { Box, FlatList, HStack, Heading, Stack, Text } from 'native-base';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
+import BoxWrapper from '../commons/BoxWrapper';
 import FKHButton from '../commons/Button';
 import { DECREMENT_CART, INCREMENT_CART } from '../store/cart/cart.reducer';
 import { RootState, useAppDispatch } from '../store/store';
@@ -24,41 +17,16 @@ function CartItem(props: any) {
     dispatch({ type: DECREMENT_CART, payload: { id } });
   };
   return (
-    <Box
-      rounded="lg"
-      overflow="hidden"
-      borderColor="coolGray.200"
-      borderWidth="1"
-    >
-      <Box>
-        <Box minH={'150px'} width={'100%'} flex={1}>
-          <Image
-            style={{ width: '100%', height: '100%' }}
-            source={{
-              uri: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg',
-            }}
-            alt="image"
-            resizeMode="cover"
-          />
-        </Box>
-
-        <Center
-          bg="violet.500"
-          _dark={{
-            bg: 'violet.400',
+    <BoxWrapper>
+      <Box minH={'100'} width={'100%'} flex={1}>
+        <Image
+          style={{ width: '100%', height: '100%' }}
+          source={{
+            uri: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg',
           }}
-          _text={{
-            color: 'warmGray.50',
-            fontWeight: '700',
-            fontSize: 'xs',
-          }}
-          position="absolute"
-          bottom="0"
-          px="3"
-          py="1.5"
-        >
-          HALAL
-        </Center>
+          alt="image"
+          resizeMode="cover"
+        />
       </Box>
       <Stack p="4" space={3} alignContent={'center'}>
         <Box flexDirection={'row'} justifyContent={'space-evenly'}>
@@ -89,7 +57,7 @@ function CartItem(props: any) {
           </TouchableOpacity>
         </HStack>
       </Stack>
-    </Box>
+    </BoxWrapper>
   );
 }
 
@@ -109,12 +77,12 @@ export default function Basket() {
   return (
     <View style={styles.pageContainer}>
       <FlatList
+        style={styles.cartItems}
         flex={1}
         paddingBottom={'100px'}
         data={cart.cartItems}
         renderItem={({ item }) => (
           <CartItem
-            style={styles.cartItem}
             key={item.product.id}
             product={item.product}
             quantity={item.quantity}
@@ -123,25 +91,24 @@ export default function Basket() {
         keyExtractor={(item) => item.product.id}
       />
       <FKHButton style={styles.bottomButton}>
-        Payer {cart.total} {'\u20AC'}
+        Payer {cart.total.toFixed(2)} {'\u20AC'}
       </FKHButton>
     </View>
   );
 }
 const styles = StyleSheet.create({
   pageContainer: {
-    alignSelf: 'center',
+    alignItems: 'center',
     flex: 1,
-    width: '100%',
   },
-  cartItem: {
-    width: '100%',
+  cartItems: {
+    width: '80%',
     flex: 1,
     alignContent: 'center',
+    marginBottom: 10,
   },
   bottomButton: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
   },
 });
