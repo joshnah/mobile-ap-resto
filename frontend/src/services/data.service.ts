@@ -4,11 +4,11 @@ import axios from 'axios';
 export const API_BASE_URL = 'https://fkh-resto.osc-fr1.scalingo.io/';
 
 export const authHeader = async () => {
-  const token = await AsyncStorage.getItem('userToken');
+  const user: any = JSON.parse(await AsyncStorage.getItem('user'));
 
-  if (token) {
+  if (user.token) {
     // for Node.js Express back-end
-    return { 'x-access-token': token };
+    return { 'x-access-token': user.token };
   } else {
     return {};
   }

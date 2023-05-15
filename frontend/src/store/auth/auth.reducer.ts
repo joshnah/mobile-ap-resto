@@ -1,16 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice } from '@reduxjs/toolkit';
-const user = AsyncStorage.getItem('user');
 
-const initialState = user
-  ? { isLoggedIn: true, user, hasChanged: false, pwdChanged: false }
-  : { isLoggedIn: false, user: null, hasChanged: false, pwdChanged: false };
+const initialState = {
+  isLoggedIn: false,
+  user: null,
+  hasChanged: false,
+  pwdChanged: false,
+  registered: false,
+};
 const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
     REGISTER_SUCCESS: (state) => {
       state.isLoggedIn = false;
+      state.registered = true;
     },
     REGISTER_FAIL: (state) => {
       state.isLoggedIn = false;
@@ -30,7 +33,7 @@ const authSlice = createSlice({
     UPDATE: (state) => {
       state.hasChanged = true;
     },
-    UPDATE_FINISHED : (state) => {
+    UPDATE_FINISHED: (state) => {
       state.hasChanged = false;
     },
     UPDATE_SUCCESS: (state, action) => {
@@ -46,7 +49,7 @@ const authSlice = createSlice({
     UPDATE_PWD_SUCCESS: (state, action) => {
       state.user = action.payload;
       state.pwdChanged = false;
-    }
+    },
   },
 });
 
@@ -61,7 +64,7 @@ export const {
   UPDATE_SUCCESS,
   UPDATE_PWD,
   UPDATE_PWD_FINISHED,
-  UPDATE_PWD_SUCCESS
+  UPDATE_PWD_SUCCESS,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

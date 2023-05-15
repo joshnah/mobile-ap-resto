@@ -1,8 +1,6 @@
-import { FlatList } from 'native-base';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import BoxWrapper from '../commons/BoxWrapper';
-import FKHButton from '../commons/Button';
 
 function OrderItem() {
   return (
@@ -17,7 +15,7 @@ function OrderItem() {
 export default function Orders() {
   return (
     <View style={styles.pageContainer}>
-      <FlatList
+      {/* <FlatList
         style={styles.cartItems}
         flex={1}
         paddingBottom={'100px'}
@@ -27,7 +25,7 @@ export default function Orders() {
       />
       <FKHButton style={styles.bottomButton}>
         Payer {cart.total.toFixed(2)} {'\u20AC'}
-      </FKHButton>
+      </FKHButton> */}
     </View>
   );
 }

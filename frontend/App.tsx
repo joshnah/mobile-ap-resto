@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 import Basket from './src/components/Basket';
+import CreateAccountScreen from './src/components/CreateAccountScreen';
 import HomePage from './src/components/HomePage';
 import Message from './src/components/Message';
 import Orders from './src/components/Orders';
@@ -73,6 +74,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="CreateLogin" component={CreateAccountScreen} />
       </Stack.Navigator>
     );
   };

@@ -1,9 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_BASE_URL, authHeader } from '../../services/data.service';
+import { API_BASE_URL } from '../../services/data.service';
 import { SET_MESSAGE } from '../message/message.reducer';
-import { LOGIN_SUCCESS, REGISTER_SUCCESS, UPDATE_PWD_SUCCESS, UPDATE_SUCCESS } from './auth.reducer';
+import {
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REGISTER_SUCCESS,
+  UPDATE_PWD_SUCCESS,
+  UPDATE_SUCCESS,
+} from './auth.reducer';
 
 export const loginAction = createAsyncThunk(
   'auth/login',
@@ -19,17 +25,36 @@ export const loginAction = createAsyncThunk(
       })
       .then(
         async (response) => {
-          axios.defaults.headers.common['x-access-token'] = response.data.user.token;
+          axios.defaults.headers.common['x-access-token'] =
+            response.data.user.token;
           // save user token in local storage
           if (response.data.user) {
-            await AsyncStorage.setItem('userToken', response.data.user.token);
+            await AsyncStorage.setItem(
+              'user',
+              JSON.stringify(response.data.user)
+            );
           }
 
           dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-
+          dispatch(
+            SET_MESSAGE({
+              message: 'Bienvenue',
+              closable: true,
+              status: 'success',
+              autoClose: true,
+            })
+          );
           return response.data.user;
         },
         (error) => {
+          dispatch(
+            SET_MESSAGE({
+              message: error.response.data.message,
+              closable: true,
+              status: 'error',
+              autoClose: true,
+            })
+          );
           return rejectWithValue(error.response.message);
         }
       );
@@ -43,23 +68,34 @@ export const registerAction = createAsyncThunk(
     { dispatch, rejectWithValue }
   ) => {
     const { name, email, password } = data;
-    axios
-      .post(
-        API_BASE_URL + 'api/users',
-        {
-          name,
-          email,
-          password,
-        },
-        { headers: await authHeader() }
-      )
+    const res = axios
+      .post(API_BASE_URL + 'api/users', {
+        name,
+        email,
+        password,
+      })
       .then(
-        () => {
+        (response) => {
+          console.log('Inscription Terminée');
           dispatch({ type: REGISTER_SUCCESS });
-          return Promise.resolve();
+          dispatch(
+            SET_MESSAGE({
+              message: 'Compte correctement crée',
+              closable: true,
+              status: 'success',
+              autoClose: true,
+            })
+          );
         },
         (error) => {
-          return rejectWithValue(error.response.message);
+          dispatch(
+            SET_MESSAGE({
+              message: error.response.data.message,
+              closable: true,
+              status: 'error',
+              autoClose: true,
+            })
+          );
         }
       );
   }
@@ -68,8 +104,8 @@ export const registerAction = createAsyncThunk(
 export const logoutAction = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch }) => {
-    await AsyncStorage.removeItem('userToken');
-    dispatch({ type: 'LOGOUT' });
+    await AsyncStorage.removeItem('user');
+    dispatch({ type: LOGOUT });
   }
 );
 
@@ -81,17 +117,16 @@ export const modifyInfosAction = createAsyncThunk(
     { dispatch, rejectWithValue }
   ) => {
     const { name, phone, address } = data;
-    
+
     // Requête put avec les infos modifiées
     axios
       .put(API_BASE_URL + 'api/users', {
         name,
         phone,
-        address
+        address,
       })
       .then(
         async (response) => {
-
           // Appel au reducer pour changer le user dans le state
           dispatch({ type: UPDATE_SUCCESS, payload: response.data.user });
 
@@ -103,7 +138,7 @@ export const modifyInfosAction = createAsyncThunk(
               status: 'success',
               autoClose: true,
             })
-          )
+          );
         },
         (error) => {
           dispatch(
@@ -113,7 +148,7 @@ export const modifyInfosAction = createAsyncThunk(
               status: 'error',
               autoClose: true,
             })
-          )
+          );
         }
       );
   }
@@ -121,18 +156,14 @@ export const modifyInfosAction = createAsyncThunk(
 
 export const modifyPasswordAction = createAsyncThunk(
   'auth/modify',
-  async (
-    data: { password: string },
-    { dispatch, rejectWithValue }
-  ) => {
+  async (data: { password: string }, { dispatch, rejectWithValue }) => {
     const { password } = data;
     axios
       .put(API_BASE_URL + 'api/users', {
-        password
+        password,
       })
       .then(
         async (response) => {
-
           // Appel au reducer pour changer le user dans le state
           dispatch({ type: UPDATE_PWD_SUCCESS, payload: response.data.user });
 
@@ -144,19 +175,20 @@ export const modifyPasswordAction = createAsyncThunk(
               status: 'success',
               autoClose: true,
             })
-          )
+          );
 
           return response.data.user;
         },
         (error) => {
           dispatch(
             SET_MESSAGE({
-              message: 'Le mot de passe doit contenir au minimum 6 caractères avec une lettre et un chiffre',
+              message:
+                'Le mot de passe doit contenir au minimum 6 caractères avec une lettre et un chiffre',
               closable: true,
               status: 'error',
               autoClose: true,
             })
-          )
+          );
           return rejectWithValue(error.response.message);
         }
       );

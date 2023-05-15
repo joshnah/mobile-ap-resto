@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // 1. import `NativeBaseProvider` component
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import {
   StyleSheet,
@@ -8,40 +9,72 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { loginAction } from '../store/auth/auth.action';
+import { LOGIN_SUCCESS } from '../store/auth/auth.reducer';
 import { fetchData } from '../store/data/appData.action';
-import { SET_MESSAGE } from '../store/message/message.reducer';
-import { useAppDispatch } from '../store/store';
+import { RootState, useAppDispatch } from '../store/store';
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
   // 2. Use at the root of your app
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  // call once to get user
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((user) => {
+      if (user) {
+        dispatch({ type: LOGIN_SUCCESS, payload: JSON.parse(user) });
+      }
+    });
+  }, []);
+
+  // call when user is logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchData());
+      navigation.navigate('Home' as never);
+      dispatch(fetchData());
+    }
+  }, [isLoggedIn]);
 
   function handleLogin() {
+    if (username.trim() === '' || password.trim() === '') {
+      setError('Please enter both username and password');
+      return;
+    }
+
+    if (!validateEmail(username)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
     dispatch(
       loginAction({
-        email: 'admin@gmail.com',
-        password: 'admin',
+        email: username,
+        password: password,
       })
-    ).then(() => {
-      dispatch(fetchData());
-      dispatch(
-        SET_MESSAGE({
-          message: 'Welcome',
-          closable: true,
-          status: 'success',
-          autoClose: true,
-        })
-      );
-      navigation.navigate('Home' as never);
-    });
+    );
   }
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function handleCreateAccount() {
+    navigation.navigate('CreateLogin' as never);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome</Text>
+      {error !== '' && <Text style={styles.error}>{error}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -58,6 +91,12 @@ export default function Login() {
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Connect</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.createAccountButton}
+        onPress={handleCreateAccount}
+      >
+        <Text style={styles.createAccountButtonText}>Créer un compte</Text>
       </TouchableOpacity>
     </View>
   );
@@ -94,6 +133,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  createAccountButton: {
+    marginTop: 10,
+    height: 50,
+    width: '100%',
+    backgroundColor: '#ccc',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  createAccountButtonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18,
