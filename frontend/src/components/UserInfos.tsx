@@ -37,11 +37,7 @@ export default function UserInfos() {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   // Récupération des infos du user dans le state auth
   const user = useSelector((state: RootState) => state.auth.user);
-  useEffect(() => {
-    if (!user) {
-      navigation.navigate('Login' as never);
-    }
-  }, [user]);
+
   // Récupération de l'état d'update
   const infos = useSelector((state: RootState) => {
     const hasChanged = state.auth.hasChanged;

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -23,11 +23,6 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (isRegistered) {
-      navigation.navigate('Login' as never);
-    }
-  }, [isRegistered]);
   function handleCreateAccount() {
     if (email.trim() === '' || !validateEmail(email)) {
       setError('Veuillez entrer une adresse mail valide');
