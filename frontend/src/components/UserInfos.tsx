@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import { logoutAction, modifyInfosAction, modifyPasswordAction } from '../store/auth/auth.action';
+import { UPDATE, UPDATE_FINISHED, UPDATE_PWD, UPDATE_PWD_FINISHED } from '../store/auth/auth.reducer';
 import { SET_MESSAGE } from '../store/message/message.reducer';
 import { RootState, useAppDispatch } from '../store/store';
 
@@ -14,11 +15,9 @@ export default function UserInfos() {
     const dispatch = useAppDispatch();
 
     // Variables pour les infos
-    let name: string;
-    let phone: string;
-    let address: string;
-    // Etat de modification des infos
-    const [infosModified, setInfosModified] = useState(false);
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
     // Variables pour le password
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
@@ -37,6 +36,29 @@ export default function UserInfos() {
       }
       return {name, email, phone, address};
     });
+    // Récupération de l'état d'update
+    const infos = useSelector((state: RootState) => {
+      const hasChanged = state.auth.hasChanged;
+      const pwdChanged = state.auth.pwdChanged;
+      return {hasChanged, pwdChanged};
+    });
+    // UseEffect pour la gestion des modifications
+    useEffect(() => {
+      if ((name != '' && name != user.name) || (phone != '' && phone != user.phone) || (address != '' && address != user.address)) {
+        dispatch({ type: UPDATE });
+      } else {
+        dispatch( {type: UPDATE_FINISHED} );
+      }
+    }, [name, phone, address]);
+
+    // UseEffect pour la gestion du password
+    useEffect(() => {
+      if (password != '' && confirmedPassword != '') {
+        dispatch({ type: UPDATE_PWD });
+      } else {
+        dispatch({ type: UPDATE_PWD_FINISHED });
+      }
+    }, [password, confirmedPassword]);
 
     // Fonction appelée pour modifier les infos du user
     function modifyUserInfos() {
@@ -50,17 +72,6 @@ export default function UserInfos() {
           name: modifiedName,
           phone: modifiedPhone,
           address: modifiedAddress
-        })
-      ).then(() => {
-        setInfosModified(false);
-      });
-      // Affichage d'un message de succès
-      dispatch(
-        SET_MESSAGE({
-          message: 'Informations mises à jour',
-          closable: true,
-          status: 'success',
-          autoClose: true,
         })
       )
     }
@@ -108,30 +119,6 @@ export default function UserInfos() {
       );
     }
 
-    // Gestion de la modification du nom
-    const handleNameChange = (e: string) => {
-      name = e;
-      checkModifications();
-    };
-    // Gestion de la modification du téléphone
-    const handlePhoneChange = (e: string) => {
-      phone = e;
-      checkModifications();
-    };
-    // Gestion de la modification de l'adresse
-    const handleAddressChange = (e: string) => {
-      address = e;
-      checkModifications();
-    };
-    // Fonction qui permet de vérifier si au moins une info a été modifiée
-    function checkModifications() {
-      if ((name != undefined && name != user.name) || (phone != undefined && phone != user.phone) || (address != undefined && address != user.address)) {
-        setInfosModified(true);
-      } else {
-        setInfosModified(false);
-      }
-    }
-
     return (
         <SafeAreaView style={styles.container}>
           <Ionicons name='person-circle-outline' size={50} color='green' />
@@ -142,7 +129,7 @@ export default function UserInfos() {
                   style={styles.input}
                   placeholder="Nom"
                   defaultValue={user.name}
-                  onChangeText={handleNameChange}
+                  onChangeText={setName}
               />
               <Text style={styles.subTitle}>Email</Text>
               <TextInput
@@ -159,14 +146,14 @@ export default function UserInfos() {
                   placeholder="Téléphone"
                   keyboardType="phone-pad"
                   defaultValue={user.phone}
-                  onChangeText={handlePhoneChange}
+                  onChangeText={setPhone}
               />
               <Text style={styles.subTitle}>Adresse</Text>
               <TextInput
                   style={styles.input}
                   placeholder="Adresse"
                   defaultValue={user.address}
-                  onChangeText={handleAddressChange}
+                  onChangeText={setAddress}
               />
               <Text style={styles.subTitle}>Mot de passe</Text>
               <TextInput
@@ -181,11 +168,11 @@ export default function UserInfos() {
                   secureTextEntry
                   onChangeText={setConfirmedPassword}
               />
-              <TouchableOpacity style={styles.buttonPassword} onPress={modifyPassword}>
+              <TouchableOpacity style={infos.pwdChanged?styles.buttonPassword:styles.disableButtonPassword} onPress={modifyPassword} disabled={infos.pwdChanged?false:true}>
                   <Text style={styles.buttonText}>Modifier le mot de passe</Text>
               </TouchableOpacity>
           </ScrollView>
-          <TouchableOpacity style={infosModified?styles.button:styles.disableButton} onPress={modifyUserInfos} disabled={infosModified?false:true}>
+          <TouchableOpacity style={infos.hasChanged?styles.button:styles.disableButton} onPress={modifyUserInfos} disabled={infos.hasChanged?false:true}>
               <Text style={styles.buttonText}>Enregistrer les modifications</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonLogOut} onPress={logOut}>
@@ -273,6 +260,15 @@ const styles = StyleSheet.create({
       height: 50,
       width: '50%',
       backgroundColor: '#06C167',
+      borderRadius: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 20
+    },
+    disableButtonPassword: {
+      height: 50,
+      width: '50%',
+      backgroundColor: '#f2f2f2',
       borderRadius: 5,
       alignItems: 'center',
       justifyContent: 'center',

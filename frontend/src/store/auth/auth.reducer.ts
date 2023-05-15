@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const user = AsyncStorage.getItem('user');
 
 const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  ? { isLoggedIn: true, user, hasChanged: false, pwdChanged: false }
+  : { isLoggedIn: false, user: null, hasChanged: false, pwdChanged: false };
 const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
@@ -27,8 +27,25 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
-    MODIFY: (state, action) => {
+    UPDATE: (state) => {
+      state.hasChanged = true;
+    },
+    UPDATE_FINISHED : (state) => {
+      state.hasChanged = false;
+    },
+    UPDATE_SUCCESS: (state, action) => {
       state.user = action.payload;
+      state.hasChanged = false;
+    },
+    UPDATE_PWD: (state) => {
+      state.pwdChanged = true;
+    },
+    UPDATE_PWD_FINISHED: (state) => {
+      state.pwdChanged = false;
+    },
+    UPDATE_PWD_SUCCESS: (state, action) => {
+      state.user = action.payload;
+      state.pwdChanged = false;
     }
   },
 });
@@ -39,7 +56,12 @@ export const {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  MODIFY
+  UPDATE,
+  UPDATE_FINISHED,
+  UPDATE_SUCCESS,
+  UPDATE_PWD,
+  UPDATE_PWD_FINISHED,
+  UPDATE_PWD_SUCCESS
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
