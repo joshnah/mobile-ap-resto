@@ -6,7 +6,7 @@ const orderModel = require('../models/order.js');
 const restaurantModel = require('../models/restaurant.js');
 const PRODUCTS_MOCK = require('../mocks/products.js');
 // eslint-disable-next-line no-unexpected-multiline
-(async () => {
+const initDb = async () => {
   // Regénère la base de données
   await require('../models/database.js').sync({ force: true });
   console.log('Base de données créée.');
@@ -85,4 +85,6 @@ const PRODUCTS_MOCK = require('../mocks/products.js');
 
   await order1.setRestaurant(restaurant1);
   await order2.setRestaurant(restaurant2);
-})();
+};
+
+module.exports = initDb;

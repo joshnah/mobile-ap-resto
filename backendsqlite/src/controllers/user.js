@@ -4,6 +4,7 @@ const has = require('has-keys');
 const CodeError = require('../util/CodeError.js');
 const bcrypt = require('bcrypt');
 const jws = require('jws');
+const initDb = require('../util/updatedb.js');
 require('mandatoryenv').load(['TOKENSECRET']);
 const { TOKENSECRET } = process.env;
 
@@ -77,7 +78,11 @@ module.exports = {
       // eslint-disable-next-line no-unused-vars
       const { passhash, ...userData } = user.toJSON();
       const token = req.token;
-      res.json({ status: true, message: 'User updated', user: {...userData, token} });
+      res.json({
+        status: true,
+        message: 'User updated',
+        user: { ...userData, token },
+      });
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
     }
@@ -142,7 +147,7 @@ module.exports = {
       throw new CodeError('User not found', status.NOT_FOUND);
     }
     req.user = user;
-    req.token = token
+    req.token = token;
     next();
   },
   async verifyAdmin(req, res, next) {
@@ -152,5 +157,12 @@ module.exports = {
     } else {
       throw new CodeError('User is not an admin', status.UNAUTHORIZED);
     }
+  },
+
+  async reinitDb(req, res) {
+    // #swagger.tags = ['Other']
+    // #swagger.summary = 'Reset DB'
+    await initDb();
+    res.json({ status: true, message: 'Users reinit' });
   },
 };
