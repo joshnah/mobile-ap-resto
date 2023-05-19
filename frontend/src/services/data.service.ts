@@ -24,3 +24,9 @@ export const fetchProducts = async () => {
     headers: await authHeader(),
   });
 };
+
+export const fetchOrders = async (userId: number) => {
+  return axios.get(API_BASE_URL + 'api/users/' + userId + '/orders/', {
+    headers: await authHeader(),
+  });
+};

@@ -8,7 +8,7 @@ module.exports = {
     // #swagger.tags = ['Products']
     // #swagger.summary = 'Get All products'
     const data = await productModel.findAll({
-      attributes: ['id', 'name', 'type', 'price', 'description'],
+      attributes: ['id', 'name', 'type', 'price', 'description', 'image'],
     });
     res.json({ status: true, message: 'Returning products', data });
   },

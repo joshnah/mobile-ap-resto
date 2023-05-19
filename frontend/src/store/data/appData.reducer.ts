@@ -4,18 +4,23 @@ const appDataSlice = createSlice({
   initialState: {
     restaurants: [],
     products: [],
+    orders: [],
   },
   reducers: {
     SET_RESTAURANTS: (state, action) => {
-      state.restaurants = action.payload.data;
+      state.restaurants = action.payload;
     },
     SET_PRODUCTS: (state, action) => {
-      state.products = action.payload.data;
+      state.products = action.payload;
+    },
+    SET_ORDERS: (state, action) => {
+      state.orders = action.payload;
     },
   },
 });
 
-export const { SET_RESTAURANTS, SET_PRODUCTS } = appDataSlice.actions;
+export const { SET_RESTAURANTS, SET_PRODUCTS, SET_ORDERS } =
+  appDataSlice.actions;
 export const appDataReducer = appDataSlice.reducer;
 
 export enum ProductType {
