@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 export default function FKHButton(props: any) {
   return (
-    <Button style={[styles.bottomView, props.style]}>
+    <Button style={[styles.bottomView, props.style]} onPress={props.onPress}>
       <Text style={styles.textStyle}>{props.children}</Text>
     </Button>
   );
