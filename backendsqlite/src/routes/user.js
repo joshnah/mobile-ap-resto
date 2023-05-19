@@ -22,11 +22,4 @@ router.get(
 
 router.post('/login', user.login);
 
-router.post(
-  '/api/reinitdb',
-  user.verifyTokenAndFindUser,
-  user.verifyAdmin,
-  user.reinitDb
-);
-
 module.exports = router;
