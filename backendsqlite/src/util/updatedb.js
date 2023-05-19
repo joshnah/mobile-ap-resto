@@ -11,14 +11,14 @@ const PRODUCTS_MOCK = require('../mocks/products.js');
   await require('../models/database.js').sync({ force: true });
   console.log('Base de données créée.');
   // Initialise la base avec quelques données
-  const c = await userModel.create({
+  await userModel.create({
     name: 'admin',
     email: 'admin@gmail.com',
     passhash: await bcrypt.hash('admin', 2),
     isAdmin: true,
   });
 
-  await userModel.create({
+  const c = await userModel.create({
     name: 'test',
     email: 'test@gmail.com',
     passhash: await bcrypt.hash('test', 2),

@@ -29,7 +29,7 @@ const product = db.define(
       type: Sequelize.STRING(128),
     },
     image: {
-      type: DataTypes.BLOB,
+      type: Sequelize.STRING(128),
     },
   },
   { timestamps: false }
