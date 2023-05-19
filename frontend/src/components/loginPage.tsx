@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // 1. import `NativeBaseProvider` component
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import {
   StyleSheet,
@@ -8,17 +9,39 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { loginAction } from '../store/auth/auth.action';
-import { useAppDispatch } from '../store/store';
+import { LOGIN_SUCCESS } from '../store/auth/auth.reducer';
+import { fetchData } from '../store/data/appData.action';
+import { RootState, useAppDispatch } from '../store/store';
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   // 2. Use at the root of your app
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // call once to get user
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((user) => {
+      if (user) {
+        dispatch({ type: LOGIN_SUCCESS, payload: JSON.parse(user) });
+      }
+    });
+  }, []);
+
+  // call when user is logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchData());
+      navigation.navigate('Home' as never);
+      dispatch(fetchData());
+    }
+  }, [isLoggedIn]);
 
   function handleLogin() {
     if (username.trim() === '' || password.trim() === '') {

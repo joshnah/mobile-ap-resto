@@ -6,6 +6,11 @@ interface Props {
   navigation: any;
 }
 export default class SplashScreen extends React.Component<Props> {
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.navigation.navigate('Login' as never);
+    }, 1000);
+  }
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
