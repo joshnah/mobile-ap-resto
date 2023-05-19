@@ -63,7 +63,7 @@ export const addOrderAction = createAsyncThunk(
         restaurantId
       })
       .then(
-        async (response) => {
+        async () => {
           // Appel au reducer pour vider le panier
           dispatch({ type: CLEAR_CART});
 

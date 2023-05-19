@@ -29,8 +29,8 @@ function CartItem(props: any) {
   // Fonction appelée pour confirmer la suppression d'un produit du panier
   const handleRemove = (id: number) => {
     // Titre et description
-    const title: string = "Attention";
-    const description: string = "Êtes-vous sûr de vouloir supprimer cet article ?"
+    const title = "Attention";
+    const description = "Êtes-vous sûr de vouloir supprimer cet article ?"
     // Distinction sur web : usage de window
     if (Platform.OS == 'web') {
       const result = window.confirm([title, description].filter(Boolean).join('\n'))
@@ -227,7 +227,7 @@ export default function Basket() {
             />
             {user.address != null && address != user.address && (
               <FKHButton style={styles.modalButton} onPress={handleRegisteredAddress}>
-                <Text style={styles.modalButtonText}>Livrer à l'adresse liée au compte</Text>
+                <Text style={styles.modalButtonText}>Livrer à l&apos;adresse liée au compte</Text>
               </FKHButton>
             )}
             <Text style={styles.subTitle}>Téléphone</Text>
