@@ -50,7 +50,12 @@ module.exports = {
     }
     order.setRestaurant(restaurant);
 
-    for (const product of products) {
+    let productsJSON = products;
+    if ((typeof products) === "string" ) {
+      productsJSON = JSON.parse(products);
+    }
+
+    for (const product of productsJSON) {
       const productData = await productModel.findByPk(product.productId);
       await order.addProduct(productData, {
         through: { quantity: product.quantity },
@@ -133,9 +138,7 @@ module.exports = {
         }
         order.setRestaurant(restaurant);
       }
-      console.log('OK1');
       await orderModel.update({ ...data }, { where: { id } });
-      console.log('OK2');
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
     }
