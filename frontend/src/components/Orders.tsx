@@ -1,16 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import BoxWrapper from '../commons/BoxWrapper';
-
-function OrderItem() {
-  return (
-    <BoxWrapper>
-      <View>
-        <Text>Order</Text>
-      </View>
-    </BoxWrapper>
-  );
-}
+import { StyleSheet, View } from 'react-native';
 
 export default function Orders() {
   return (

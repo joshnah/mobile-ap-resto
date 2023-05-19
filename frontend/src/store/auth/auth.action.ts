@@ -65,17 +65,17 @@ export const registerAction = createAsyncThunk(
   'auth/login',
   async (
     data: { name: string; email: string; password: string },
-    { dispatch, rejectWithValue }
+    { dispatch }
   ) => {
     const { name, email, password } = data;
-    const res = axios
+    axios
       .post(API_BASE_URL + 'api/users', {
         name,
         email,
         password,
       })
       .then(
-        (response) => {
+        () => {
           console.log('Inscription Terminée');
           dispatch({ type: REGISTER_SUCCESS });
           dispatch(
@@ -114,7 +114,7 @@ export const modifyInfosAction = createAsyncThunk(
   'auth/modify',
   async (
     data: { name: string; phone: string; address: string },
-    { dispatch, rejectWithValue }
+    { dispatch }
   ) => {
     const { name, phone, address } = data;
 

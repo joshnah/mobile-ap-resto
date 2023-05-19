@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -7,15 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { User } from '../models/User';
 import { registerAction } from '../store/auth/auth.action';
 import { SET_MESSAGE } from '../store/message/message.reducer';
-import { RootState } from '../store/store';
 export default function CreateAccount() {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const isRegistered = useSelector((state: RootState) => state.auth.registered);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

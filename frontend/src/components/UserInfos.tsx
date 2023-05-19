@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
@@ -25,7 +24,6 @@ import { SET_MESSAGE } from '../store/message/message.reducer';
 import { RootState, useAppDispatch } from '../store/store';
 
 export default function UserInfos() {
-  const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   // Variables pour les infos
