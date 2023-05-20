@@ -190,6 +190,21 @@
         }
       }
     },
+    "/api/reinitdb": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Reinitialize the database",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/products": {
       "get": {
         "tags": [

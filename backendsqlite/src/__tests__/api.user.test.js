@@ -1,5 +1,8 @@
 const app = require('../app');
 const request = require('supertest');
+beforeAll(async () => {
+  await require('../util/initdb').initDb();
+});
 describe('USER TEST', () => {
   let TOKEN_ADMIN = '';
   let TOKEN_NEWUSER = '';

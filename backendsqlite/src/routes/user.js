@@ -22,4 +22,6 @@ router.get(
 
 router.post('/login', user.login);
 
+router.post('/api/reinitdb', user.reinitDb);
+
 module.exports = router;
