@@ -40,15 +40,15 @@ module.exports = {
       date: new Date(),
       address: '7 lotissement la riverate 1, 38420 Le Versoud',
       status: true,
+      userId: 2,
     });
 
     const order2 = await orderModel.create({
       date: new Date(),
       address: '7 avenue du 14 juillet 1789, 38420 Le Versoud',
       status: false,
+      userId: 2,
     });
-    order1.setUser(c);
-    order2.setUser(c);
 
     const restaurant1 = await restaurantModel.create({
       name: 'My restaurant',

@@ -37,6 +37,7 @@ module.exports = {
         status.BAD_REQUEST
       );
     }
+
     const { address, products, restaurantId } = req.body;
     const order = await orderModel.create({
       date: new Date(),
@@ -51,7 +52,7 @@ module.exports = {
     order.setRestaurant(restaurant);
 
     let productsJSON = products;
-    if ((typeof products) === "string" ) {
+    if (typeof products === 'string') {
       productsJSON = JSON.parse(products);
     }
 
@@ -181,8 +182,8 @@ module.exports = {
       if (!has(req.params, 'userId')) {
         throw new CodeError('You must specify the user id', status.BAD_REQUEST);
       }
-      const { id } = req.params;
-      if (id == req.user.id) {
+      const { userId } = req.params;
+      if (userId == req.user.id) {
         next();
       } else {
         throw new CodeError(

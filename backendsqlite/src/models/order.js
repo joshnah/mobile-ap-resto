@@ -28,8 +28,11 @@ const order = db.define(
   { timestamps: false }
 );
 
-order.belongsTo(user);
-user.hasMany(order);
+order.belongsTo(user, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+});
+user.hasMany(order, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
 
 order.belongsToMany(product, { through: orderProduct });
 product.belongsToMany(order, { through: orderProduct });
