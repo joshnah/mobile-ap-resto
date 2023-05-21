@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_BASE_URL } from '../../services/data.service';
+import { API_BASE_URL, authHeader } from '../../services/data.service';
 import { CLEAR_CART } from '../cart/cart.reducer';
 import { SET_MESSAGE } from '../message/message.reducer';
 import {
@@ -126,10 +126,13 @@ export const modifyInfosAction = createAsyncThunk(
         name,
         phone,
         address,
+      }, {
+        headers: await authHeader()
       })
       .then(
         async (response) => {
           // Appel au reducer pour changer le user dans le state
+          console.log(response.data.user);
           dispatch({ type: UPDATE_SUCCESS, payload: response.data.user });
 
           // Affichage d'un message de succès
@@ -163,6 +166,8 @@ export const modifyPasswordAction = createAsyncThunk(
     axios
       .put(API_BASE_URL + 'api/users', {
         password,
+      }, {
+        headers: await authHeader()
       })
       .then(
         async (response) => {
