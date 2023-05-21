@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
   API_BASE_URL,
+  authHeader,
   fetchOrders,
   fetchProducts,
   fetchRestaurants,
@@ -61,6 +62,8 @@ export const addOrderAction = createAsyncThunk(
         address,
         products,
         restaurantId
+      }, {
+        headers: await authHeader()
       })
       .then(
         async () => {

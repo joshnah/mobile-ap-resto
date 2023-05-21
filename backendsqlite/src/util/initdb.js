@@ -18,7 +18,7 @@ module.exports = {
       isAdmin: true,
     });
 
-    const c = await userModel.create({
+    await userModel.create({
       name: 'test',
       email: 'test@gmail.com',
       passhash: await bcrypt.hash('test', 2),
