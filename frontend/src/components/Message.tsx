@@ -6,23 +6,31 @@ import {
   Text,
   VStack,
 } from 'native-base';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { CLEAR_MESSAGE } from '../store/message/message.reducer';
+import {
+  CLEAR_AUTOCLOSE_MESSAGE,
+  CLEAR_MESSAGE,
+} from '../store/message/message.reducer';
 import { RootState, useAppDispatch } from '../store/store';
 export default function Message() {
   const dispatch = useAppDispatch();
   const message = useSelector((state: RootState) => state.message);
+  const [idAutocloseMessage, setIdAutocloseMessage] = useState(0);
+
+  useEffect(() => {
+    if (message.autoClose) {
+      setIdAutocloseMessage(message.id);
+      setTimeout(() => {
+        dispatch(CLEAR_AUTOCLOSE_MESSAGE({ id: idAutocloseMessage }));
+      }, 3000);
+    }
+  }, [message]);
+
   if (message.message?.length == 0) {
     return null;
   }
-
-  if (message.autoClose) {
-    setTimeout(() => {
-      dispatch(CLEAR_MESSAGE());
-    }, 3000);
-  }
-
   return (
     <Alert status={message.status} style={styles.container}>
       <VStack space={2} flexShrink={1} w="100%">

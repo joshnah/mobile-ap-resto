@@ -108,6 +108,14 @@ export const logoutAction = createAsyncThunk(
     await AsyncStorage.removeItem('user');
     dispatch({ type: LOGOUT });
     dispatch(CLEAR_CART());
+    dispatch(
+      SET_MESSAGE({
+        message: 'Vous êtes déconnecté',
+        closable: true,
+        status: 'info',
+        autoClose: true,
+      })
+    );
   }
 );
 
@@ -122,13 +130,17 @@ export const modifyInfosAction = createAsyncThunk(
 
     // Requête put avec les infos modifiées
     axios
-      .put(API_BASE_URL + 'api/users', {
-        name,
-        phone,
-        address,
-      }, {
-        headers: await authHeader()
-      })
+      .put(
+        API_BASE_URL + 'api/users',
+        {
+          name,
+          phone,
+          address,
+        },
+        {
+          headers: await authHeader(),
+        }
+      )
       .then(
         async (response) => {
           // Appel au reducer pour changer le user dans le state
@@ -164,11 +176,15 @@ export const modifyPasswordAction = createAsyncThunk(
   async (data: { password: string }, { dispatch, rejectWithValue }) => {
     const { password } = data;
     axios
-      .put(API_BASE_URL + 'api/users', {
-        password,
-      }, {
-        headers: await authHeader()
-      })
+      .put(
+        API_BASE_URL + 'api/users',
+        {
+          password,
+        },
+        {
+          headers: await authHeader(),
+        }
+      )
       .then(
         async (response) => {
           // Appel au reducer pour changer le user dans le state

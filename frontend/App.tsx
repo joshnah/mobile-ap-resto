@@ -17,6 +17,7 @@ import articlePage from './src/components/articlePage';
 import Login from './src/components/loginPage';
 import { LOGIN_SUCCESS } from './src/store/auth/auth.reducer';
 import { fetchData } from './src/store/data/appData.action';
+import { SET_MESSAGE } from './src/store/message/message.reducer';
 import { RootState, store, useAppDispatch } from './src/store/store';
 
 const Stack = createStackNavigator();
@@ -53,12 +54,12 @@ const NavsContainer = () => {
       >
         <Tab.Screen name="Accueil" component={HomePage} />
         <Tab.Screen name="Panier" component={Basket} />
+        <Tab.Screen name="Commandes" component={Orders} />
         <Tab.Screen
           name="Infos"
           component={UserInfos}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="Commandes" component={Orders} />
       </Tab.Navigator>
     );
   };
@@ -68,7 +69,15 @@ const NavsContainer = () => {
   useEffect(() => {
     AsyncStorage.getItem('user').then((user) => {
       if (user) {
-        dispatch({ type: LOGIN_SUCCESS, payload: JSON.parse(user) });
+        dispatch(LOGIN_SUCCESS(user));
+        dispatch(
+          SET_MESSAGE({
+            message: 'Vous êtes connecté',
+            status: 'success',
+            closable: true,
+            autoClose: true,
+          })
+        );
       }
     });
   }, []);
