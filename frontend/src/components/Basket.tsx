@@ -173,6 +173,7 @@ export default function Basket() {
       const product = state.appData.products.find(
         (p) => p.id === item.productId
       );
+
       total = total + product.price * item.quantity;
       return { product, quantity: item.quantity };
     });
