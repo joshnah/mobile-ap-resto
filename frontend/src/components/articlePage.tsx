@@ -1,6 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ADD_TO_CART } from '../store/cart/cart.reducer';
 import { useAppDispatch } from '../store/store';
