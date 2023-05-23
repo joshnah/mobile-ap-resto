@@ -13,6 +13,7 @@ import HomePage from './src/components/HomePage';
 import Message from './src/components/Message';
 import Orders from './src/components/Orders';
 import UserInfos from './src/components/UserInfos';
+import articlePage from './src/components/articlePage';
 import Login from './src/components/loginPage';
 import { LOGIN_SUCCESS } from './src/store/auth/auth.reducer';
 import { fetchData } from './src/store/data/appData.action';
@@ -74,7 +75,7 @@ const NavsContainer = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchData());
+      dispatch(fetchData());  
     }
   }, [isLoggedIn]);
 
@@ -86,7 +87,7 @@ const NavsContainer = () => {
     name="Splash"
     component={SplashScreen}
     options={{ headerShown: false }}
-  /> */}
+  />*/ }
 
         {isLoggedIn ? (
           <>
@@ -102,6 +103,7 @@ const NavsContainer = () => {
             <Stack.Screen name="CreateLogin" component={CreateAccountScreen} />
           </>
         )}
+         <Stack.Screen name="ArticlePage" component={articlePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

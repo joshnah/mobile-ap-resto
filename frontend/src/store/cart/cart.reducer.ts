@@ -23,9 +23,12 @@ const cartSlice = createSlice({
       }
     },
     REMOVE_FROM_CART: (state, action) => {
+      console.log(state.cartItems);
+      console.log("loris"); 
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload.id
       );
+      console.log(state.cartItems);
     },
     CLEAR_CART: (state) => {
       state.cartItems = [];
