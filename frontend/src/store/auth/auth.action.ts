@@ -63,17 +63,16 @@ export const loginAction = createAsyncThunk(
 );
 
 export const registerAction = createAsyncThunk(
-  'auth/login',
-  async (
-    data: { name: string; email: string; password: string },
-    { dispatch }
-  ) => {
-    const { name, email, password } = data;
+  'auth/register',
+  async (data: any, { dispatch }) => {
+    const { name, email, password, address, phone } = data;
     axios
       .post(API_BASE_URL + 'api/users', {
         name,
         email,
         password,
+        address,
+        phone,
       })
       .then(
         () => {

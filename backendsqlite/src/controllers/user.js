@@ -42,13 +42,15 @@ module.exports = {
         'You must specify the name, email and password ',
         status.BAD_REQUEST
       );
-    const { name, password, email } = req.body;
+    const { name, password, email, address, phone } = req.body;
     if (!validPassword(password))
       throw new CodeError('Weak password!', status.BAD_REQUEST);
     await userModel.create({
       name,
       email,
       passhash: await bcrypt.hash(password, 2),
+      address,
+      phone,
     });
     res.json({ status: true, message: 'User Added' });
   },

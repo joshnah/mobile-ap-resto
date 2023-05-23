@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { User } from '../models/User';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerAction } from '../store/auth/auth.action';
 import { SET_MESSAGE } from '../store/message/message.reducer';
+import { RootState } from '../store/store';
 export default function CreateAccount() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -18,7 +19,13 @@ export default function CreateAccount() {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
-
+  const navigation = useNavigation();
+  const registered = useSelector((state: RootState) => state.auth.registered);
+  useEffect(() => {
+    if (registered) {
+      navigation.navigate('Login' as never);
+    }
+  }, [registered]);
   function handleCreateAccount() {
     if (email.trim() === '' || !validateEmail(email)) {
       setError('Veuillez entrer une adresse mail valide');
@@ -72,7 +79,7 @@ export default function CreateAccount() {
       return emailRegex.test(email);
     }
 
-    const userData: User = {
+    const userData = {
       name: username,
       email: email,
       password: password,
