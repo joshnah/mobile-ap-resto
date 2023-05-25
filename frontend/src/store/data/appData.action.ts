@@ -52,7 +52,7 @@ export const addOrderAction = createAsyncThunk(
   'appData/addOrder',
   async (
     data: { address: string; products: string; restaurantId: string },
-    { dispatch }
+    { dispatch, getState }
   ) => {
     const { address, products, restaurantId } = data;
 
@@ -78,6 +78,16 @@ export const addOrderAction = createAsyncThunk(
               status: 'success',
               autoClose: true,
             })
+          );
+
+          const state: any = getState();
+          fetchOrders(state.auth.user.id).then((orders) => {
+            const products = state.appData.products;
+            dispatch({
+              type: SET_ORDERS,
+              payload: calculerTotals(orders.data.data, products),
+            });
+          }
           );
         },
         (error) => {
