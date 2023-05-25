@@ -70,9 +70,9 @@ export default function UserInfos() {
     if (address == null || address.length <= 3) {
       return;
     }
-    autocompleteAddress(address).then(
-      async (response) => {
-        let addressesList = [];
+    autocompleteAddress(address)
+      .then(async (response) => {
+        const addressesList = [];
         for (const feature of response.data.features) {
           if (feature.properties.label == address) {
             setAddrSuggestions([]);
@@ -81,12 +81,10 @@ export default function UserInfos() {
           addressesList.push(feature.properties.label);
         }
         setAddrSuggestions(addressesList);
-      }
-    ).catch(
-      (error) => {
-        console.log(error)
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [address]);
 
   // UseEffect pour la gestion du password
@@ -196,10 +194,11 @@ export default function UserInfos() {
             value={address}
             onChangeText={setAddress}
             flatListProps={{
-              renderItem: ({ item }) => 
+              renderItem: ({ item }) => (
                 <TouchableOpacity onPress={() => setAddress(item)}>
                   <Text style={styles.addressItems}>{item}</Text>
                 </TouchableOpacity>
+              ),
             }}
           />
         </View>
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
   },
   addressItems: {
     fontSize: 16,
-    padding: 5
+    padding: 5,
   },
   disableInput: {
     height: 50,
@@ -291,7 +290,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5
+    borderRadius: 5,
   },
   autocomplete: {
     padding: 10,
