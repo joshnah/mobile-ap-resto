@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
+import { autocompleteAddress } from '../services/data.service';
 import {
   logoutAction,
   modifyInfosAction,
@@ -33,8 +35,17 @@ export default function UserInfos() {
   // Variables pour le password
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
+  // Variable pour l'autocomplétion d'adresse
+  const [addrSuggestions, setAddrSuggestions] = useState([]);
   // Récupération des infos du user dans le state auth
   const user = useSelector((state: RootState) => state.auth.user);
+
+  useEffect(() => {
+    if (user == null || user.address == null) {
+      return;
+    }
+    setAddress(user.address);
+  }, [user]);
 
   // Récupération de l'état d'update
   const infos = useSelector((state: RootState) => {
@@ -54,6 +65,29 @@ export default function UserInfos() {
       dispatch({ type: UPDATE_FINISHED });
     }
   }, [name, phone, address]);
+
+  useEffect(() => {
+    if (address == null || address.length <= 3) {
+      return;
+    }
+    autocompleteAddress(address).then(
+      async (response) => {
+        let addressesList = [];
+        for (const feature of response.data.features) {
+          if (feature.properties.label == address) {
+            setAddrSuggestions([]);
+            return;
+          }
+          addressesList.push(feature.properties.label);
+        }
+        setAddrSuggestions(addressesList);
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+      }
+    );
+  }, [address]);
 
   // UseEffect pour la gestion du password
   useEffect(() => {
@@ -156,12 +190,19 @@ export default function UserInfos() {
           onChangeText={setPhone}
         />
         <Text style={styles.subTitle}>Adresse</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Adresse"
-          defaultValue={user.address}
-          onChangeText={setAddress}
-        />
+        <View style={styles.input}>
+          <Autocomplete
+            data={addrSuggestions}
+            value={address}
+            onChangeText={setAddress}
+            flatListProps={{
+              renderItem: ({ item }) => 
+                <TouchableOpacity onPress={() => setAddress(item)}>
+                  <Text style={styles.addressItems}>{item}</Text>
+                </TouchableOpacity>
+            }}
+          />
+        </View>
         <Text style={styles.subTitle}>Mot de passe</Text>
         <TextInput
           style={styles.passwordInput}
@@ -222,6 +263,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'flex-start',
   },
+  addressItems: {
+    fontSize: 16,
+    padding: 5
+  },
   disableInput: {
     height: 50,
     width: '100%',
@@ -238,6 +283,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+  },
+  addressInput: {
+    height: '100%',
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5
+  },
+  autocomplete: {
     padding: 10,
     marginBottom: 20,
   },

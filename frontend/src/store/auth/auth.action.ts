@@ -26,8 +26,6 @@ export const loginAction = createAsyncThunk(
       })
       .then(
         async (response) => {
-          axios.defaults.headers.common['x-access-token'] =
-            response.data.user.token;
           // save user token in local storage
           if (response.data.user) {
             await AsyncStorage.setItem(

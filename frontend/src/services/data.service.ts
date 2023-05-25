@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 export const API_BASE_URL = 'https://fkh-resto.osc-fr1.scalingo.io/';
+export const API_ADDRESS_URL = 'https://api-adresse.data.gouv.fr/search/?q=';
 
 export const authHeader = async () => {
   const user: any = JSON.parse(await AsyncStorage.getItem('user'));
@@ -30,3 +31,8 @@ export const fetchOrders = async (userId: number) => {
     headers: await authHeader(),
   });
 };
+
+export const autocompleteAddress = async (address: string) => {
+  const addressFormatted = address.split(' ').join('+');
+  return axios.get(API_ADDRESS_URL + addressFormatted);
+}
