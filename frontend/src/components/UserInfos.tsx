@@ -188,20 +188,19 @@ export default function UserInfos() {
           onChangeText={setPhone}
         />
         <Text style={styles.subTitle}>Adresse</Text>
-        <View style={styles.input}>
-          <Autocomplete
-            data={addrSuggestions}
-            value={address}
-            onChangeText={setAddress}
-            flatListProps={{
-              renderItem: ({ item }) => (
-                <TouchableOpacity onPress={() => setAddress(item)}>
-                  <Text style={styles.addressItems}>{item}</Text>
-                </TouchableOpacity>
-              ),
-            }}
-          />
-        </View>
+        <Autocomplete
+          inputContainerStyle={styles.input}
+          placeholder='Adresse'
+          data={addrSuggestions}
+          value={address}
+          onChangeText={setAddress}
+          flatListProps={{
+            renderItem: ({ item }) => 
+              <TouchableOpacity onPress={() => setAddress(item)}>
+                <Text style={styles.addressItems}>{item}</Text>
+              </TouchableOpacity>
+          }}
+        />
         <Text style={styles.subTitle}>Mot de passe</Text>
         <TextInput
           style={styles.passwordInput}
