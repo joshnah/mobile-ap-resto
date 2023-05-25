@@ -124,7 +124,11 @@ module.exports = {
 
         // Ajout de chaque produit à la liste des produits de la commande
         const { products } = data;
-        for (const product of products) {
+        let productsJSON = products;
+        if (typeof products === 'string') {
+          productsJSON = JSON.parse(products);
+        }
+        for (const product of productsJSON) {
           const productData = await productModel.findByPk(product.productId);
           await order.addProduct(productData, {
             through: { quantity: product.quantity },
