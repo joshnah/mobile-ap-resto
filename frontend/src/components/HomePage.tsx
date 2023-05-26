@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Box, FlatList, View } from 'native-base';
+import { FlatList, View } from 'native-base';
 import { useSelector } from 'react-redux';
+import Article from './Article';
 
 const Tab = createMaterialTopTabNavigator();
 export default function HomePage() {
@@ -12,7 +13,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const newDict = {};
-
     products.forEach((product: any) => {
       if (!newDict[product.type]) {
         newDict[product.type] = [];
@@ -30,11 +30,7 @@ export default function HomePage() {
         paddingBottom={'100px'}
         data={products}
         renderItem={({ item }) => (
-          <Box>
-            <Text>{item.name}</Text>
-            <Text>{item.description}</Text>
-            <Text>{item.price}</Text>
-          </Box>
+          <Article data={item} />
         )}
         keyExtractor={(item) => item.id}
       />
@@ -44,7 +40,7 @@ export default function HomePage() {
     <>
       <View flexDirection={'column'} flex={1}>
         <View style={styles.header}>
-          <Text>HEADER</Text>
+          <Text>Faites vous plaisir</Text>
         </View>
         {Object.keys(dictProduits).length > 0 && (
           <Tab.Navigator>
@@ -68,6 +64,6 @@ export default function HomePage() {
 const styles = StyleSheet.create({
   header: {
     flex: 1,
-    height: '20%',
+    
   },
 });

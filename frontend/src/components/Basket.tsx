@@ -167,7 +167,7 @@ export default function Basket() {
   const cart = useSelector((state: RootState) => {
     let total = 0;
     const cartProducts = state.cart.cartItems;
-    const cartItems = state.cart.cartItems.map((item) => {
+    const cartItems = cartProducts.map((item) => {
       const product = state.appData.products.find(
         (p) => p.id === item.productId
       );
