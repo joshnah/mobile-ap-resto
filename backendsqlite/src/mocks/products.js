@@ -1,3 +1,10 @@
+const burgerURL =
+  'https://bakeitwithlove.com/wp-content/uploads/2021/05/McDonalds-The-Travis-Scott-Burger-sq-500x500.jpg';
+const boissonURL =
+  'https://m.media-amazon.com/images/I/41rH3+lqp6L._AC_SY355_.jpg';
+
+const fritesURL =
+  'https://img.passeportsante.net/1000x526/2021-03-22/i100610-frites-maison.jpeg';
 const PRODUCTS_MOCK = [
   {
     id: 1,
@@ -5,7 +12,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 9.99,
     description: 'Delicious cheeseburger with all the fixings.',
-    image: 'cheeseburger.jpg',
+    image: burgerURL,
   },
   {
     id: 2,
@@ -13,7 +20,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 1.99,
     description: 'Refreshing Coca-Cola drink.',
-    image: 'cocacola.jpg',
+    image: boissonURL,
   },
   {
     id: 3,
@@ -21,7 +28,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 3.49,
     description: 'Crispy and golden French fries.',
-    image: 'frenchfries.jpg',
+    image: fritesURL,
   },
   {
     id: 4,
@@ -29,7 +36,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 7.99,
     description: 'Tasty chicken burger with special sauce.',
-    image: 'chickenburger.jpg',
+    image: burgerURL,
   },
   {
     id: 5,
@@ -37,7 +44,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 1.49,
     description: 'Cool and refreshing iced tea.',
-    image: 'icedtea.jpg',
+    image: boissonURL,
   },
   {
     id: 6,
@@ -45,7 +52,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 4.99,
     description: 'Crispy onion rings with a side of dipping sauce.',
-    image: 'onionrings.jpg',
+    image: fritesURL,
   },
   {
     id: 7,
@@ -53,7 +60,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 11.99,
     description: 'Double the cheese, double the flavor.',
-    image: 'doublecheeseburger.jpg',
+    image: burgerURL,
   },
   {
     id: 8,
@@ -61,7 +68,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 2.49,
     description: 'Tangy and refreshing lemonade.',
-    image: 'lemonade.jpg',
+    image: boissonURL,
   },
   {
     id: 9,
@@ -69,7 +76,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 5.49,
     description: 'Satisfying sweet potato fries with a hint of sweetness.',
-    image: 'sweetpotatofries.jpg',
+    image: fritesURL,
   },
   {
     id: 10,
@@ -77,7 +84,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 8.99,
     description: 'A delicious vegetarian burger option.',
-    image: 'veggieburger.jpg',
+    image: burgerURL,
   },
   {
     id: 11,
@@ -85,7 +92,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 10.99,
     description: 'Tender fish fillet in a burger with tartar sauce.',
-    image: 'fishburger.jpg',
+    image: burgerURL,
   },
   {
     id: 12,
@@ -93,7 +100,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 2.99,
     description: 'Freshly squeezed orange juice.',
-    image: 'orangejuice.jpg',
+    image: boissonURL,
   },
   {
     id: 13,
@@ -101,7 +108,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 4.49,
     description: 'Crispy and curly seasoned fries.',
-    image: 'curlyfries.jpg',
+    image: fritesURL,
   },
   {
     id: 14,
@@ -109,7 +116,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 8.99,
     description: 'Burger with tangy BBQ sauce and caramelized onions.',
-    image: 'bbqburger.jpg',
+    image: burgerURL,
   },
   {
     id: 15,
@@ -117,7 +124,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 3.49,
     description: 'Creamy and indulgent milkshake.',
-    image: 'milkshake.jpg',
+    image: boissonURL,
   },
   {
     id: 16,
@@ -125,7 +132,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 4.99,
     description: 'Crispy waffle-cut fries with a light texture.',
-    image: 'wafflefries.jpg',
+    image: fritesURL,
   },
   {
     id: 17,
@@ -133,7 +140,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 7.99,
     description: 'Healthy wrap filled with fresh veggies and dressing.',
-    image: 'veggiewrap.jpg',
+    image: burgerURL,
   },
   {
     id: 18,
@@ -141,7 +148,7 @@ const PRODUCTS_MOCK = [
     type: 'boisson',
     price: 2.99,
     description: 'Chilled and energizing iced coffee.',
-    image: 'icedcoffee.jpg',
+    image: boissonURL,
   },
   {
     id: 19,
@@ -149,7 +156,7 @@ const PRODUCTS_MOCK = [
     type: 'frites',
     price: 5.99,
     description: 'Fries seasoned with garlic, parmesan, and herbs.',
-    image: 'garlicparmesanfries.jpg',
+    image: fritesURL,
   },
   {
     id: 20,
@@ -157,7 +164,7 @@ const PRODUCTS_MOCK = [
     type: 'burger',
     price: 9.49,
     description: 'Lean and flavorful turkey burger with cranberry sauce.',
-    image: 'turkeyburger.jpg',
+    image: burgerURL,
   },
 ];
 
