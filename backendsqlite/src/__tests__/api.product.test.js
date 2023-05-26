@@ -26,7 +26,7 @@ describe('PRODUCT TEST', () => {
       .get('/api/products')
       .set('x-access-token', TOKEN_ADMIN);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.length).toBe(3);
+    expect(response.body.data.length).toBe(20);
   });
 
   test('Create product', async () => {
