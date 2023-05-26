@@ -32,9 +32,9 @@ module.exports = {
       isAdmin: false,
     });
 
-    await productModel.create(PRODUCTS_MOCK[0]);
-    await productModel.create(PRODUCTS_MOCK[1]);
-    await productModel.create(PRODUCTS_MOCK[2]);
+    for (const product of PRODUCTS_MOCK) {
+      await productModel.create(product);
+    }
 
     const order1 = await orderModel.create({
       date: new Date(),
