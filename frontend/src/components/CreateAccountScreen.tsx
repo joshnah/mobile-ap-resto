@@ -71,7 +71,6 @@ export default function CreateAccount() {
     }
     function validatePassword(password) {
       const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}$/;
-      console.log(password);
       return passwordRegex.test(password);
     }
     function validateEmail(email) {

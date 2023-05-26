@@ -74,7 +74,6 @@ export const registerAction = createAsyncThunk(
       })
       .then(
         () => {
-          console.log('Inscription Terminée');
           dispatch({ type: REGISTER_SUCCESS });
           dispatch(
             SET_MESSAGE({
