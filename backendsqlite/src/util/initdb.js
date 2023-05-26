@@ -41,6 +41,7 @@ module.exports = {
       address: '7 lotissement la riverate 1, 38420 Le Versoud',
       status: true,
       userId: 2,
+      phone: '0123456789',
     });
 
     const order2 = await orderModel.create({
@@ -48,6 +49,7 @@ module.exports = {
       address: '7 avenue du 14 juillet 1789, 38420 Le Versoud',
       status: false,
       userId: 2,
+      phone: '0123456789',
     });
 
     const restaurant1 = await restaurantModel.create({

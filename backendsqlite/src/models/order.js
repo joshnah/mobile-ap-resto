@@ -24,6 +24,9 @@ const order = db.define(
       type: Sequelize.STRING(128),
       allowNull: false,
     },
+    phone: {
+      type: Sequelize.STRING(20),
+    },
   },
   { timestamps: false }
 );
