@@ -11,7 +11,15 @@ module.exports = {
     // #swagger.tags = ['Orders']
     // #swagger.summary = 'Get All orders'
     const orders = await orderModel.findAll({
-      attributes: ['id', 'restaurantId', 'userId', 'status', 'date', 'address'],
+      attributes: [
+        'id',
+        'restaurantId',
+        'userId',
+        'status',
+        'date',
+        'address',
+        'phone',
+      ],
     });
     const result = [];
 
@@ -31,18 +39,19 @@ module.exports = {
     // #swagger.tags = ['Orders']
     // #swagger.summary = 'New Order'
     // #swagger.parameters['obj'] = { in: 'body', schema: { $address: '7 lotissement la riverate 1, 38420 Le Versoud', $products: [{'productId':1, 'quantity': 3}], $restaurantId: 1}}
-    if (!has(req.body, ['address', 'products', 'restaurantId'])) {
+    if (!has(req.body, ['address', 'products', 'restaurantId', 'phone'])) {
       throw new CodeError(
-        'You must specify the address, products list and restaurant id of the order',
+        'You must specify the address,phone, products list and restaurant id of the order',
         status.BAD_REQUEST
       );
     }
 
-    const { address, products, restaurantId } = req.body;
+    const { address, products, restaurantId, phone } = req.body;
     const order = await orderModel.create({
       date: new Date(),
       userId: req.user.id,
       address,
+      phone,
     });
 
     const restaurant = await restaurantModel.findByPk(restaurantId);
@@ -71,7 +80,7 @@ module.exports = {
     const { id } = req.params;
     const order = await orderModel.findOne({
       where: { id },
-      attributes: ['id', 'status', 'date', 'address'],
+      attributes: ['id', 'status', 'date', 'address', 'phone'],
     });
     const result = [];
 
@@ -89,7 +98,7 @@ module.exports = {
     const { userId } = req.params;
     const orders = await orderModel.findAll({
       where: { userId },
-      attributes: ['id', 'status', 'date', 'address'],
+      attributes: ['id', 'status', 'date', 'address', 'phone'],
     });
     const result = [];
 
@@ -115,7 +124,8 @@ module.exports = {
       has(data, ['products']) ||
       has(data, ['status']) ||
       has(data, ['address']) ||
-      has(data, ['restaurantId'])
+      has(data, ['restaurantId']) ||
+      has(data, ['phone'])
     ) {
       const order = await orderModel.findByPk(id);
       if (has(data, ['products'])) {

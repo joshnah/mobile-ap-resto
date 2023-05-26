@@ -68,7 +68,7 @@ const NavsContainer = () => {
   useEffect(() => {
     AsyncStorage.getItem('user').then((user) => {
       if (user) {
-        dispatch(LOGIN_SUCCESS(user));
+        dispatch(LOGIN_SUCCESS(JSON.parse(user)));
         dispatch(
           SET_MESSAGE({
             message: 'Vous êtes connecté',

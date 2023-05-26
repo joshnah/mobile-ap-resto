@@ -19,4 +19,4 @@ web-build/
 cypress/videos
 cypress/screenshots
 
-*/package-lock.json
+package-lock.json

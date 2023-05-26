@@ -1,12 +1,32 @@
-import { Box, FlatList, HStack, Heading, ScrollView, Stack, Text } from 'native-base';
+import {
+  Box,
+  FlatList,
+  HStack,
+  Heading,
+  ScrollView,
+  Stack,
+  Text,
+} from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, Platform, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import BoxWrapper from '../commons/BoxWrapper';
 import FKHButton from '../commons/Button';
-import { DECREMENT_CART, INCREMENT_CART, REMOVE_FROM_CART } from '../store/cart/cart.reducer';
+import {
+  DECREMENT_CART,
+  INCREMENT_CART,
+  REMOVE_FROM_CART,
+} from '../store/cart/cart.reducer';
 import { addOrderAction } from '../store/data/appData.action';
 import { RootState, useAppDispatch } from '../store/store';
 
@@ -16,7 +36,7 @@ function CartItem(props: any) {
   const dispatch = useAppDispatch();
   // Variable pour gérer l'affichage du modal avec les détails du produit
   const [showDetails, setShowDetails] = useState(false);
-  
+
   // Fonction d'incrément du nombre de produits
   const increment = (id: number) => {
     dispatch({ type: INCREMENT_CART, payload: { id } });
@@ -29,29 +49,32 @@ function CartItem(props: any) {
   // Fonction appelée pour confirmer la suppression d'un produit du panier
   const handleRemove = (id: number) => {
     // Titre et description
-    const title = "Attention";
-    const description = "Êtes-vous sûr de vouloir supprimer cet article ?"
+    const title = 'Attention';
+    const description = 'Êtes-vous sûr de vouloir supprimer cet article ?';
     // Distinction sur web : usage de window
     if (Platform.OS == 'web') {
-      const result = window.confirm([title, description].filter(Boolean).join('\n'))
+      const result = window.confirm(
+        [title, description].filter(Boolean).join('\n')
+      );
       if (result) {
         remove(id);
       }
-    } else { // Sur smartphone : usage du component Alert
+    } else {
+      // Sur smartphone : usage du component Alert
       Alert.alert(title, description, [
         {
           text: 'Non',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Oui', onPress: () => remove(id)},
+        { text: 'Oui', onPress: () => remove(id) },
       ]);
     }
-  }
+  };
 
   // Fonction appelée pour supprimer un produit du panier
   function remove(id: number) {
-    dispatch( { type: REMOVE_FROM_CART, payload: {id}} )
+    dispatch({ type: REMOVE_FROM_CART, payload: { id } });
   }
 
   return (
@@ -96,7 +119,10 @@ function CartItem(props: any) {
             </TouchableOpacity>
           </HStack>
         </Stack>
-        <TouchableOpacity style={styles.removeButton} onPress={() => handleRemove(props.product.id)}>
+        <TouchableOpacity
+          style={styles.removeButton}
+          onPress={() => handleRemove(props.product.id)}
+        >
           <Ionicons name="trash-outline" size={40} color="red" />
         </TouchableOpacity>
       </BoxWrapper>
@@ -110,7 +136,10 @@ function CartItem(props: any) {
             alt="image"
             resizeMode="cover"
           />
-          <TouchableOpacity style={styles.removeButton} onPress={() => setShowDetails(false)}>
+          <TouchableOpacity
+            style={styles.removeButton}
+            onPress={() => setShowDetails(false)}
+          >
             <Ionicons name="close-circle-outline" size={50} color="green" />
           </TouchableOpacity>
           <Text style={styles.subTitle}>{props.product.description}</Text>
@@ -133,7 +162,7 @@ export default function Basket() {
   const [cardNumber, setCardNumber] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCVV] = useState('');
-  
+
   // Récupération du panier dans le state
   const cart = useSelector((state: RootState) => {
     let total = 0;
@@ -145,7 +174,7 @@ export default function Basket() {
       total = total + product.price * item.quantity;
       return { product, quantity: item.quantity };
     });
-    return { cartProducts, cartItems, total };
+    return { cartProducts, cartItems, total: Number(total.toFixed(2)) };
   });
 
   // Récupération du user dans le state
@@ -160,7 +189,7 @@ export default function Basket() {
     }
   }, [address, phone]);
 
-  // Fonction pour enregistrer 
+  // Fonction pour enregistrer
   function handleRegisteredAddress() {
     setAddress(user.address);
   }
@@ -176,7 +205,7 @@ export default function Basket() {
       addOrderAction({
         address,
         products: JSON.stringify(cart.cartProducts),
-        restaurantId: "1",
+        restaurantId: '1',
       })
     );
     // Fermeture du modal de commande
@@ -203,20 +232,35 @@ export default function Basket() {
         keyExtractor={(item) => item.product.id}
       />
       {cart.total > 0 && (
-        <FKHButton style={styles.bottomButton} onPress={() => {setShowOrderView(true)}}>
-          Commander {cart.total.toFixed(2)} {'\u20AC'}
+        <FKHButton
+          style={styles.bottomButton}
+          onPress={() => {
+            setShowOrderView(true);
+          }}
+        >
+          Commander {cart.total} {'\u20AC'}
         </FKHButton>
       )}
       {cart.total == 0 && (
-        <Text style={styles.pageContainer}>Votre panier est vide. Commencez vos achats !</Text>
+        <Text style={styles.pageContainer}>
+          Votre panier est vide. Commencez vos achats !
+        </Text>
       )}
       <Modal isVisible={showOrderView}>
         <View style={styles.modalContent}>
-          <TouchableOpacity style={styles.removeButton} onPress={() => {setShowOrderView(false)}}>
+          <TouchableOpacity
+            style={styles.removeButton}
+            onPress={() => {
+              setShowOrderView(false);
+            }}
+          >
             <Ionicons name="close-circle-outline" size={50} color="green" />
           </TouchableOpacity>
           <Text style={styles.title}>Commander</Text>
-          <ScrollView style={styles.scrollContent} automaticallyAdjustKeyboardInsets={true}>
+          <ScrollView
+            style={styles.scrollContent}
+            automaticallyAdjustKeyboardInsets={true}
+          >
             <Text style={styles.subTitle}>Adresse</Text>
             <TextInput
               style={styles.input}
@@ -226,8 +270,13 @@ export default function Basket() {
               onChangeText={setAddress}
             />
             {user.address != null && address != user.address && (
-              <FKHButton style={styles.modalButton} onPress={handleRegisteredAddress}>
-                <Text style={styles.modalButtonText}>Livrer à l&apos;adresse liée au compte</Text>
+              <FKHButton
+                style={styles.modalButton}
+                onPress={handleRegisteredAddress}
+              >
+                <Text style={styles.modalButtonText}>
+                  Livrer à l&apos;adresse liée au compte
+                </Text>
               </FKHButton>
             )}
             <Text style={styles.subTitle}>Téléphone</Text>
@@ -240,8 +289,13 @@ export default function Basket() {
               onChangeText={setPhone}
             />
             {user.phone != null && phone != user.phone && (
-              <FKHButton style={styles.modalButton} onPress={handleRegisteredPhone}>
-                <Text style={styles.modalButtonText}>Utiliser le numéro de téléphone lié au compte</Text>
+              <FKHButton
+                style={styles.modalButton}
+                onPress={handleRegisteredPhone}
+              >
+                <Text style={styles.modalButtonText}>
+                  Utiliser le numéro de téléphone lié au compte
+                </Text>
               </FKHButton>
             )}
             <Text style={styles.subTitle}>Carte Bancaire</Text>
@@ -249,7 +303,7 @@ export default function Basket() {
               style={styles.input}
               placeholder="Numéro de carte"
               placeholderTextColor="gray"
-              keyboardType='number-pad'
+              keyboardType="number-pad"
               value={cardNumber}
               onChangeText={setCardNumber}
             />
@@ -257,7 +311,7 @@ export default function Basket() {
               style={styles.input}
               placeholder="Date d'expiration (MM/YY)"
               placeholderTextColor="gray"
-              keyboardType='numbers-and-punctuation'
+              keyboardType="numbers-and-punctuation"
               value={expirationDate}
               onChangeText={setExpirationDate}
             />
@@ -265,13 +319,17 @@ export default function Basket() {
               style={styles.input}
               placeholder="CVV"
               placeholderTextColor="gray"
-              keyboardType='number-pad'
+              keyboardType="number-pad"
               value={cvv}
               onChangeText={setCVV}
               secureTextEntry
             />
           </ScrollView>
-          <FKHButton style={canOrder?styles.modalButton:styles.disableModalButton} onPress={handleOrder} disabled={!canOrder}>
+          <FKHButton
+            style={canOrder ? styles.modalButton : styles.disableModalButton}
+            onPress={handleOrder}
+            disabled={!canOrder}
+          >
             Commander {cart.total.toFixed(2)} {'\u20AC'}
           </FKHButton>
         </View>
@@ -282,7 +340,7 @@ export default function Basket() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   pageContainer: {
     alignItems: 'center',
@@ -301,22 +359,22 @@ const styles = StyleSheet.create({
   removeButton: {
     position: 'absolute',
     top: 0,
-    right: 0
+    right: 0,
   },
   modalContent: {
     backgroundColor: 'white',
     flex: 1,
     alignItems: 'center',
-    marginVertical: 40
+    marginVertical: 40,
   },
   scrollContent: {
-    width: '80%'
+    width: '80%',
   },
   subTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
-    marginLeft: 10
+    marginLeft: 10,
   },
   modalButtonText: {
     fontSize: 14,
@@ -325,7 +383,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginVertical: 30
+    marginVertical: 30,
   },
   input: {
     height: 50,
@@ -340,14 +398,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '80%',
     alignSelf: 'center',
-    height: 65
+    height: 65,
   },
   disableModalButton: {
     marginBottom: 20,
     width: '80%',
     alignSelf: 'center',
     backgroundColor: '#f2f2f2',
-    height: 65
+    height: 65,
   },
   cbInput: {
     height: 40,

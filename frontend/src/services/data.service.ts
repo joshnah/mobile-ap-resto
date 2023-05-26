@@ -26,8 +26,13 @@ export const fetchProducts = async () => {
   });
 };
 
-export const fetchOrders = async (userId: number) => {
-  return axios.get(API_BASE_URL + 'api/users/' + userId + '/orders/', {
+export const fetchOrders = async (user: any) => {
+  if (user.isAdmin) {
+    return axios.get(API_BASE_URL + 'api/orders/', {
+      headers: await authHeader(),
+    });
+  }
+  return axios.get(API_BASE_URL + 'api/users/' + user.id + '/orders/', {
     headers: await authHeader(),
   });
 };
@@ -35,4 +40,4 @@ export const fetchOrders = async (userId: number) => {
 export const autocompleteAddress = async (address: string) => {
   const addressFormatted = address.split(' ').join('+');
   return axios.get(API_ADDRESS_URL + addressFormatted);
-}
+};

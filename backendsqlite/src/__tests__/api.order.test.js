@@ -80,6 +80,7 @@ describe('ORDER TEST', () => {
           { productId: 2, quantity: 5 },
         ],
         restaurantId: 1,
+        phone: '123456789',
       });
     expect(response.statusCode).toBe(200);
   });
@@ -107,6 +108,7 @@ describe('ORDER TEST', () => {
         status: true,
         address: 'New Address',
         products: [{ productId: 2, quantity: 10 }],
+        phone: '00000000',
       });
     expect(response.statusCode).toBe(200);
   });
