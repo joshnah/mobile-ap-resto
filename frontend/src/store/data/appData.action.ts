@@ -123,7 +123,7 @@ export const updateOrderAction = createAsyncThunk(
           headers: await authHeader(),
         }
       )
-      .then((resultat) => {
+      .then(() => {
         dispatch(
           SET_MESSAGE({
             message: 'Commande mise à jour',
