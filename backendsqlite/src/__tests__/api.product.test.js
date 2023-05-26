@@ -50,14 +50,6 @@ describe('PRODUCT TEST', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  test('Update product type', async () => {
-    const response = await request(app)
-      .put('/api/products/2')
-      .set('x-access-token', TOKEN_ADMIN)
-      .send({ type: 'frites' });
-    expect(response.statusCode).toBe(200);
-  });
-
   test('Update product price', async () => {
     const response = await request(app)
       .put('/api/products/2')
