@@ -332,10 +332,6 @@
                   "type": "string",
                   "example": "My burger"
                 },
-                "type": {
-                  "type": "string",
-                  "example": "burger"
-                },
                 "price": {
                   "type": "string",
                   "example": "8.5"
@@ -347,7 +343,6 @@
               },
               "required": [
                 "name",
-                "type",
                 "price",
                 "description"
               ]

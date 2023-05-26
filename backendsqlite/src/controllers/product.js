@@ -55,19 +55,18 @@ module.exports = {
   async updateProduct(req, res) {
     // #swagger.tags = ['Products']
     // #swagger.summary = 'Update Product'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'My burger', $type: 'burger', $price: '8.5', $description: 'A very good burger'}}
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'My burger', $price: '8.99', $price: '8.5', $description: 'A very good burger'}}
     if (!has(req.params, 'id'))
       throw new CodeError('You must specify the id', status.BAD_REQUEST);
     const { id } = req.params;
-
     const data = req.body;
     if (
       has(data, ['name']) ||
-      has(data, ['type']) ||
+      has(data, ['image']) ||
       has(data, ['price']) ||
       has(data, ['description'])
     ) {
-      await productModel.update({ data }, { where: { id } });
+      await productModel.update({ ...data }, { where: { id: id } });
       res.json({ status: true, message: 'Product updated' });
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
