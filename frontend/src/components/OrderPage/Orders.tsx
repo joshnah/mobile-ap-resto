@@ -12,10 +12,10 @@ import {
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import BoxWrapper from '../commons/BoxWrapper';
-import { convertDate } from '../services/common.service';
-import { RootState } from '../store/store';
-import ModalDetail from './OrderPage/ModalDetailOrder';
+import BoxWrapper from '../../commons/BoxWrapper';
+import { convertDate } from '../../services/common.service';
+import { RootState } from '../../store/store';
+import ModalDetail from './ModalDetailOrder';
 const Tab = createMaterialTopTabNavigator();
 
 export default function Orders() {

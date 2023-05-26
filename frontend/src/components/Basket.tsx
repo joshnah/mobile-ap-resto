@@ -112,8 +112,9 @@ function CartItem(props: any) {
               <Ionicons name="remove-circle-outline" size={50} color="green" />
             </TouchableOpacity>
 
-            <Text alignSelf={'center'}>{props.quantity}</Text>
-
+            <Text alignSelf={'center'} fontSize={'xl'} fontWeight={'bold'}>
+              {props.quantity}
+            </Text>
             <TouchableOpacity onPress={() => increment(props.product.id)}>
               <Ionicons name="add-circle-outline" size={50} color="green" />
             </TouchableOpacity>

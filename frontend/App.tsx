@@ -11,9 +11,9 @@ import Basket from './src/components/Basket';
 import CreateAccountScreen from './src/components/CreateAccountScreen';
 import HomePage from './src/components/HomePage';
 import Message from './src/components/Message';
-import Orders from './src/components/Orders';
+import Orders from './src/components/OrderPage/Orders';
+import ArticlePage from './src/components/ProductPage/ArticlePage';
 import UserInfos from './src/components/UserInfos';
-import articlePage from './src/components/articlePage';
 import Login from './src/components/loginPage';
 import { LOGIN_SUCCESS } from './src/store/auth/auth.reducer';
 import { fetchData } from './src/store/data/appData.action';
@@ -24,6 +24,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const NavsContainer = () => {
+  const isAdmin = useSelector((state: RootState) => state.auth.user?.isAdmin);
   const MainNavigation = () => {
     return (
       <Tab.Navigator
@@ -53,7 +54,7 @@ const NavsContainer = () => {
         })}
       >
         <Tab.Screen name="Accueil" component={HomePage} />
-        <Tab.Screen name="Panier" component={Basket} />
+        {!isAdmin && <Tab.Screen name="Panier" component={Basket} />}
         <Tab.Screen name="Commandes" component={Orders} />
         <Tab.Screen
           name="Infos"
@@ -84,7 +85,7 @@ const NavsContainer = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchData());  
+      dispatch(fetchData());
     }
   }, [isLoggedIn]);
 
@@ -96,7 +97,7 @@ const NavsContainer = () => {
     name="Splash"
     component={SplashScreen}
     options={{ headerShown: false }}
-  />*/ }
+  />*/}
 
         {isLoggedIn ? (
           <>
@@ -105,6 +106,7 @@ const NavsContainer = () => {
               component={MainNavigation}
               options={{ headerShown: false }}
             />
+            <Stack.Screen name="ArticlePage" component={ArticlePage} />
           </>
         ) : (
           <>
@@ -112,7 +114,6 @@ const NavsContainer = () => {
             <Stack.Screen name="CreateLogin" component={CreateAccountScreen} />
           </>
         )}
-         <Stack.Screen name="ArticlePage" component={articlePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

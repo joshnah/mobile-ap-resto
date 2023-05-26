@@ -18,7 +18,9 @@ const Article = (props: any) => {
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{data.name}</Text>
-          <Text style={styles.price}>{data.price}</Text>
+          <Text style={styles.price}>
+            {data.price} {'\u20AC'}
+          </Text>
           <Text style={styles.ingredients}>{data.description}</Text>
         </View>
       </View>
@@ -38,11 +40,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 125,
+    height: 125,
     borderRadius: 5,
   },
   contentContainer: {
+    alignItems: 'center',
+    alignSelf: 'center',
     flex: 1,
   },
   title: {

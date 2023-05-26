@@ -22,9 +22,3 @@ const appDataSlice = createSlice({
 export const { SET_RESTAURANTS, SET_PRODUCTS, SET_ORDERS } =
   appDataSlice.actions;
 export const appDataReducer = appDataSlice.reducer;
-
-export enum ProductType {
-  BURGER = 'burger',
-  FRITES = 'frites',
-  BOISSON = 'boisson',
-}

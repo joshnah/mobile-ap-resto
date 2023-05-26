@@ -159,3 +159,47 @@ export const updateOrderAction = createAsyncThunk(
       });
   }
 );
+
+export const updateProductAction = createAsyncThunk(
+  'appData/updateProduct',
+  async (data: any, { dispatch }) => {
+    const { id, name, price, image, description, navigation } = data;
+    axios
+      .put(
+        API_BASE_URL + 'api/products/' + id,
+        {
+          name,
+          price,
+          image,
+          description,
+        },
+        {
+          headers: await authHeader(),
+        }
+      )
+      .then(() => {
+        dispatch(
+          SET_MESSAGE({
+            message: 'Produit mise à jour',
+            closable: true,
+            status: 'success',
+            autoClose: true,
+          })
+        );
+        fetchProducts().then((products) => {
+          dispatch(SET_PRODUCTS(products.data.data));
+          navigation.navigate('Home');
+        });
+      })
+      .catch((error) => {
+        dispatch(
+          SET_MESSAGE({
+            message: error.response.data.message,
+            closable: true,
+            status: 'error',
+            autoClose: true,
+          })
+        );
+      });
+  }
+);
