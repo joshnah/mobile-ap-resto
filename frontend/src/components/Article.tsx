@@ -2,27 +2,28 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const Article = ({data}) => {
-    const navigation = useNavigation();
+const Article = (props: any) => {
+  const { data } = props;
 
-    const handlePress = () => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
     navigation.navigate('ArticlePage', { data });
-    };
+  };
   return (
     <TouchableOpacity onPress={handlePress}>
-        <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: data.image }} style={styles.image} />
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: data.image }} style={styles.image} />
+        </View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>{data.name}</Text>
+          <Text style={styles.price}>{data.price}</Text>
+          <Text style={styles.ingredients}>{data.description}</Text>
+        </View>
       </View>
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>{data.name}</Text>
-        <Text style={styles.price}>{data.price}</Text>
-        <Text style={styles.ingredients}>{data.description}</Text>
-      </View>
-    </View>
-    </TouchableOpacity> 
-    
-  );    
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
