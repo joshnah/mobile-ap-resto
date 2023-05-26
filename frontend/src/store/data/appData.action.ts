@@ -47,10 +47,15 @@ export const fetchData = createAsyncThunk(
 export const addOrderAction = createAsyncThunk(
   'appData/addOrder',
   async (
-    data: { address: string; products: string; restaurantId: string },
+    data: {
+      address: string;
+      products: string;
+      restaurantId: string;
+      phone: string;
+    },
     { dispatch, getState }
   ) => {
-    const { address, products, restaurantId } = data;
+    const { address, products, restaurantId, phone } = data;
 
     // Requête put avec les infos modifiées
     axios
@@ -60,6 +65,7 @@ export const addOrderAction = createAsyncThunk(
           address,
           products,
           restaurantId,
+          phone,
         },
         {
           headers: await authHeader(),

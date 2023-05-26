@@ -141,9 +141,8 @@ export const modifyInfosAction = createAsyncThunk(
       .then(
         async (response) => {
           // Appel au reducer pour changer le user dans le state
-          console.log(response.data.user);
           dispatch({ type: UPDATE_SUCCESS, payload: response.data.user });
-
+          AsyncStorage.setItem('user', JSON.stringify(response.data.user));
           // Affichage d'un message de succès
           dispatch(
             SET_MESSAGE({

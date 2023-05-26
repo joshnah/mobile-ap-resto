@@ -208,6 +208,7 @@ export default function Basket() {
         address,
         products: JSON.stringify(cart.cartProducts),
         restaurantId: '1',
+        phone: phone,
       })
     );
     // Fermeture du modal de commande
