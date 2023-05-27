@@ -3,10 +3,13 @@ import {
   Button,
   Center,
   FormControl,
+  HStack,
+  Heading,
   Image,
   Input,
   Modal,
   Text,
+  VStack,
   View,
 } from 'native-base';
 import React, { useState } from 'react';
@@ -64,68 +67,56 @@ const ModalWindow = (props: any) => {
   };
   return (
     <>
-      <Center>
-        <FKHButton
-          style={styles.addToCartButton}
-          onPress={() => setShowModal(true)}
-        >
-          {' '}
-          Modifier{' '}
-        </FKHButton>
-        <Modal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          size={'xl'}
-        >
-          <Modal.Content>
-            <Modal.CloseButton />
-            <Modal.Header>Modifier la commande</Modal.Header>
-            <Modal.Body>
-              <FormControl>
-                <FormControl.Label>Name</FormControl.Label>
-                <Input value={name} onChangeText={setName} />
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>Price</FormControl.Label>
-                <Input value={price} onChangeText={setPrice} />
-              </FormControl>
+      <FKHButton onPress={() => setShowModal(true)}> Modifier </FKHButton>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={'xl'}>
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Modifier la commande</Modal.Header>
+          <Modal.Body>
+            <FormControl>
+              <FormControl.Label>Name</FormControl.Label>
+              <Input value={name} onChangeText={setName} />
+            </FormControl>
+            <FormControl mt="3">
+              <FormControl.Label>Price</FormControl.Label>
+              <Input value={price} onChangeText={setPrice} />
+            </FormControl>
 
-              <FormControl mt="3">
-                <FormControl.Label>Description</FormControl.Label>
-                <Input value={description} onChangeText={setDescription} />
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>URL image</FormControl.Label>
-                <Input value={image} onChangeText={setImage} />
-                <Center>
-                  <Text>Image preview</Text>
-                  <Image
-                    source={{
-                      uri: image,
-                    }}
-                    alt="Alternate Text"
-                    size="xl"
-                  />
-                </Center>
-              </FormControl>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button.Group space={2}>
-                <Button
-                  variant="ghost"
-                  colorScheme="blueGray"
-                  onPress={() => {
-                    setShowModal(false);
+            <FormControl mt="3">
+              <FormControl.Label>Description</FormControl.Label>
+              <Input value={description} onChangeText={setDescription} />
+            </FormControl>
+            <FormControl mt="3">
+              <FormControl.Label>URL image</FormControl.Label>
+              <Input value={image} onChangeText={setImage} />
+              <Center>
+                <Text>Image preview</Text>
+                <Image
+                  source={{
+                    uri: image,
                   }}
-                >
-                  Cancel
-                </Button>
-                <Button onPress={handleSave}>Save</Button>
-              </Button.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-      </Center>
+                  alt="Alternate Text"
+                  size="xl"
+                />
+              </Center>
+            </FormControl>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button
+                variant="ghost"
+                colorScheme="blueGray"
+                onPress={() => {
+                  setShowModal(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onPress={handleSave}>Save</Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </>
   );
 };
@@ -158,31 +149,35 @@ export default function ArticlePage(props: any) {
 
   return (
     <>
-      <View>
+      <VStack space={4} alignItems={'center'}>
         <View style={styles.container}>
-          <ImageBackground source={{ uri: data.image }} style={styles.image}>
-            <View style={styles.overlay} />
-          </ImageBackground>
-          <View style={styles.contentContainer}>
-            <Text style={styles.title}>{data.name}</Text>
-            <Text style={styles.price}>
+          <VStack space={4} alignItems={'center'}>
+            <ImageBackground source={{ uri: data.image }} style={styles.image}>
+              <View style={styles.overlay} />
+            </ImageBackground>
+            <Text fontSize={'xl'} fontWeight={'bold'} color={'white'}>
+              {data.name}
+            </Text>
+            <Text fontSize={'xl'} fontWeight={'bold'} color={'white'}>
               {data.price} {'\u20AC'}
             </Text>
-            <Text style={styles.ingredients}>{data.description}</Text>
-          </View>
+            <Text fontSize={'lg'} fontStyle={'italic'} color={'white'}>
+              {data.description}
+            </Text>
+          </VStack>
         </View>
-        <View style={styles.buttonContainer}>
+        <HStack space={4} alignItems={'center'}>
           <TouchableOpacity style={styles.button} onPress={handleDecrement}>
             <Ionicons name="remove-circle-outline" size={50} color="green" />
           </TouchableOpacity>
-          <Text style={styles.quantityText}>{quantity}</Text>
+          <Heading>{quantity}</Heading>
           <TouchableOpacity style={styles.button} onPress={handleIncrement}>
             <Ionicons name="add-circle-outline" size={50} color="green" />
           </TouchableOpacity>
-        </View>
+        </HStack>
 
         {!isAdmin ? (
-          <FKHButton onPress={handleBuying} style={styles.addToCartButton}>
+          <FKHButton onPress={handleBuying}>
             {' '}
             Ajouter au Panier - {(data.price * quantity).toFixed(2)}€
           </FKHButton>
@@ -193,7 +188,7 @@ export default function ArticlePage(props: any) {
             navigation={navigation}
           ></ModalWindow>
         )}
-      </View>
+      </VStack>
     </>
   );
 }
@@ -204,10 +199,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginVertical: 10,
-    flex: 1,
   },
   image: {
     height: 350,
+    width: 350,
     borderRadius: 10,
     overflow: 'hidden',
     resizeMode: 'cover',
@@ -223,13 +218,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    marginBottom: 5,
     color: '#ffffff',
   },
   price: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 5,
     color: '#ffffff',
   },
   ingredients: {

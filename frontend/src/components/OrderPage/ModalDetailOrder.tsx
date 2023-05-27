@@ -2,7 +2,6 @@ import {
   Badge,
   Box,
   Button,
-  FlatList,
   HStack,
   Heading,
   Input,
@@ -11,7 +10,7 @@ import {
   Text,
   View,
 } from 'native-base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BoxWrapper from '../../commons/BoxWrapper';
@@ -22,64 +21,99 @@ import { useAppDispatch } from '../../store/store';
 const DetailOrder = (props: {
   currentOrder: any;
   editMode: boolean;
-  orderToModify: any;
-  setOrderToModify: any;
   products: any;
+  hasSaved: boolean;
+  dispatch: any;
+  setShowModal: any;
+  setHasSaved: any;
 }) => {
   const initialOrder = props.currentOrder;
   const editMode = props.editMode;
-  const order = props.orderToModify;
-  const setOrder = props.setOrderToModify;
   const products = props.products;
-  const toggleStatus = () => {
-    const newOrder = JSON.parse(JSON.stringify(order));
-    newOrder.status = !newOrder.status;
-    setOrder(newOrder);
-  };
-  const changeAddress = (address: string) => {
-    const newOrder = JSON.parse(JSON.stringify(order));
+  const hasSaved = props.hasSaved;
+  const dispatch = props.dispatch;
+  const setShowModal = props.setShowModal;
+  const setHasSaved = props.setHasSaved;
+  useEffect(() => {
+    if (!hasSaved) {
+      return;
+    }
+    const newOrder = { ...initialOrder };
+    newOrder.products = listProducts;
+    newOrder.status = status;
     newOrder.address = address;
-    setOrder(newOrder);
-  };
-
-  const changePhone = (phone: string) => {
-    const newOrder = JSON.parse(JSON.stringify(order));
     newOrder.phone = phone;
-    setOrder(newOrder);
-  };
+    if (JSON.stringify(initialOrder) == JSON.stringify(newOrder)) {
+      dispatch(
+        SET_MESSAGE({
+          message: "Aucune modification n'a été effectuée",
+          status: 'warning',
+          autoClose: true,
+          closable: true,
+        })
+      );
+      setHasSaved(false);
+      return;
+    }
+    if (newOrder.products.length === 0) {
+      dispatch(
+        SET_MESSAGE({
+          message: 'La commande doit contenir au moins un produit',
+          status: 'error',
+          autoClose: true,
+          closable: true,
+        })
+      );
+      setHasSaved(false);
 
+      return;
+    }
+    dispatch(updateOrderAction(newOrder));
+    setShowModal(false);
+  }, [hasSaved]);
+
+  const [listProducts, setListProducts] = useState(
+    JSON.parse(JSON.stringify(initialOrder.products))
+  );
+  const [status, setStatus] = useState(initialOrder.status);
+  const [address, setAddress] = useState(initialOrder.address);
+  const [phone, setPhone] = useState(initialOrder.phone);
+  const [total, setTotal] = useState(initialOrder.total);
+  const updateQuantity = (index: number, change: number) => {
+    const newProducts = listProducts.map((pro, i) => {
+      if (i === index) {
+        pro.quantity += change;
+      }
+      return pro;
+    });
+    setListProducts(newProducts);
+  };
+  const findProduct = (id: number) => {
+    return products.find((product) => product.id === id);
+  };
   // Composant pour liste de produits
   const ProductItem = (props: any) => {
-    const { item, index, products } = props;
-    const findProduct = (id: number) => {
-      return products.find((product) => product.id === id);
-    };
+    const { item, index } = props;
+
     const product = findProduct(item.productId);
     if (!product) return null;
 
     const deleteProduct = () => {
-      const newOrder = JSON.parse(JSON.stringify(order));
-      newOrder.total = Number(
-        newOrder.total - product.price * order.products[index].quantity
-      ).toFixed(2);
-      newOrder.products.splice(index, 1);
-
-      setOrder(newOrder);
+      const newProducts = listProducts.filter((pro, i) => i !== index);
+      setListProducts(newProducts);
     };
 
     const increment = () => {
-      const newOrder = JSON.parse(JSON.stringify(order));
-      newOrder.products[index].quantity += 1;
-      newOrder.total = Number((newOrder.total + product.price).toFixed(2));
-      setOrder(newOrder);
+      updateQuantity(index, 1);
+      setTotal(Number((total + product.price).toFixed(2)));
     };
 
     const decrement = () => {
-      if (order.products[index].quantity === 1) return;
-      const newOrder = JSON.parse(JSON.stringify(order));
-      newOrder.products[index].quantity -= 1;
-      newOrder.total = Number((newOrder.total - product.price).toFixed(2));
-      setOrder(newOrder);
+      if (item.quantity === 1) {
+        return;
+      }
+      updateQuantity(index, -1);
+      setTotal(Number((total - product.price).toFixed(2)));
     };
     return (
       <>
@@ -121,7 +155,7 @@ const DetailOrder = (props: {
                     </TouchableOpacity>
 
                     <Text textAlign={'center'}>
-                      {order.products[index].quantity}
+                      {listProducts[index].quantity}
                     </Text>
 
                     <TouchableOpacity onPress={() => increment()}>
@@ -158,11 +192,11 @@ const DetailOrder = (props: {
     <>
       <Stack p={3} space={3}>
         <HStack justifyContent={'space-between'}>
-          <Heading fontSize={'md'}>{convertDate(order.date)}</Heading>
+          <Heading fontSize={'md'}>{convertDate(initialOrder.date)}</Heading>
           {editMode ? (
             <View flexDirection={'row'} alignItems={'center'}>
               <Text fontWeight={'bold'}>Status:</Text>
-              {order.status ? (
+              {status ? (
                 <Badge colorScheme={'success'} _text={{ fontWeight: 'bold' }}>
                   Fini
                 </Badge>
@@ -172,7 +206,7 @@ const DetailOrder = (props: {
                 </Badge>
               )}
               <Button
-                onPress={() => toggleStatus()}
+                onPress={() => setStatus(!status)}
                 alignItems={'center'}
                 justifyContent={'center'}
               >
@@ -182,7 +216,7 @@ const DetailOrder = (props: {
           ) : (
             <Heading fontSize={'md'}>
               <Text fontWeight={'bold'}>Status:</Text>
-              {order.status ? (
+              {status ? (
                 <Badge colorScheme={'success'} _text={{ fontWeight: 'bold' }}>
                   Fini
                 </Badge>
@@ -198,23 +232,23 @@ const DetailOrder = (props: {
         {editMode ? (
           <>
             <Heading fontSize={'xl'} textAlign={'center'}>
-              Total: {order.total} {'\u20AC'}
+              Total: {total} {'\u20AC'}
             </Heading>
             <Input
               size={'lg'}
               textAlign={'center'}
-              value={order.address}
+              value={address}
               variant="rounded"
               placeholder="Addresse"
-              onChange={(e) => changeAddress(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
             />
             <Input
               size={'lg'}
               textAlign={'center'}
-              value={order.phone}
+              value={phone}
               variant="rounded"
               placeholder="Téléphone"
-              onChange={(e) => changePhone(e.target.value)}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </>
         ) : (
@@ -224,54 +258,35 @@ const DetailOrder = (props: {
             </Heading>
             <Text textAlign={'center'}> {initialOrder.address}</Text>
             <Text textAlign={'center'}>
-              {order.phone ? initialOrder.phone : 'Pas de téléphone'}
+              {phone ? initialOrder.phone : 'Pas de téléphone'}
             </Text>
           </>
         )}
       </Stack>
-      <FlatList
-        data={order.products}
-        renderItem={({ item, index }: { item: any; index: number }) => (
-          <ProductItem
-            item={item}
-            index={index}
-            products={products}
-          ></ProductItem>
-        )}
-        keyExtractor={order.products.id}
-      />
+      {listProducts.map((item: any, index) => (
+        <ProductItem item={item} index={index} key={index}></ProductItem>
+      ))}
     </>
   );
 };
 export default function ModalDetail(props: any) {
   const { showModal, setShowModal, currentOrder, products, isAdmin } = props;
   const [editMode, setEditMode] = useState(false);
+  const [hasSaved, setHasSaved] = useState(false);
   const dispatch = useAppDispatch();
-  const [orderToModify, setOrderToModify] = useState(currentOrder);
   const handleSave = () => {
-    if (JSON.stringify(orderToModify) === JSON.stringify(currentOrder)) {
-      return;
-    }
-    if (orderToModify.products.length === 0) {
-      dispatch(
-        SET_MESSAGE({
-          message: 'La commande doit contenir au moins un produit',
-          status: 'error',
-          autoClose: true,
-          closable: true,
-        })
-      );
-      return;
-    }
-    dispatch(updateOrderAction(orderToModify));
+    setHasSaved(true);
   };
   return (
     <Modal
+      _backdrop={{
+        bg: 'warmGray.50',
+      }}
       isOpen={showModal}
       onClose={() => setShowModal(false)}
-      size={'full'}
+      size={'xl'}
       borderColor={'black'}
-      shadow={2}
+      shadow={6}
     >
       <Modal.Content>
         <Modal.CloseButton />
@@ -280,9 +295,13 @@ export default function ModalDetail(props: any) {
           <DetailOrder
             editMode={editMode}
             currentOrder={currentOrder}
-            orderToModify={orderToModify}
-            setOrderToModify={setOrderToModify}
             products={products}
+            hasSaved={hasSaved}
+            dispatch={dispatch}
+            setShowModal={setShowModal}
+            setHasSaved={setHasSaved}
+            // la key permet de recharger le composant quand on fermes le modal
+            key={`${editMode}-${currentOrder}`}
           ></DetailOrder>
         </Modal.Body>
         {isAdmin && (
@@ -300,8 +319,6 @@ export default function ModalDetail(props: any) {
                     onPress={() => {
                       setEditMode(false);
                       setShowModal(false);
-                      setOrderToModify(currentOrder);
-                      1;
                     }}
                   >
                     Annuler
