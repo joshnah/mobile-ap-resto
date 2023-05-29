@@ -1,7 +1,7 @@
 stages:
   - lint
   - test
-  - deploy
+  - deploy and generate apk
 
 lint: # Vérification de la qualité du code js
   stage: lint # Dans l'étape lint
@@ -41,24 +41,19 @@ test-api:
     paths:
       - test-api.txt # Le fichier de sortie est disponible pour d'autres jobs
 
-# badges:
-#   stage: deploy
-#   image: python:latest
-#   script:
-#     - pip install anybadge # installe le module anybadge
-#     - chmod u+x badge_script.sh # rend le script exécutable
-#     - ./badge_script.sh # Script de génération des badges
-#   dependencies: # Les badges sont générés à partir des rapports s'ils sont disponibles
-#     - test
-#     - lint
-#   artifacts:
-#     paths:
-#       - api.svg
-#       - lint.svg
-#   when: always
+pages:
+  stages: deploy and generate apk
+  tags:
+    - docker
+  image: sebastienviardot/rnenvsv:buster
+  script:
+    - ./genereapk.sh
+  artifacts:
+    paths:
+      - public
 
 scalingo:
-  stage: deploy
+  stage: deploy and generate apk
   tags:
     - docker
   variables:
