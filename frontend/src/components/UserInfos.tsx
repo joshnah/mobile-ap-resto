@@ -190,15 +190,16 @@ export default function UserInfos() {
         <Text style={styles.subTitle}>Adresse</Text>
         <Autocomplete
           inputContainerStyle={styles.input}
-          placeholder='Adresse'
+          placeholder="Adresse"
           data={addrSuggestions}
           value={address}
           onChangeText={setAddress}
           flatListProps={{
-            renderItem: ({ item }) => 
+            renderItem: ({ item }) => (
               <TouchableOpacity onPress={() => setAddress(item)}>
                 <Text style={styles.addressItems}>{item}</Text>
               </TouchableOpacity>
+            ),
           }}
         />
         <Text style={styles.subTitle}>Mot de passe</Text>

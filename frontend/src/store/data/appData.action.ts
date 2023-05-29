@@ -7,7 +7,6 @@ import {
   fetchProducts,
   fetchRestaurants,
 } from '../../services/data.service';
-import { CLEAR_CART } from '../cart/cart.reducer';
 import { SET_MESSAGE } from '../message/message.reducer';
 import { SET_ORDERS, SET_PRODUCTS, SET_RESTAURANTS } from './appData.reducer';
 const calculerTotals = (orders, products) => {
@@ -73,9 +72,6 @@ export const addOrderAction = createAsyncThunk(
       )
       .then(
         async () => {
-          // Appel au reducer pour vider le panier
-          dispatch({ type: CLEAR_CART });
-
           // Affichage d'un message de succès
           dispatch(
             SET_MESSAGE({
@@ -200,6 +196,70 @@ export const updateProductAction = createAsyncThunk(
             autoClose: true,
           })
         );
+      });
+  }
+);
+
+export const deleteProductAction = createAsyncThunk(
+  'appData/deleteProduct',
+  async (data: any, { dispatch }) => {
+    const { id, navigation } = data;
+    axios
+      .delete(API_BASE_URL + 'api/products/' + id, {
+        headers: await authHeader(),
+      })
+      .then(() => {
+        dispatch(
+          SET_MESSAGE({
+            message: 'Produit supprimé',
+            closable: true,
+            status: 'success',
+            autoClose: true,
+          })
+        );
+        fetchProducts().then((products) => {
+          dispatch(SET_PRODUCTS(products.data.data));
+          navigation.navigate('Home');
+        });
+      })
+      .catch((error) => {
+        dispatch(
+          SET_MESSAGE({
+            message: error.response.data.message,
+            closable: true,
+            status: 'error',
+            autoClose: true,
+          })
+        );
+      });
+  }
+);
+
+export const deteleOrderAction = createAsyncThunk(
+  'appData/deleteOrder',
+  async (data: any, { dispatch, getState }) => {
+    const { id } = data;
+    axios
+      .delete(API_BASE_URL + 'api/orders/' + id, {
+        headers: await authHeader(),
+      })
+      .then(() => {
+        dispatch(
+          SET_MESSAGE({
+            message: 'Produit supprimé',
+            closable: true,
+            status: 'success',
+            autoClose: true,
+          })
+        );
+        const state: any = getState();
+        fetchOrders(state.auth.user).then((orders) => {
+          const products = state.appData.products;
+          dispatch({
+            type: SET_ORDERS,
+            payload: calculerTotals(orders.data.data, products),
+          });
+        });
       });
   }
 );

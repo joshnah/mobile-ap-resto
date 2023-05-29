@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FlatList, View } from 'native-base';
@@ -12,13 +12,13 @@ export default function HomePage() {
   const products = useSelector((state: any) => state.appData.products);
   const ProductPage = (props: any) => {
     const type = props.route.name;
-    const [filteredProducts, setFilteredProducts] = useState(
+    const [filteredProducts] = useState(
       products.filter((product) => product.type === type)
     );
     return (
       <FlatList
         flex={1}
-        paddingBottom={'100px'}
+        paddingBottom={10}
         data={filteredProducts}
         renderItem={({ item }) => <Article data={item} />}
         keyExtractor={(item: any) => item.id}
@@ -29,8 +29,15 @@ export default function HomePage() {
   return (
     <>
       <View flexDirection={'column'} flex={1}>
-        <View style={styles.header}>
-          <Text>Faites vous plaisir</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Animated.Image
+            style={{
+              width: 150,
+              height: 150,
+              justifyContent: 'center',
+            }}
+            source={require('../../assets/FKH_log.png')}
+          />
         </View>
         <View style={styles.products}>
           <Tab.Navigator>

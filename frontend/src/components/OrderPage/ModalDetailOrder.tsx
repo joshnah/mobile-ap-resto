@@ -14,8 +14,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BoxWrapper from '../../commons/BoxWrapper';
-import { convertDate } from '../../services/common.service';
-import { updateOrderAction } from '../../store/data/appData.action';
+import { convertDate, fkhAlert } from '../../services/common.service';
+import {
+  deteleOrderAction,
+  updateOrderAction,
+} from '../../store/data/appData.action';
 import { SET_MESSAGE } from '../../store/message/message.reducer';
 import { useAppDispatch } from '../../store/store';
 const DetailOrder = (props: {
@@ -277,6 +280,14 @@ export default function ModalDetail(props: any) {
   const handleSave = () => {
     setHasSaved(true);
   };
+
+  const deleteOrder = () => {
+    fkhAlert('Supprimer', 'Voulez-vous supprimer cette commande ?', () => {
+      dispatch(deteleOrderAction({ id: currentOrder.id }));
+    });
+    setShowModal(false);
+  };
+
   return (
     <Modal
       _backdrop={{
@@ -308,7 +319,17 @@ export default function ModalDetail(props: any) {
           <Modal.Footer>
             <Button.Group space={2}>
               {!editMode && (
-                <Button onPress={() => setEditMode(true)}> Modifier </Button>
+                <>
+                  <Button
+                    onPress={() => {
+                      deleteOrder();
+                    }}
+                  >
+                    {' '}
+                    Supprimer{' '}
+                  </Button>
+                  <Button onPress={() => setEditMode(true)}> Modifier </Button>
+                </>
               )}
 
               {editMode && (

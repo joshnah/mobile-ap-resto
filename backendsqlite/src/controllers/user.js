@@ -73,7 +73,12 @@ module.exports = {
           throw new CodeError('Weak password!', status.BAD_REQUEST);
         data.passhash = await bcrypt.hash(password, 2);
       }
-      await userModel.update({ ...data }, { where: { id: req.user.id } });
+      const nbUpdated = await userModel.update(
+        { ...data },
+        { where: { id: req.user.id } }
+      );
+      if (nbUpdated === 0)
+        throw new CodeError('User not found', status.NOT_FOUND);
       const user = await userModel.findOne({
         where: { id: req.user.id },
       });
@@ -92,7 +97,9 @@ module.exports = {
   async deleteUser(req, res) {
     // #swagger.tags = ['Users']
     // #swagger.summary = 'Delete User'
-    await userModel.destroy({ where: { id: req.user.id } });
+    const nbDeleted = await userModel.destroy({ where: { id: req.user.id } });
+    if (nbDeleted === 0)
+      throw new CodeError('User not found', status.NOT_FOUND);
     res.json({ status: true, message: 'User deleted' });
   },
   async login(req, res) {

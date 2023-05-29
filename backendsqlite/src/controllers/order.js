@@ -153,7 +153,10 @@ module.exports = {
         }
         order.setRestaurant(restaurant);
       }
-      await orderModel.update({ ...data }, { where: { id } });
+      const nbUpdated = await orderModel.update({ ...data }, { where: { id } });
+      if (nbUpdated === 0) {
+        throw new CodeError('Order not found', status.NOT_FOUND);
+      }
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
     }
@@ -164,7 +167,10 @@ module.exports = {
     // #swagger.tags = ['Orders']
     // #swagger.summary = 'Delete Order'
     const { id } = req.params;
-    await orderModel.destroy({ where: { id } });
+    const nbDeleted = await orderModel.destroy({ where: { id } });
+    if (nbDeleted === 0) {
+      throw new CodeError('Order not found', status.NOT_FOUND);
+    }
     res.json({ status: true, message: 'Order deleted' });
   },
   async verifyAuthorizedUserByOrderId(req, res, next) {

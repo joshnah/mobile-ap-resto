@@ -17,8 +17,12 @@ import { ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import FKHButton from '../../commons/Button';
+import { fkhAlert } from '../../services/common.service';
 import { ADD_TO_CART } from '../../store/cart/cart.reducer';
-import { updateProductAction } from '../../store/data/appData.action';
+import {
+  deleteProductAction,
+  updateProductAction,
+} from '../../store/data/appData.action';
 import { SET_MESSAGE } from '../../store/message/message.reducer';
 import { RootState, useAppDispatch } from '../../store/store';
 
@@ -40,7 +44,14 @@ const ModalWindow = (props: any) => {
   const [price, setPrice] = useState(product.price);
   const [description, setDescription] = useState(product.description);
   const [image, setImage] = useState(product.image);
+  const deleteProduct = () => {
+    const title = 'Attention';
+    const description = 'Êtes-vous sûr de vouloir supprimer cet article ?';
 
+    fkhAlert(title, description, () => {
+      dispatch(deleteProductAction({ id: product.id, navigation }));
+    });
+  };
   const handleSave = () => {
     if (!hasChanged(product, { name, price, description, image })) {
       dispatch(
@@ -67,7 +78,13 @@ const ModalWindow = (props: any) => {
   };
   return (
     <>
-      <FKHButton onPress={() => setShowModal(true)}> Modifier </FKHButton>
+      <VStack space={2} alignItems="center" width={'100%'}>
+        <FKHButton onPress={() => setShowModal(true)}> Modifier </FKHButton>
+        <FKHButton onPress={() => deleteProduct()} color={'red'}>
+          {' '}
+          Supprimer{' '}
+        </FKHButton>
+      </VStack>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={'xl'}>
         <Modal.Content>
           <Modal.CloseButton />
@@ -95,7 +112,7 @@ const ModalWindow = (props: any) => {
                   source={{
                     uri: image,
                   }}
-                  alt="Alternate Text"
+                  alt="No image found"
                   size="xl"
                 />
               </Center>
@@ -167,13 +184,21 @@ export default function ArticlePage(props: any) {
           </VStack>
         </View>
         <HStack space={4} alignItems={'center'}>
-          <TouchableOpacity style={styles.button} onPress={handleDecrement}>
-            <Ionicons name="remove-circle-outline" size={50} color="green" />
-          </TouchableOpacity>
-          <Heading>{quantity}</Heading>
-          <TouchableOpacity style={styles.button} onPress={handleIncrement}>
-            <Ionicons name="add-circle-outline" size={50} color="green" />
-          </TouchableOpacity>
+          {!isAdmin && (
+            <>
+              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+                <Ionicons
+                  name="remove-circle-outline"
+                  size={50}
+                  color="green"
+                />
+              </TouchableOpacity>
+              <Heading>{quantity}</Heading>
+              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+                <Ionicons name="add-circle-outline" size={50} color="green" />
+              </TouchableOpacity>
+            </>
+          )}
         </HStack>
 
         {!isAdmin ? (

@@ -3,7 +3,15 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 export default function FKHButton(props: any) {
   return (
-    <Button style={[styles.bottomView, props.style]} onPress={props.onPress}>
+    <Button
+      onPress={props.onPress}
+      colorScheme={props.color ? props.color : 'green'}
+      height={50}
+      borderRadius={20}
+      width={'100%'}
+      justifyContent={'center'}
+      alignItems={'center'}
+    >
       <Text style={styles.textStyle}>{props.children}</Text>
     </Button>
   );

@@ -9,9 +9,7 @@ import {
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
   Image,
-  Platform,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -22,6 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import BoxWrapper from '../commons/BoxWrapper';
 import FKHButton from '../commons/Button';
+import { fkhAlert } from '../services/common.service';
 import {
   DECREMENT_CART,
   INCREMENT_CART,
@@ -48,28 +47,11 @@ function CartItem(props: any) {
 
   // Fonction appelée pour confirmer la suppression d'un produit du panier
   const handleRemove = (id: number) => {
-    // Titre et description
-    const title = 'Attention';
-    const description = 'Êtes-vous sûr de vouloir supprimer cet article ?';
-    // Distinction sur web : usage de window
-    if (Platform.OS == 'web') {
-      const result = window.confirm(
-        [title, description].filter(Boolean).join('\n')
-      );
-      if (result) {
-        remove(id);
-      }
-    } else {
-      // Sur smartphone : usage du component Alert
-      Alert.alert(title, description, [
-        {
-          text: 'Non',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        { text: 'Oui', onPress: () => remove(id) },
-      ]);
-    }
+    fkhAlert(
+      'Attention',
+      'Êtes-vous sûr de vouloir supprimer cet article ?',
+      () => remove(id)
+    );
   };
 
   // Fonction appelée pour supprimer un produit du panier
@@ -79,7 +61,7 @@ function CartItem(props: any) {
 
   return (
     <TouchableOpacity onPress={() => setShowDetails(true)}>
-      <BoxWrapper>
+      <BoxWrapper style={styles.wrapper}>
         <Box minH={'100'} width={'100%'} flex={1}>
           <Image
             style={{ width: '100%', height: '100%' }}
@@ -172,7 +154,9 @@ export default function Basket() {
       const product = state.appData.products.find(
         (p) => p.id === item.productId
       );
-      total = total + product.price * item.quantity;
+      if (product) {
+        total = total + product.price * item.quantity;
+      }
       return { product, quantity: item.quantity };
     });
     return { cartProducts, cartItems, total: Number(total.toFixed(2)) };
@@ -340,16 +324,12 @@ export default function Basket() {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    alignItems: 'flex-start',
-  },
   pageContainer: {
     alignItems: 'center',
     flex: 1,
   },
   cartItems: {
-    width: '80%',
+    width: '100%',
     flex: 1,
     alignContent: 'center',
     marginBottom: 10,
@@ -415,5 +395,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+  },
+  wrapper: {
+    borderWidth: 3,
+    borderColor: 'green',
   },
 });

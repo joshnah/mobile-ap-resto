@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_BASE_URL, authHeader } from '../../services/data.service';
-import { CLEAR_CART } from '../cart/cart.reducer';
 import { SET_MESSAGE } from '../message/message.reducer';
 import {
   LOGIN_SUCCESS,
@@ -103,7 +102,6 @@ export const logoutAction = createAsyncThunk(
   async (_, { dispatch }) => {
     await AsyncStorage.removeItem('user');
     dispatch({ type: LOGOUT });
-    dispatch(CLEAR_CART());
     dispatch(
       SET_MESSAGE({
         message: 'Vous êtes déconnecté',

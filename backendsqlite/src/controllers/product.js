@@ -49,7 +49,9 @@ module.exports = {
     if (!has(req.params, 'id'))
       throw new CodeError('You must specify the id', status.BAD_REQUEST);
     const { id } = req.params;
-    await productModel.destroy({ where: { id } });
+    const nbDestroy = await productModel.destroy({ where: { id } });
+    if (nbDestroy == 0)
+      throw new CodeError('Product not found', status.NOT_FOUND);
     res.json({ status: true, message: 'Product deleted' });
   },
   async updateProduct(req, res) {
@@ -66,7 +68,12 @@ module.exports = {
       has(data, ['price']) ||
       has(data, ['description'])
     ) {
-      await productModel.update({ ...data }, { where: { id: id } });
+      const nbUpdated = await productModel.update(
+        { ...data },
+        { where: { id: id } }
+      );
+      if (nbUpdated == 0)
+        throw new CodeError('Product not found', status.NOT_FOUND);
       res.json({ status: true, message: 'Product updated' });
     } else {
       throw new CodeError('BAD REQUEST ', status.BAD_REQUEST);
