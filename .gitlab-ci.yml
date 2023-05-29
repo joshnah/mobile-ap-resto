@@ -42,7 +42,7 @@ test-api:
       - test-api.txt # Le fichier de sortie est disponible pour d'autres jobs
 
 pages:
-  stages: deploy and generate apk
+  stage: deploy and generate apk
   tags:
     - docker
   image: sebastienviardot/rnenvsv:buster
