@@ -47,7 +47,8 @@ pages:
     - docker
   image: sebastienviardot/rnenvsv:buster
   script:
-    - ./genereapk.sh
+    - chmod a+x frontend/genereapk.sh
+    - frontend/genereapk.sh
   artifacts:
     paths:
       - public
