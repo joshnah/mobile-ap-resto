@@ -49,10 +49,10 @@ pages:
   script:
     - chmod a+x frontend/genereapk.sh
     - cd frontend
-    - ./genereapk.sh
+  - ./genereapk.sh
   artifacts:
     paths:
-      - public
+      - frontend/public/*
 
 scalingo:
   stage: deploy and generate apk
