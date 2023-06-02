@@ -8,9 +8,9 @@ import {
   View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerAction } from '../store/auth/auth.action';
-import { SET_MESSAGE } from '../store/message/message.reducer';
-import { RootState } from '../store/store';
+import { registerAction } from '../../store/auth/auth.action';
+import { SET_MESSAGE } from '../../store/message/message.reducer';
+import { RootState } from '../../store/store';
 export default function CreateAccount() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');

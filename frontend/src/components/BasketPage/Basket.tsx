@@ -18,16 +18,16 @@ import {
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import BoxWrapper from '../commons/BoxWrapper';
-import FKHButton from '../commons/Button';
-import { fkhAlert } from '../services/common.service';
+import BoxWrapper from '../../commons/BoxWrapper';
+import FKHButton from '../../commons/Button';
+import { fkhAlert } from '../../services/common.service';
 import {
   DECREMENT_CART,
   INCREMENT_CART,
   REMOVE_FROM_CART,
-} from '../store/cart/cart.reducer';
-import { addOrderAction } from '../store/data/appData.action';
-import { RootState, useAppDispatch } from '../store/store';
+} from '../../store/cart/cart.reducer';
+import { addOrderAction } from '../../store/data/appData.action';
+import { RootState, useAppDispatch } from '../../store/store';
 
 // Component représentant un produit dans le panier
 function CartItem(props: any) {

@@ -10,20 +10,20 @@ import {
 import Autocomplete from 'react-native-autocomplete-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import { autocompleteAddress } from '../services/data.service';
+import { autocompleteAddress } from '../../services/data.service';
 import {
   logoutAction,
   modifyInfosAction,
   modifyPasswordAction,
-} from '../store/auth/auth.action';
+} from '../../store/auth/auth.action';
 import {
   UPDATE,
   UPDATE_FINISHED,
   UPDATE_PWD,
   UPDATE_PWD_FINISHED,
-} from '../store/auth/auth.reducer';
-import { SET_MESSAGE } from '../store/message/message.reducer';
-import { RootState, useAppDispatch } from '../store/store';
+} from '../../store/auth/auth.reducer';
+import { SET_MESSAGE } from '../../store/message/message.reducer';
+import { RootState, useAppDispatch } from '../../store/store';
 
 export default function UserInfos() {
   const dispatch = useAppDispatch();

@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { loginAction } from '../store/auth/auth.action';
-import { useAppDispatch } from '../store/store';
+import { loginAction } from '../../store/auth/auth.action';
+import { useAppDispatch } from '../../store/store';
 
 export default function Login() {
   const dispatch = useAppDispatch();

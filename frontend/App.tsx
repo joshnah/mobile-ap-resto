@@ -7,14 +7,14 @@ import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider, useSelector } from 'react-redux';
-import Basket from './src/components/Basket';
-import CreateAccountScreen from './src/components/CreateAccountScreen';
-import HomePage from './src/components/HomePage';
-import Message from './src/components/Message';
+import Message from './src/commons/Message';
+import CreateAccountScreen from './src/components/AuthPage/CreateAccountScreen';
+import Login from './src/components/AuthPage/LoginPage';
+import Basket from './src/components/BasketPage/Basket';
+import HomePage from './src/components/HomePage/HomePage';
 import Orders from './src/components/OrderPage/Orders';
 import ArticlePage from './src/components/ProductPage/ArticlePage';
-import UserInfos from './src/components/UserInfos';
-import Login from './src/components/loginPage';
+import UserInfos from './src/components/UserPage/UserInfos';
 import { LOGIN_SUCCESS } from './src/store/auth/auth.reducer';
 import { fetchData } from './src/store/data/appData.action';
 import { SET_MESSAGE } from './src/store/message/message.reducer';
@@ -28,6 +28,7 @@ const NavsContainer = () => {
   const MainNavigation = () => {
     return (
       <Tab.Navigator
+        initialRouteName="Accueil"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
             let iconName;

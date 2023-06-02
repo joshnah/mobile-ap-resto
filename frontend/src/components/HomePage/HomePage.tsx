@@ -4,7 +4,7 @@ import { Animated, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { FlatList, View } from 'native-base';
 import { useSelector } from 'react-redux';
-import Article from './ProductPage/Article';
+import Article from '../ProductPage/Article';
 
 const TYPES = ['burger', 'boisson', 'frites'];
 const Tab = createMaterialTopTabNavigator();
@@ -36,7 +36,7 @@ export default function HomePage() {
               height: 150,
               justifyContent: 'center',
             }}
-            source={require('../../assets/FKH_log.png')}
+            source={require('../../../assets/FKH_log.png')}
           />
         </View>
         <View style={styles.products}>
