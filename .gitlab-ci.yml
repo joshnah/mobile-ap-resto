@@ -48,7 +48,8 @@ pages:
   image: sebastienviardot/rnenvsv:buster
   script:
     - chmod a+x frontend/genereapk.sh
-    - frontend/genereapk.sh
+    - cd frontend
+    - ./genereapk.sh
   artifacts:
     paths:
       - public
