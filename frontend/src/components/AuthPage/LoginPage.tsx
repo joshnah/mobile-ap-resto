@@ -58,6 +58,7 @@ export default function Login() {
         onChangeText={setUsername}
         value={username}
         keyboardType="email-address"
+        testID="email"
       />
       <TextInput
         style={styles.input}
@@ -65,8 +66,13 @@ export default function Login() {
         onChangeText={setPassword}
         value={password}
         secureTextEntry
+        testID="password"
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        testID="connect-button"
+      >
         <Text style={styles.buttonText}>Connect</Text>
       </TouchableOpacity>
       <TouchableOpacity

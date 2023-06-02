@@ -120,6 +120,9 @@ const NavsContainer = () => {
   );
 };
 export default function App() {
+  if (window.Cypress) {
+    window.store = store;
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
