@@ -23,6 +23,9 @@ test-e2e:
   script:
     - cd frontend
     - npm i # Installe ce qui est décrit dans package.json
+    - npm install -g wait-on
+    - npm expo start & # On lance le serveur expo en arrière plan
+    - wait-on http://localhost:19000 # On attend que le serveur soit prêt
     - npm run test > ../test-e2e.txt
   artifacts:
     paths:
