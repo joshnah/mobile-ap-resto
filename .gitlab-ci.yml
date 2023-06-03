@@ -52,7 +52,7 @@ pages:
   script:
     - chmod a+x frontend/genereapk.sh
     - cd frontend
-  - ./genereapk.sh
+    - ./genereapk.sh
   artifacts:
     paths:
       - frontend/public/*
