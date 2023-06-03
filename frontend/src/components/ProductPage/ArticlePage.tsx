@@ -186,15 +186,23 @@ export default function ArticlePage(props: any) {
         <HStack space={4} alignItems={'center'}>
           {!isAdmin && (
             <>
-              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleDecrement}
+                testID="decrement"
+              >
                 <Ionicons
                   name="remove-circle-outline"
                   size={50}
                   color="green"
                 />
               </TouchableOpacity>
-              <Heading>{quantity}</Heading>
-              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+              <Heading testID="quantity">{quantity}</Heading>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleIncrement}
+                testID="increment"
+              >
                 <Ionicons name="add-circle-outline" size={50} color="green" />
               </TouchableOpacity>
             </>

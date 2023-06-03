@@ -90,19 +90,31 @@ function CartItem(props: any) {
             {props.product.description}
           </Text>
           <HStack space={2} alignItems={'center'} justifyContent="space-around">
-            <TouchableOpacity onPress={() => decrement(props.product.id)}>
+            <TouchableOpacity
+              onPress={() => decrement(props.product.id)}
+              testID="basket-decrement"
+            >
               <Ionicons name="remove-circle-outline" size={50} color="green" />
             </TouchableOpacity>
 
-            <Text alignSelf={'center'} fontSize={'xl'} fontWeight={'bold'}>
+            <Text
+              alignSelf={'center'}
+              fontSize={'xl'}
+              fontWeight={'bold'}
+              testID="basket-quantity"
+            >
               {props.quantity}
             </Text>
-            <TouchableOpacity onPress={() => increment(props.product.id)}>
+            <TouchableOpacity
+              onPress={() => increment(props.product.id)}
+              testID="basket-increment"
+            >
               <Ionicons name="add-circle-outline" size={50} color="green" />
             </TouchableOpacity>
           </HStack>
         </Stack>
         <TouchableOpacity
+          testID="basket-remove"
           style={styles.removeButton}
           onPress={() => handleRemove(props.product.id)}
         >

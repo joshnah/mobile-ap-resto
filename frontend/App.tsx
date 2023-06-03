@@ -124,7 +124,7 @@ export default function App() {
     window.store = store;
   }
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView id="root" style={{ flex: 1 }}>
       <NativeBaseProvider>
         <Provider store={store}>
           <Message></Message>
