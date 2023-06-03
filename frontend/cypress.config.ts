@@ -2,6 +2,6 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:19000',
+    baseUrl: 'http://localhost:19006',
   },
 });
