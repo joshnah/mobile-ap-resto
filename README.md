@@ -22,7 +22,50 @@ La base de données est composée des tables User, Order, Product, OrderProduct 
 
 **Restaurant :** cette table contient l'ensemble des points de vente de la chaîne de restaurants FKH. Pour le moment, nous n'avons qu'un unique restaurant dans la base. Ainsi toutes les commandes passées sont automatiquement liées à ce restaurant.
 
-## Webservice
+## Documentation de l'API côté backend
+
+La documentation est disponible ici : https://fkh-resto.osc-fr1.scalingo.io/doc.
+
+## Choix techniques
+
+### Base de données
+
+La base de données est hébergée sur sqlite. La configuration initiale se trouve dans **backendsqlite/src/util/initdb.js**
+
+### Backend
+
+Pour le backend, nous avons opté pour une architecture MVC (Modèle-Vue-Contrôleur). Nous avons identifié les entités suivantes :
+
+- Users (utilisateurs)
+- Orders (commandes)
+- Restaurant (restaurant)
+- Product (produit)
+
+### Frontend
+
+1. Organisation du code :
+
+   - Découpage en plusieurs composantes correspondant à des pages dans **/src/components** :
+
+     - Homepage (Page d'accueil avec la liste de produits)
+     - Commandes
+     - Utilisateurs
+     - Panier
+
+   - Des composantes réutilisables dans **src/commons**
+   - Les fonctions utiles et les appels à l'API dans **src/services**
+   - Redux store dans **src/store**
+
+2. Utilisation de Redux toolkit pour la gestion des états dans **/src/store**. Le store est composé de 3 slices :
+
+   - **userSlice** : gère l'état de l'utilisateur connecté
+   - **cartSlice** : gère l'état du panier
+   - **appDataSlice** : gère l'état des données de l'application (produits, commandes, restaurants)
+   - **messageSlice**: gère l'état des messages gloabaux de l'application
+
+3. Système global de messages : les messages sont stockés dans le store et sont affichés dans le composant **Messages** à la racine de l'application.
+
+### Webservice
 
 Nous avions prévu d'utiliser une API externe permettant de calculer le nombre de calories dans les différents produits proposés. L'API en question : https://api-ninjas.com/api/nutrition
 
@@ -36,6 +79,14 @@ L'appel à l'API se fait depuis la fonction *autocompleteAddress* du fichier **f
 
 ![Diagramme de base de données](Pictures/Autocomplete.png)
 
-## Documentation de l'API côté backend
+### Gestion des rôles
 
-La documentation est disponible ici : https://fkh-resto.osc-fr1.scalingo.io/doc.
+Dans notre application, nous avons défini deux rôles : **admin** et **user**.
+
+Selon la valeur de la variable **isAdmin**, différents affichages sont proposés pour ces deux rôles. Par exemple, sur la page d'un produit, un **admin** aura accès à des boutons lui permettant de modifier ou de supprimer le produit, tandis qu'un **user** ne verra pas ces options. De plus, la page **Panier** ne sera pas affichée pour un **admin**.
+| | User | Admin |
+| ----------------- | -------------------------------------------------------- | ------------------------------------------ |
+| Homepage | Ajouter le produit | Modifier/ supprimer un produit |
+| Panier | Gestion de produits dans le panier et passer un commande | Pas de page panier |
+| Commandes Page | Affichage et gestion de ses commandes | Affichage et gestion de tous les commandes |
+| Utilisateurs Page | Modification de son profil | Modification de son profil |

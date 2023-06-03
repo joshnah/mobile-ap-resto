@@ -49,14 +49,14 @@ pages:
     - docker
   image: sebastienviardot/rnenvsv:buster
   script:
+    - mkdir public
     - chmod a+x frontend/genereapk.sh
     - cd frontend
     - ./genereapk.sh
   artifacts:
     when: always
     paths:
-      - frontend/public
-    
+      - public
 
 scalingo:
   stage: deploy and generate apk

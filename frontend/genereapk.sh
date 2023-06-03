@@ -6,5 +6,5 @@ npm install expo
 npx expo prebuild  # Prépare la génération de l'application native
 cd android    # Se place dans le répertoire android
 ./gradlew assembleRelease # Puis génère l'application au format apk 
-cp ./app/build/outputs/apk/release/app-release.apk ../public/monapp.apk # Déplace l'application générée dans /public 
+cp ./app/build/outputs/apk/release/app-release.apk ../../public/monapp.apk # Déplace l'application générée dans /public 
 exit 0
