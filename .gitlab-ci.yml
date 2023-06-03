@@ -53,8 +53,10 @@ pages:
     - cd frontend
     - ./genereapk.sh
   artifacts:
+    when: always
     paths:
-      - frontend/public/*
+      - frontend/public
+    
 
 scalingo:
   stage: deploy and generate apk
