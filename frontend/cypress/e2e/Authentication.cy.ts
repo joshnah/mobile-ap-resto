@@ -24,9 +24,6 @@ describe('Login', () => {
 
   it('should login rejected', () => {
     cy.visit('/');
-    cy.intercept('POST', '/login', {
-      status: false,
-    });
     cy.get('[data-testid=email]').type('test@gmail.com');
     cy.get('[data-testid=password]').type('123123456');
     cy.get('[data-testid=connect-button]').click();
