@@ -17,7 +17,7 @@ lint: # Vérification de la qualité du code js
 
 test-e2e:
   stage: test
-  image: cypress/base:16.18.1 # Image fournie par cypress avec ce qu'il faut
+  image: cypress/base:latest # Image fournie par cypress avec ce qu'il faut
   tags:
     - docker
   script:
