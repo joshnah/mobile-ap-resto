@@ -15,18 +15,19 @@ module.exports = {
   async newProduct(req, res) {
     // #swagger.tags = ['Products']
     // #swagger.summary = 'New Product'
-    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'My burger', $type: 'burger', $price: '8.5', $description: 'A very good burger'}}
-    if (!has(req.body, ['name', 'type', 'price', 'description']))
+    // #swagger.parameters['obj'] = { in: 'body', schema: { $name: 'My burger', $type: 'burger', $price: '8.5', $description: 'A very good burger', $image: 'https://img.jpg'}}
+    if (!has(req.body, ['name', 'type', 'price', 'description', 'image']))
       throw new CodeError(
-        'You must specify the name, type, price and description of the product',
+        'You must specify the name, type, price, description and image url of the product',
         status.BAD_REQUEST
       );
-    const { name, type, price, description } = req.body;
+    const { name, type, price, description, image } = req.body;
     await productModel.create({
       name,
       type,
       price,
       description,
+      image
     });
     res.json({ status: true, message: 'Product Added' });
   },

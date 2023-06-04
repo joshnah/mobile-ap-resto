@@ -88,14 +88,14 @@ const ModalWindow = (props: any) => {
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={'xl'}>
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Modifier la commande</Modal.Header>
+          <Modal.Header>Modifier le produit</Modal.Header>
           <Modal.Body>
             <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
+              <FormControl.Label>Nom</FormControl.Label>
               <Input value={name} onChangeText={setName} />
             </FormControl>
             <FormControl mt="3">
-              <FormControl.Label>Price</FormControl.Label>
+              <FormControl.Label>Prix</FormControl.Label>
               <Input value={price} onChangeText={setPrice} />
             </FormControl>
 
@@ -107,12 +107,12 @@ const ModalWindow = (props: any) => {
               <FormControl.Label>URL image</FormControl.Label>
               <Input value={image} onChangeText={setImage} />
               <Center>
-                <Text>Image preview</Text>
+                <Text>Image</Text>
                 <Image
                   source={{
                     uri: image,
                   }}
-                  alt="No image found"
+                  alt="Pas d'image chargée"
                   size="xl"
                 />
               </Center>
@@ -127,9 +127,9 @@ const ModalWindow = (props: any) => {
                   setShowModal(false);
                 }}
               >
-                Cancel
+                Annuler
               </Button>
-              <Button onPress={handleSave}>Save</Button>
+              <Button onPress={handleSave}>Enregistrer</Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>

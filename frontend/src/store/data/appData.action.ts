@@ -160,6 +160,51 @@ export const updateOrderAction = createAsyncThunk(
   }
 );
 
+export const addProductAction = createAsyncThunk(
+  'appData/addProduct',
+  async (data: any, { dispatch }) => {
+    const { type, name, price, description, image, navigation } = data;
+    axios
+      .post(
+        API_BASE_URL + 'api/products/',
+        {
+          type,
+          name,
+          price,
+          description,
+          image
+        },
+        {
+          headers: await authHeader(),
+        }
+      )
+      .then(() => {
+        dispatch(
+          SET_MESSAGE({
+            message: 'Produit ajouté',
+            closable: true,
+            status: 'success',
+            autoClose: true,
+          })
+        );
+        fetchProducts().then((products) => {
+          dispatch(SET_PRODUCTS(products.data.data));
+          navigation.navigate('Home');
+        });
+      })
+      .catch((error) => {
+        dispatch(
+          SET_MESSAGE({
+            message: error.response.data.message,
+            closable: true,
+            status: 'error',
+            autoClose: true,
+          })
+        );
+      });
+  }
+);
+
 export const updateProductAction = createAsyncThunk(
   'appData/updateProduct',
   async (data: any, { dispatch }) => {
