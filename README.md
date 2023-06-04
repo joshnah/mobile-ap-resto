@@ -112,3 +112,62 @@ Selon la valeur de la variable **isAdmin**, différents affichages sont proposé
 **Prérequis :** l'utilisateur est administrateur et se trouve sur la page d'accueil qui regroupe les produits.
 
 ![Diagramme de séquences pour l'ajout d'une commande](Pictures/New_Product.drawio.png)
+
+### Installation
+
+**Backend :**
+
+- cd backend
+
+Installation :
+
+- npm install
+
+Réinitialiser la base :
+
+- npm run updatedb
+
+Générer la documentation :
+
+- npm run doc
+
+Faire les trois actions précédentes en une seule commande :
+
+- npm run setup
+
+Lancement :
+
+- npm run startdev (pas de réinitialisation de la base)
+OU
+- npm start (réinitialisation de la base)
+
+Lancer les tests :
+
+- npm test
+
+**Frontend :**
+
+- cd frontend
+
+Installation :
+
+- npm install
+
+Lancement :
+
+- npm start (correspond à 'npx expo start')
+OU
+- npx expo start --tunnel (pour y accéder sans être sur le même réseau)
+
+Lancer les tests :
+
+- npm test
+
+**Pour installer l'intégralité de l'application depuis la racine :**
+
+- npm install
+
+**Lancement de l'intégralité des tests depuis la racine :**
+
+- npm test
+- npm lint
