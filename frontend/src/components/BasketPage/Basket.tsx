@@ -3,19 +3,19 @@ import {
   FlatList,
   HStack,
   Heading,
+  Image,
+  Modal,
   ScrollView,
   Stack,
-  Text,
+  Text
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  Image,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
 import BoxWrapper from '../../commons/BoxWrapper';
@@ -121,24 +121,32 @@ function CartItem(props: any) {
           <Ionicons name="trash-outline" size={40} color="red" />
         </TouchableOpacity>
       </BoxWrapper>
-      <Modal isVisible={showDetails}>
-        <View style={styles.modalContent}>
-          <Image
-            style={{ width: '100%', height: '80%', top: '0%' }}
-            source={{
-              uri: props.product.image,
-            }}
-            alt="image"
-            resizeMode="cover"
-          />
-          <TouchableOpacity
-            style={styles.removeButton}
-            onPress={() => setShowDetails(false)}
-          >
-            <Ionicons name="close-circle-outline" size={50} color="green" />
-          </TouchableOpacity>
+      <Modal
+        _backdrop={{
+          bg: 'warmGray.50',
+        }}
+        isOpen={showDetails}
+        onClose={() => setShowDetails(false)}
+        size={'xl'}
+        borderColor={'black'}
+        shadow={6}
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>{props.product.name}</Modal.Header>
+          <Modal.Body>
+            <Box flex={1} alignItems="center">
+              <Image
+                source={{ uri: props.product.image }}
+                alt="image"
+                resizeMode="cover"
+                height={300}
+                width={300}
+              />
+            </Box>
+          </Modal.Body>
           <Text style={styles.subTitle}>{props.product.description}</Text>
-        </View>
+        </Modal.Content>
       </Modal>
     </TouchableOpacity>
   );
@@ -244,90 +252,95 @@ export default function Basket() {
           Votre panier est vide. Commencez vos achats !
         </Text>
       )}
-      <Modal isVisible={showOrderView}>
-        <View style={styles.modalContent}>
-          <TouchableOpacity
-            style={styles.removeButton}
-            onPress={() => {
-              setShowOrderView(false);
-            }}
-          >
-            <Ionicons name="close-circle-outline" size={50} color="green" />
-          </TouchableOpacity>
-          <Text style={styles.title}>Commander</Text>
-          <ScrollView
-            style={styles.scrollContent}
-            automaticallyAdjustKeyboardInsets={true}
-          >
-            <Text style={styles.subTitle}>Adresse</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Adresse"
-              placeholderTextColor="gray"
-              value={address}
-              onChangeText={setAddress}
-            />
-            {user.address != null && address != user.address && (
-              <FKHButton
-                onPress={handleRegisteredAddress}
-              >
-                <Text style={styles.modalButtonText}>
-                  Livrer à l&apos;adresse liée au compte
-                </Text>
-              </FKHButton>
-            )}
-            <Text style={styles.subTitle}>Téléphone</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Téléphone"
-              placeholderTextColor="gray"
-              keyboardType="phone-pad"
-              value={phone}
-              onChangeText={setPhone}
-            />
-            {user.phone != null && phone != user.phone && (
-              <FKHButton
-                onPress={handleRegisteredPhone}
-              >
-                <Text style={styles.modalButtonText}>
-                  Utiliser le téléphone lié au compte
-                </Text>
-              </FKHButton>
-            )}
-            <Text style={styles.subTitle}>Carte Bancaire</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Numéro de carte"
-              placeholderTextColor="gray"
-              keyboardType="number-pad"
-              value={cardNumber}
-              onChangeText={setCardNumber}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Date d'expiration (MM/YY)"
-              placeholderTextColor="gray"
-              keyboardType="numbers-and-punctuation"
-              value={expirationDate}
-              onChangeText={setExpirationDate}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="CVV"
-              placeholderTextColor="gray"
-              keyboardType="number-pad"
-              value={cvv}
-              onChangeText={setCVV}
-              secureTextEntry
-            />
-          </ScrollView>
-          <FKHButton
-            onPress={handleOrder}
-            disabled={!canOrder}
-          >
-            Commander {cart.total.toFixed(2)} {'\u20AC'}
-          </FKHButton>
-        </View>
+      <Modal
+        _backdrop={{
+          bg: 'warmGray.50',
+        }}
+        isOpen={showOrderView}
+        onClose={() => setShowOrderView(false)}
+        size={'xl'}
+        borderColor={'black'}
+        shadow={6}
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Commander</Modal.Header>
+          <Modal.Body>
+            <ScrollView
+              automaticallyAdjustKeyboardInsets={true}
+            >
+              <Text style={styles.subTitle}>Adresse</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Adresse"
+                placeholderTextColor="gray"
+                value={address}
+                onChangeText={setAddress}
+              />
+              {user.address != null && address != user.address && (
+                <FKHButton
+                  onPress={handleRegisteredAddress}
+                >
+                  <Text style={styles.modalButtonText}>
+                    Livrer à l&apos;adresse liée au compte
+                  </Text>
+                </FKHButton>
+              )}
+              <Text style={styles.subTitle}>Téléphone</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Téléphone"
+                placeholderTextColor="gray"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+              />
+              {user.phone != null && phone != user.phone && (
+                <FKHButton
+                  onPress={handleRegisteredPhone}
+                >
+                  <Text style={styles.modalButtonText}>
+                    Utiliser le téléphone lié au compte
+                  </Text>
+                </FKHButton>
+              )}
+              <Text style={styles.subTitle}>Carte Bancaire</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Numéro de carte"
+                placeholderTextColor="gray"
+                keyboardType="number-pad"
+                value={cardNumber}
+                onChangeText={setCardNumber}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Date d'expiration (MM/YY)"
+                placeholderTextColor="gray"
+                keyboardType="numbers-and-punctuation"
+                value={expirationDate}
+                onChangeText={setExpirationDate}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="CVV"
+                placeholderTextColor="gray"
+                keyboardType="number-pad"
+                value={cvv}
+                onChangeText={setCVV}
+                secureTextEntry
+              />
+            </ScrollView>
+          </Modal.Body>
+          <Modal.Footer>
+            <FKHButton
+              onPress={handleOrder}
+              disabled={!canOrder}
+            >
+              Commander {cart.total.toFixed(2)} {'\u20AC'}
+            </FKHButton>
+          </Modal.Footer>
+        </Modal.Content>
       </Modal>
     </View>
   );
