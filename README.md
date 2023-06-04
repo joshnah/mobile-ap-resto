@@ -1,5 +1,15 @@
 # Documentation du projet
 
+#### Comptes disponibles pour tester l'application
+
+Des comptes sont disponibles dans la base de données pour commencer à tester l'application sans avoir à créer de comptes :
+
+- Compte administrateur : **Mail :** *admin@gmail.com* **Mot de passe :** *admin*
+
+- Compte client : **Mail :** *test@gmail.com* **Mot de passe :** *test*
+
+Vous pourrez créer des comptes clients depuis l'application mais pas de compte administrateur.
+
 ## Objectifs du projet et présentation de l'application
 
 Le but du projet était de développer une application en Node/Express (backend) et ReactNative (frontend), comprenant la gestion de rôles avec des utilisateurs différents ayant des droits différenciés, et l'utilisation d'une API externe. Le tout accompagné de la mise en place de jeux de tests côté backend et de tests fonctionnels avec la technologie Cypress côté frontend.
@@ -113,7 +123,7 @@ Selon la valeur de la variable **isAdmin**, différents affichages sont proposé
 
 ![Diagramme de séquences pour l'ajout d'une commande](Pictures/New_Product.drawio.png)
 
-### Installation
+## Installation
 
 **Backend :**
 
