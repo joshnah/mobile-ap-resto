@@ -1,7 +1,6 @@
 const email = 'test@test.test';
 const userName = 'test';
 const password = 'test';
-const newPassword = 'mdp1234';
 const phone = '0605040302';
 const address = 'Boulevard Maréchal Leclerc 38000 Grenoble';
 const addressButton = 'Choisir une nouvelle adresse';

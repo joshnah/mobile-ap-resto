@@ -1,13 +1,7 @@
 import { orders, products, restaurants } from '../mocks/mocks';
 
 const email = 'test@gmail.com';
-const userName = 'test';
 const password = 'test';
-const newPassword = 'mdp1234';
-const phone = '0605040302';
-const address = 'Boulevard Maréchal Leclerc 38000 Grenoble';
-const saveButton = 'Enregistrer les modifications';
-const savePasswordButton = 'Modifier le mot de passe';
 
 beforeEach(() => {
   cy.visit('/');

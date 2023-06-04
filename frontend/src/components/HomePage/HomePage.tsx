@@ -65,7 +65,7 @@ export default function HomePage() {
     } catch (error) {
       setImageAvailable(false);
     }
-  };
+  }
 
   useEffect(() => {
     testImageAvailability();

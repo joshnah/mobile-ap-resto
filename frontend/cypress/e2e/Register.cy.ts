@@ -1,9 +1,3 @@
-const emailInvalid = "test1";
-const usernameInvalid = "";
-const passwordInvalid = "123";
-const emailValid = "test1gmail.com"
-const usernameValid = "test";
-const passwordValid = "mdp1234";
 describe('Create Account', () => {
   it('should display error messages for invalid inputs 1', () => {
     cy.visit('/');

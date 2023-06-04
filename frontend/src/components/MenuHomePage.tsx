@@ -31,6 +31,7 @@ const MenuHomePage = () => {
       </TouchableOpacity>
       <FlatList
         data={data}
+        // eslint-disable-next-line
         renderItem={({item}) => <Article data={data} />}
         keyExtractor={item => item.id}
       />
