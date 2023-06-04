@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider, useSelector } from 'react-redux';
+import AutoCompleteAddress from './src/commons/AutocompleteAddress';
 import Message from './src/commons/Message';
 import CreateAccountScreen from './src/components/AuthPage/CreateAccountScreen';
 import Login from './src/components/AuthPage/LoginPage';
@@ -100,6 +101,10 @@ const NavsContainer = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen name="ArticlePage" component={ArticlePage} />
+            <Stack.Screen
+              name="ModifyAddress"
+              component={AutoCompleteAddress}
+            />
           </>
         ) : (
           <>

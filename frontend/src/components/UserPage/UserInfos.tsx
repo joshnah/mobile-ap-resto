@@ -1,4 +1,5 @@
-import { ScrollView } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { Button, ScrollView } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
@@ -7,10 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Autocomplete from 'react-native-autocomplete-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
-import { autocompleteAddress } from '../../services/data.service';
 import {
   logoutAction,
   modifyInfosAction,
@@ -31,21 +30,12 @@ export default function UserInfos() {
   // Variables pour les infos
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
   // Variables pour le password
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  // Variable pour l'autocomplétion d'adresse
-  const [addrSuggestions, setAddrSuggestions] = useState([]);
   // Récupération des infos du user dans le state auth
   const user = useSelector((state: RootState) => state.auth.user);
-
-  useEffect(() => {
-    if (user == null || user.address == null) {
-      return;
-    }
-    setAddress(user.address);
-  }, [user]);
+  const newAddress = useSelector((state: RootState) => state.auth.newAddress);
 
   // Récupération de l'état d'update
   const infos = useSelector((state: RootState) => {
@@ -58,34 +48,13 @@ export default function UserInfos() {
     if (
       (name != '' && name != user.name) ||
       (phone != '' && phone != user.phone) ||
-      (address != '' && address != user.address)
+      (newAddress != '' && newAddress != user.address)
     ) {
       dispatch({ type: UPDATE });
     } else {
       dispatch({ type: UPDATE_FINISHED });
     }
-  }, [name, phone, address]);
-
-  useEffect(() => {
-    if (address == null || address.length <= 3) {
-      return;
-    }
-    autocompleteAddress(address)
-      .then(async (response) => {
-        const addressesList = [];
-        for (const feature of response.data.features) {
-          if (feature.properties.label == address) {
-            setAddrSuggestions([]);
-            return;
-          }
-          addressesList.push(feature.properties.label);
-        }
-        setAddrSuggestions(addressesList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [address]);
+  }, [name, phone, newAddress]);
 
   // UseEffect pour la gestion du password
   useEffect(() => {
@@ -101,7 +70,7 @@ export default function UserInfos() {
     // Si les infos n'ont pas été modifiées, on remplace par les données du user
     const modifiedName = name ? name : user.name;
     const modifiedPhone = phone ? phone : user.phone;
-    const modifiedAddress = address ? address : user.address;
+    const modifiedAddress = newAddress;
     // Appel de l'action de modification
     dispatch(
       modifyInfosAction({
@@ -111,6 +80,10 @@ export default function UserInfos() {
       })
     );
   }
+  const navigation = useNavigation();
+  const modifyAddress = () => {
+    navigation.navigate('ModifyAddress', { address: user.address });
+  };
 
   // Fonction appelée pour modifier le mot de passe du user
   function modifyPassword() {
@@ -187,21 +160,10 @@ export default function UserInfos() {
           defaultValue={user.phone}
           onChangeText={setPhone}
         />
-        <Text style={styles.subTitle}>Adresse</Text>
-        <Autocomplete
-          inputContainerStyle={styles.input}
-          placeholder="Adresse"
-          data={addrSuggestions}
-          value={address}
-          onChangeText={setAddress}
-          flatListProps={{
-            renderItem: ({ item }) => (
-              <TouchableOpacity onPress={() => setAddress(item)}>
-                <Text style={styles.addressItems}>{item}</Text>
-              </TouchableOpacity>
-            ),
-          }}
-        />
+        <Text style={styles.subTitle}>Addresse</Text>
+        <Text>{newAddress || "Pas d'addresse"}</Text>
+        <Button onPress={modifyAddress}> Choisir un addresse</Button>
+
         <Text style={styles.subTitle}>Mot de passe</Text>
         <TextInput
           style={styles.passwordInput}
@@ -229,7 +191,7 @@ export default function UserInfos() {
       </ScrollView>
       <TouchableOpacity
         style={infos.hasChanged ? styles.button : styles.disableButton}
-        onPress={modifyUserInfos}
+        onPress={() => modifyUserInfos()}
         disabled={infos.hasChanged ? false : true}
       >
         <Text style={styles.buttonText}>Enregistrer les modifications</Text>

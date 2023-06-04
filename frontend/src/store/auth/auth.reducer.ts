@@ -6,6 +6,7 @@ const initialState = {
   hasChanged: false,
   pwdChanged: false,
   registered: false,
+  newAddress: null,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -50,6 +51,9 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.pwdChanged = false;
     },
+    SET_NEW_ADDRESS: (state, action) => {
+      state.newAddress = action.payload;
+    },
   },
 });
 
@@ -65,6 +69,7 @@ export const {
   UPDATE_PWD,
   UPDATE_PWD_FINISHED,
   UPDATE_PWD_SUCCESS,
+  SET_NEW_ADDRESS,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
