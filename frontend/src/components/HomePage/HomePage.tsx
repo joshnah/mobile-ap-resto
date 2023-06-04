@@ -6,11 +6,14 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useNavigation } from '@react-navigation/native';
 import {
   Button,
+  Center,
   FlatList,
   FormControl,
+  Image,
   Input,
   Modal,
   ScrollView,
+  Text,
   View,
 } from 'native-base';
 import { useSelector } from 'react-redux';
@@ -132,7 +135,7 @@ export default function HomePage() {
             <Modal.CloseButton />
             <Modal.Header>Ajouter le produit</Modal.Header>
             <Modal.Body>
-              <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <ScrollView automaticallyAdjustKeyboardInsets>
                 <FormControl mt="3">
                   <FormControl.Label>Type</FormControl.Label>
                   <Picker selectedValue={type} onValueChange={setType}>
@@ -173,8 +176,6 @@ export default function HomePage() {
                     onChangeText={setImage}
                     testID="new-product-image"
                   />
-<<<<<<< HEAD
-=======
                   <Center>
                     <Text>Image</Text>
                     {imageAvailable && (
@@ -187,7 +188,6 @@ export default function HomePage() {
                       />
                     )}
                   </Center>
->>>>>>> 2677fd0 (Fix Could not find image)
                 </FormControl>
               </ScrollView>
             </Modal.Body>
