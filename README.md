@@ -98,4 +98,17 @@ Selon la valeur de la variable **isAdmin**, différents affichages sont proposé
 ### Diagrammes de séquences 
 
 #### Login et Register
+
 ![Diagramme de séquences pour le login et le register](Pictures/secloginregister.drawio.png)
+
+#### Passer une commande
+
+**Prérequis :** le client a ajouté des produits au panier et se trouve sur la page panier.
+
+![Diagramme de séquences pour l'ajout d'une commande](Pictures/Sequence_Order.drawio.png)
+
+#### Ajouter un produit
+
+**Prérequis :** l'utilisateur est administrateur et se trouve sur la page d'accueil qui regroupe les produits.
+
+![Diagramme de séquences pour l'ajout d'une commande](Pictures/New_Product.drawio.png)
