@@ -59,7 +59,7 @@ const ModalWindow = (props: any) => {
           message: "Aucune modification n'a été effectuée",
           type: 'warning',
           autoclose: true,
-          closablable: true,
+          closable: true,
         })
       );
       return;
@@ -85,7 +85,17 @@ const ModalWindow = (props: any) => {
           Supprimer{' '}
         </FKHButton>
       </VStack>
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={'xl'}>
+      <Modal
+        isOpen={showModal}
+        onClose={() => {
+          setName(product.name);
+          setPrice(product.price);
+          setDescription(product.description);
+          setImage(product.image);
+          setShowModal(false);
+        }}
+        size={'xl'}
+      >
         <Modal.Content>
           <Modal.CloseButton />
           <Modal.Header>Modifier le produit</Modal.Header>

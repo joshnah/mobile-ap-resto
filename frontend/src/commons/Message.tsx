@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     width: '50%',
-    right: 0,
+    alignSelf: 'center',
   },
 });
