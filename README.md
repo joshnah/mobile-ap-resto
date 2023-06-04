@@ -185,4 +185,4 @@ Lancer les tests :
 ### Demo en vidéo 
 
 Démo Navigateur : https://www.youtube.com/watch?v=rKsrn73_Eio
-Démo Iphone : https://www.youtube.com/watch?v=Maz3p864JxI
+Démo Iphone : https://www.youtube.com/watch?v=Jmu6tIz1Zog
