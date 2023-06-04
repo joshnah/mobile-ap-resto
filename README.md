@@ -181,3 +181,7 @@ Lancer les tests :
 
 - npm test
 - npm lint
+
+### Demo en vidéo 
+
+à voir sur Youtube : https://www.youtube.com/watch?v=rKsrn73_Eio
