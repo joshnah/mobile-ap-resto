@@ -160,9 +160,9 @@ export default function UserInfos() {
           defaultValue={user.phone}
           onChangeText={setPhone}
         />
-        <Text style={styles.subTitle}>Addresse</Text>
+        <Text style={styles.subTitle}>Adresse</Text>
         <Text>{newAddress || "Pas d'addresse"}</Text>
-        <Button onPress={modifyAddress}> Choisir un addresse</Button>
+        <Button onPress={modifyAddress} colorScheme='green'> Choisir une nouvelle adresse</Button>
 
         <Text style={styles.subTitle}>Mot de passe</Text>
         <TextInput

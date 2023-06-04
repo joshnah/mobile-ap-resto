@@ -21,7 +21,7 @@ export default function AutoCompleteAddress(props: any) {
       .then(async (response) => {
         const addressesList = [];
         for (const feature of response.data.features) {
-          if (feature.properties.label == address) {
+          if (feature.properties.label == newAddr) {
             setAddrSuggestions([]);
             return;
           }
