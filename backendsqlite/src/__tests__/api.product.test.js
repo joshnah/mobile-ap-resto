@@ -38,6 +38,7 @@ describe('PRODUCT TEST', () => {
         type: 'burger',
         price: '10.95',
         description: 'New burger',
+        image: 'http://img.jpg'
       });
     expect(response.statusCode).toBe(200);
   });
