@@ -92,20 +92,36 @@ const ModalWindow = (props: any) => {
           <Modal.Body>
             <FormControl>
               <FormControl.Label>Nom</FormControl.Label>
-              <Input value={name} onChangeText={setName} />
+              <Input
+                value={name}
+                onChangeText={setName}
+                testID="product-name"
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>Prix</FormControl.Label>
-              <Input value={price} onChangeText={setPrice} />
+              <Input
+                value={price}
+                onChangeText={setPrice}
+                testID="product-price"
+              />
             </FormControl>
 
             <FormControl mt="3">
               <FormControl.Label>Description</FormControl.Label>
-              <Input value={description} onChangeText={setDescription} />
+              <Input
+                value={description}
+                onChangeText={setDescription}
+                testID="product-desc"
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>URL image</FormControl.Label>
-              <Input value={image} onChangeText={setImage} />
+              <Input
+                value={image}
+                onChangeText={setImage}
+                testID="product-url"
+              />
               <Center>
                 <Text>Image</Text>
                 <Image
@@ -129,7 +145,9 @@ const ModalWindow = (props: any) => {
               >
                 Annuler
               </Button>
-              <Button onPress={handleSave}>Enregistrer</Button>
+              <Button onPress={handleSave} testID="product-save">
+                Enregistrer
+              </Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>

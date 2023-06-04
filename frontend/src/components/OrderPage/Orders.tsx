@@ -90,7 +90,7 @@ export default function Orders() {
 
   return (
     <View style={styles.pageContainer}>
-      <Tab.Navigator initialRouteName="En Cours">
+      <Tab.Navigator initialRouteName="Fini">
         <Tab.Screen
           key={'fini'}
           name="Fini"

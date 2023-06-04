@@ -4,11 +4,21 @@ import { Animated, StyleSheet } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Center, FlatList, FormControl, Image, Input, Modal, Text, View } from 'native-base';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store/store';
+import {
+  Button,
+  Center,
+  FlatList,
+  FormControl,
+  Image,
+  Input,
+  Modal,
+  Text,
+  View,
+} from 'native-base';
+import { useSelector } from 'react-redux';
 import FKHButton from '../../commons/Button';
 import { addProductAction } from '../../store/data/appData.action';
+import { RootState, useAppDispatch } from '../../store/store';
 import Article from '../ProductPage/Article';
 
 const TYPES = ['burger', 'boisson', 'frites'];
@@ -16,14 +26,14 @@ const Tab = createMaterialTopTabNavigator();
 export default function HomePage() {
   const isAdmin = useSelector((state: RootState) => state.auth.user?.isAdmin);
   const [showModal, setShowModal] = useState(false);
-  const [type, setType]: any  = useState('burger');
+  const [type, setType]: any = useState('burger');
   const [name, setName]: any = useState('');
-  const [price, setPrice]: any  = useState('');
-  const [description, setDescription]: any  = useState('');
-  const [image, setImage]: any  = useState('');
+  const [price, setPrice]: any = useState('');
+  const [description, setDescription]: any = useState('');
+  const [image, setImage]: any = useState('');
   const [canAdd, setCanAdd] = useState(false);
-  const navigation: any  = useNavigation();
-  const dispatch = useDispatch();
+  const navigation: any = useNavigation();
+  const dispatch = useAppDispatch();
 
   const products = useSelector((state: any) => state.appData.products);
   const ProductPage = (props: any) => {
@@ -48,7 +58,7 @@ export default function HomePage() {
     } else {
       setCanAdd(true);
     }
-  }, [name, price, description, image])
+  }, [name, price, description, image]);
 
   const handleSave = () => {
     dispatch(
@@ -58,13 +68,13 @@ export default function HomePage() {
         price: price.replace(',', '.'),
         description: description,
         image: image,
-        navigation: navigation
+        navigation: navigation,
       })
     );
     setShowModal(false);
   };
 
-  "https://bakeitwithlove.com/wp-content/uploads/2021/05/McDonalds-The-Travis-Scott-Burger-sq-500x500.jpg"
+  ('https://bakeitwithlove.com/wp-content/uploads/2021/05/McDonalds-The-Travis-Scott-Burger-sq-500x500.jpg');
 
   return (
     <>
@@ -79,9 +89,7 @@ export default function HomePage() {
             source={require('../../../assets/FKH_log.png')}
           />
           {isAdmin && (
-            <FKHButton onPress={setShowModal}>
-              Ajouter un produit
-            </FKHButton>
+            <FKHButton onPress={setShowModal}>Ajouter un produit</FKHButton>
           )}
         </View>
         <View style={styles.products}>
@@ -98,17 +106,18 @@ export default function HomePage() {
             })}
           </Tab.Navigator>
         </View>
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={'xl'}>
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          size={'xl'}
+        >
           <Modal.Content>
             <Modal.CloseButton />
             <Modal.Header>Ajouter le produit</Modal.Header>
             <Modal.Body>
               <FormControl mt="3">
                 <FormControl.Label>Type</FormControl.Label>
-                <Picker
-                  selectedValue={type}
-                  onValueChange={setType}
-                >
+                <Picker selectedValue={type} onValueChange={setType}>
                   <Picker.Item label="Burger" value="burger" />
                   <Picker.Item label="Boisson" value="boisson" />
                   <Picker.Item label="Frites" value="frites" />
@@ -116,19 +125,36 @@ export default function HomePage() {
               </FormControl>
               <FormControl mt="3">
                 <FormControl.Label>Nom</FormControl.Label>
-                <Input value={name} onChangeText={setName} />
+                <Input
+                  value={name}
+                  onChangeText={setName}
+                  testID="new-product-name"
+                />
               </FormControl>
               <FormControl mt="3">
                 <FormControl.Label>Prix</FormControl.Label>
-                <Input value={price} onChangeText={setPrice} keyboardType='numeric' />
+                <Input
+                  value={price}
+                  testID="new-product-price"
+                  onChangeText={setPrice}
+                  keyboardType="numeric"
+                />
               </FormControl>
               <FormControl mt="3">
                 <FormControl.Label>Description</FormControl.Label>
-                <Input value={description} onChangeText={setDescription} />
+                <Input
+                  value={description}
+                  onChangeText={setDescription}
+                  testID="new-product-desc"
+                />
               </FormControl>
               <FormControl mt="3">
                 <FormControl.Label>URL image</FormControl.Label>
-                <Input value={image} onChangeText={setImage} />
+                <Input
+                  value={image}
+                  onChangeText={setImage}
+                  testID="new-product-image"
+                />
                 <Center>
                   <Text>Image</Text>
                   {image !== '' && (
@@ -154,7 +180,14 @@ export default function HomePage() {
                 >
                   Annuler
                 </Button>
-                <Button style={!canAdd ? styles.disabledSaveButton : null} disabled={!canAdd} onPress={handleSave}>Enregistrer</Button>
+                <Button
+                  style={!canAdd ? styles.disabledSaveButton : null}
+                  disabled={!canAdd}
+                  onPress={handleSave}
+                  testID="new-product-save"
+                >
+                  Enregistrer
+                </Button>
               </Button.Group>
             </Modal.Footer>
           </Modal.Content>
@@ -172,6 +205,6 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   disabledSaveButton: {
-    backgroundColor: '#f2f2f2'
-  }
+    backgroundColor: '#f2f2f2',
+  },
 });

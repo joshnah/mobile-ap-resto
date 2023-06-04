@@ -104,6 +104,7 @@ const DetailOrder = (props: {
     const deleteProduct = () => {
       const newProducts = listProducts.filter((pro, i) => i !== index);
       setListProducts(newProducts);
+      setTotal(Number((total - product.price * item.quantity).toFixed(2)));
     };
 
     const increment = () => {
@@ -131,6 +132,7 @@ const DetailOrder = (props: {
               </Heading>
               {editMode && (
                 <TouchableOpacity
+                  testID="detail-order-delete"
                   style={styles.removeButton}
                   onPress={() => {
                     deleteProduct();
@@ -149,7 +151,10 @@ const DetailOrder = (props: {
                     alignItems={'center'}
                     justifyContent="space-between"
                   >
-                    <TouchableOpacity onPress={() => decrement()}>
+                    <TouchableOpacity
+                      onPress={() => decrement()}
+                      testID="detail-order-decrement"
+                    >
                       <Ionicons
                         name="remove-circle-outline"
                         size={50}
@@ -161,7 +166,10 @@ const DetailOrder = (props: {
                       {listProducts[index].quantity}
                     </Text>
 
-                    <TouchableOpacity onPress={() => increment()}>
+                    <TouchableOpacity
+                      onPress={() => increment()}
+                      testID="detail-order-increment"
+                    >
                       <Ionicons
                         name="add-circle-outline"
                         size={50}
@@ -238,6 +246,7 @@ const DetailOrder = (props: {
               Total: {total} {'\u20AC'}
             </Heading>
             <Input
+              testID="detail-order-address"
               size={'lg'}
               textAlign={'center'}
               value={address}
@@ -246,6 +255,7 @@ const DetailOrder = (props: {
               onChange={(e) => setAddress(e.target.value)}
             />
             <Input
+              testID="detail-order-phone"
               size={'lg'}
               textAlign={'center'}
               value={phone}
@@ -290,6 +300,7 @@ export default function ModalDetail(props: any) {
 
   return (
     <Modal
+      testID="modal-detail-order"
       _backdrop={{
         bg: 'warmGray.50',
       }}
