@@ -5,12 +5,14 @@ export default function FKHButton(props: any) {
   return (
     <Button
       onPress={props.onPress}
+      style={props.disabled ? styles.disableButton : null}
       colorScheme={props.color ? props.color : 'green'}
       height={50}
       borderRadius={20}
       width={'100%'}
       justifyContent={'center'}
       alignItems={'center'}
+      disabled={props.disabled}
     >
       <Text style={styles.textStyle}>{props.children}</Text>
     </Button>
@@ -30,4 +32,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
+  disableButton: {
+    backgroundColor: '#f2f2f2'
+  }
 });

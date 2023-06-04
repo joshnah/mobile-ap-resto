@@ -269,7 +269,6 @@ export default function Basket() {
             />
             {user.address != null && address != user.address && (
               <FKHButton
-                style={styles.modalButton}
                 onPress={handleRegisteredAddress}
               >
                 <Text style={styles.modalButtonText}>
@@ -288,11 +287,10 @@ export default function Basket() {
             />
             {user.phone != null && phone != user.phone && (
               <FKHButton
-                style={styles.modalButton}
                 onPress={handleRegisteredPhone}
               >
                 <Text style={styles.modalButtonText}>
-                  Utiliser le numéro de téléphone lié au compte
+                  Utiliser le téléphone lié au compte
                 </Text>
               </FKHButton>
             )}
@@ -324,7 +322,6 @@ export default function Basket() {
             />
           </ScrollView>
           <FKHButton
-            style={canOrder ? styles.modalButton : styles.disableModalButton}
             onPress={handleOrder}
             disabled={!canOrder}
           >
@@ -387,19 +384,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
-  },
-  modalButton: {
-    marginBottom: 20,
-    width: '80%',
-    alignSelf: 'center',
-    height: 65,
-  },
-  disableModalButton: {
-    marginBottom: 20,
-    width: '80%',
-    alignSelf: 'center',
-    backgroundColor: '#f2f2f2',
-    height: 65,
   },
   cbInput: {
     height: 40,
