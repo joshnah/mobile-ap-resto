@@ -90,3 +90,12 @@ Selon la valeur de la variable **isAdmin**, différents affichages sont proposé
 | Panier | Gestion de produits dans le panier et passer un commande | Pas de page panier |
 | Commandes Page | Affichage et gestion de ses commandes | Affichage et gestion de tous les commandes |
 | Utilisateurs Page | Modification de son profil | Modification de son profil |
+
+### Cas d'usages
+
+![Diagramme de cas d'usages](Pictures/casusages.drawio.png)
+
+### Diagrammes de séquences 
+
+#### Login et Register
+![Diagramme de séquences pour le login et le register](Pictures/secloginregister.drawio.png)
