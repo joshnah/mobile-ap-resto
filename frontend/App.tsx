@@ -69,19 +69,21 @@ const NavsContainer = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    AsyncStorage.getItem('user').then((user) => {
-      if (user) {
-        dispatch(LOGIN_SUCCESS(JSON.parse(user)));
-        dispatch(
-          SET_MESSAGE({
-            message: 'Vous êtes connecté',
-            status: 'success',
-            closable: true,
-            autoClose: true,
-          })
-        );
-      }
-    });
+    setTimeout(() => {
+      AsyncStorage.getItem('user').then((user) => {
+        if (user) {
+          dispatch(LOGIN_SUCCESS(JSON.parse(user)));
+          dispatch(
+            SET_MESSAGE({
+              message: 'Vous êtes connecté',
+              status: 'success',
+              closable: true,
+              autoClose: true,
+            })
+          );
+        }
+      });
+    }, 300);
   }, []);
 
   useEffect(() => {
