@@ -19,6 +19,7 @@ describe('Login', () => {
         hasChanged: false,
         pwdChanged: false,
         registered: false,
+        newAddress: null
       });
   });
 
@@ -37,6 +38,7 @@ describe('Login', () => {
         hasChanged: false,
         pwdChanged: false,
         registered: false,
+        newAddress: null
       });
   });
 });

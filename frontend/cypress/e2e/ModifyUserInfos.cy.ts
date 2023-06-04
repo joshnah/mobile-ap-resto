@@ -4,6 +4,7 @@ const password = 'test';
 const newPassword = 'mdp1234';
 const phone = '0605040302';
 const address = 'Boulevard Maréchal Leclerc 38000 Grenoble';
+const addressButton = 'Choisir une nouvelle adresse';
 const saveButton = 'Enregistrer les modifications';
 const savePasswordButton = 'Modifier le mot de passe';
 
@@ -20,7 +21,7 @@ describe('UserInfos', () => {
     cy.intercept('PUT', '/api/users', {
       status: true,
       message: 'Informations mises à jour',
-      user: { name: userName }
+      user: { name: userName },
     });
 
     // On accède à l'appli
@@ -40,6 +41,7 @@ describe('UserInfos', () => {
         hasChanged: false,
         pwdChanged: false,
         registered: false,
+        newAddress: null
       });
 
     // On se rend sur la page UserInfos
@@ -60,8 +62,12 @@ describe('UserInfos', () => {
     // On ajounte un numéro de téléphone
     cy.get('input[placeholder="Téléphone"]').type(phone);
 
-    // On ajoute une adresse
+    // On clique sur le bouton pour changer d'adresse
+    cy.contains(addressButton).click();
+    // On renseigne une nouvelle adresse
     cy.get('input[placeholder="Adresse"]').type(address);
+    // On valide
+    cy.contains('Valider').click();
 
     // On enregistre les modifications
     cy.contains(saveButton).click();

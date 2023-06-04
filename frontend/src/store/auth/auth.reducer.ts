@@ -22,6 +22,8 @@ const authSlice = createSlice({
     LOGIN_SUCCESS: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload;
+      console.log("STATE");
+      console.log(state.newAddress);
     },
     LOGIN_FAIL: (state) => {
       state.isLoggedIn = false;
