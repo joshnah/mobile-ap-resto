@@ -164,6 +164,7 @@ export const addProductAction = createAsyncThunk(
   'appData/addProduct',
   async (data: any, { dispatch }) => {
     const { type, name, price, description, image, navigation } = data;
+    console.log(data);
     axios
       .post(
         API_BASE_URL + 'api/products/',

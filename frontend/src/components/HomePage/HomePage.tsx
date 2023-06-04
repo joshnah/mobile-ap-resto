@@ -29,6 +29,7 @@ export default function HomePage() {
   const [price, setPrice]: any = useState('');
   const [description, setDescription]: any = useState('');
   const [image, setImage]: any = useState('');
+  const [imageAvailable, setImageAvailable]: any = useState(false);
   const [canAdd, setCanAdd] = useState(false);
   const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
@@ -50,7 +51,21 @@ export default function HomePage() {
     );
   };
 
+  async function testImageAvailability () {
+    try {
+      const response = await fetch(image, { method: 'HEAD' });
+      if (response.ok) {
+        setImageAvailable(true);
+      } else {
+        setImageAvailable(false);
+      }
+    } catch (error) {
+      setImageAvailable(false);
+    }
+  };
+
   useEffect(() => {
+    testImageAvailability();
     if (name == '' || price == '' || description == '' || image == '') {
       setCanAdd(false);
     } else {
@@ -59,13 +74,19 @@ export default function HomePage() {
   }, [name, price, description, image]);
 
   const handleSave = () => {
+    let imageFinale = image;
+    if (!imageAvailable) {
+      console.log("KKKOOOO");
+      imageFinale = null;
+    }
+    console.log(imageFinale);
     dispatch(
       addProductAction({
         type: type,
         name: name,
         price: price.replace(',', '.'),
         description: description,
-        image: image,
+        image: imageFinale,
         navigation: navigation,
       })
     );
@@ -152,6 +173,21 @@ export default function HomePage() {
                     onChangeText={setImage}
                     testID="new-product-image"
                   />
+<<<<<<< HEAD
+=======
+                  <Center>
+                    <Text>Image</Text>
+                    {imageAvailable && (
+                      <Image
+                        source={{
+                          uri: image,
+                        }}
+                        alt="Pas d'image chargée"
+                        size="xl"
+                      />
+                    )}
+                  </Center>
+>>>>>>> 2677fd0 (Fix Could not find image)
                 </FormControl>
               </ScrollView>
             </Modal.Body>
