@@ -53,6 +53,7 @@ const authSlice = createSlice({
     },
     SET_NEW_ADDRESS: (state, action) => {
       state.newAddress = action.payload;
+      state.hasChanged = true;
     },
   },
 });
