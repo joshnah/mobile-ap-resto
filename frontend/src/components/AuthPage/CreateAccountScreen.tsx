@@ -125,7 +125,7 @@ export default function CreateAccount() {
         value={phone}
         keyboardType="phone-pad"
       />
-      <TouchableOpacity style={styles.button} onPress={handleCreateAccount}>
+      <TouchableOpacity style={styles.button} onPress={handleCreateAccount} testID="test-button">
         <Text style={styles.buttonText}>Créer un compte</Text>
       </TouchableOpacity>
     </View>

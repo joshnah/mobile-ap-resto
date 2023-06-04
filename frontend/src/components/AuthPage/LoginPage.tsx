@@ -79,7 +79,7 @@ export default function Login() {
         style={styles.createAccountButton}
         onPress={handleCreateAccount}
       >
-        <Text style={styles.createAccountButtonText}>Créer un compte</Text>
+        <Text style={styles.createAccountButtonText} testID="register-button">Créer un compte</Text>
       </TouchableOpacity>
     </View>
   );
