@@ -294,8 +294,8 @@ export default function ModalDetail(props: any) {
   const deleteOrder = () => {
     fkhAlert('Supprimer', 'Voulez-vous supprimer cette commande ?', () => {
       dispatch(deteleOrderAction({ id: currentOrder.id }));
+      setShowModal(false);
     });
-    setShowModal(false);
   };
 
   return (
