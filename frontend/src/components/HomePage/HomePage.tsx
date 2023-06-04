@@ -12,6 +12,7 @@ import {
   Image,
   Input,
   Modal,
+  ScrollView,
   Text,
   View,
 } from 'native-base';
@@ -74,8 +75,6 @@ export default function HomePage() {
     setShowModal(false);
   };
 
-  ('https://bakeitwithlove.com/wp-content/uploads/2021/05/McDonalds-The-Travis-Scott-Burger-sq-500x500.jpg');
-
   return (
     <>
       <View flexDirection={'column'} flex={1}>
@@ -115,59 +114,61 @@ export default function HomePage() {
             <Modal.CloseButton />
             <Modal.Header>Ajouter le produit</Modal.Header>
             <Modal.Body>
-              <FormControl mt="3">
-                <FormControl.Label>Type</FormControl.Label>
-                <Picker selectedValue={type} onValueChange={setType}>
-                  <Picker.Item label="Burger" value="burger" />
-                  <Picker.Item label="Boisson" value="boisson" />
-                  <Picker.Item label="Frites" value="frites" />
-                </Picker>
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>Nom</FormControl.Label>
-                <Input
-                  value={name}
-                  onChangeText={setName}
-                  testID="new-product-name"
-                />
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>Prix</FormControl.Label>
-                <Input
-                  value={price}
-                  testID="new-product-price"
-                  onChangeText={setPrice}
-                  keyboardType="numeric"
-                />
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>Description</FormControl.Label>
-                <Input
-                  value={description}
-                  onChangeText={setDescription}
-                  testID="new-product-desc"
-                />
-              </FormControl>
-              <FormControl mt="3">
-                <FormControl.Label>URL image</FormControl.Label>
-                <Input
-                  value={image}
-                  onChangeText={setImage}
-                  testID="new-product-image"
-                />
-                <Center>
-                  <Text>Image</Text>
-                  {image !== '' && (
-                    <Image
-                      source={{
-                        uri: image,
-                      }}
-                      alt="Pas d'image chargée"
-                      size="xl"
-                    />
-                  )}
-                </Center>
-              </FormControl>
+              <ScrollView automaticallyAdjustKeyboardInsets>
+                <FormControl mt="3">
+                  <FormControl.Label>Type</FormControl.Label>
+                  <Picker selectedValue={type} onValueChange={setType}>
+                    <Picker.Item label="Burger" value="burger" />
+                    <Picker.Item label="Boisson" value="boisson" />
+                    <Picker.Item label="Frites" value="frites" />
+                  </Picker>
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>Nom</FormControl.Label>
+                  <Input
+                    value={name}
+                    onChangeText={setName}
+                    testID="new-product-name"
+                  />
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>Prix</FormControl.Label>
+                  <Input
+                    value={price}
+                    testID="new-product-price"
+                    onChangeText={setPrice}
+                    keyboardType="numeric"
+                  />
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>Description</FormControl.Label>
+                  <Input
+                    value={description}
+                    onChangeText={setDescription}
+                    testID="new-product-desc"
+                  />
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>URL image</FormControl.Label>
+                  <Input
+                    value={image}
+                    onChangeText={setImage}
+                    testID="new-product-image"
+                  />
+                  <Center>
+                    <Text>Image</Text>
+                    {image !== '' && (
+                      <Image
+                        source={{
+                          uri: image,
+                        }}
+                        alt="Pas d'image chargée"
+                        size="xl"
+                      />
+                    )}
+                  </Center>
+                </FormControl>
+              </ScrollView>
             </Modal.Body>
             <Modal.Footer>
               <Button.Group space={2}>
