@@ -295,7 +295,7 @@ export const deteleOrderAction = createAsyncThunk(
       .then(() => {
         dispatch(
           SET_MESSAGE({
-            message: 'Produit supprimé',
+            message: 'Commande supprimée',
             closable: true,
             status: 'success',
             autoClose: true,
