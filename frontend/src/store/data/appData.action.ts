@@ -7,6 +7,7 @@ import {
   fetchProducts,
   fetchRestaurants,
 } from '../../services/data.service';
+import { CLEAR_CART } from '../cart/cart.reducer';
 import { SET_MESSAGE } from '../message/message.reducer';
 import { SET_ORDERS, SET_PRODUCTS, SET_RESTAURANTS } from './appData.reducer';
 const calculerTotals = (orders, products) => {
@@ -82,8 +83,11 @@ export const addOrderAction = createAsyncThunk(
             })
           );
 
+          // Vider le panier
+          dispatch(CLEAR_CART());
+          // On récupère les commandes de l'utilisateur
           const state: any = getState();
-          fetchOrders(state.auth.user.id).then((orders) => {
+          fetchOrders(state.auth.user).then((orders) => {
             const products = state.appData.products;
             dispatch({
               type: SET_ORDERS,

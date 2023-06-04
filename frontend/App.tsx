@@ -22,7 +22,6 @@ import { RootState, store, useAppDispatch } from './src/store/store';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 const NavsContainer = () => {
   const isAdmin = useSelector((state: RootState) => state.auth.user?.isAdmin);
   const MainNavigation = () => {
@@ -92,14 +91,7 @@ const NavsContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {/* TODO: SPLASH SCREEN */}
-        {/* <Stack.Screen
-    name="Splash"
-    component={SplashScreen}
-    options={{ headerShown: false }}
-  />*/}
-
+      <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
         {isLoggedIn ? (
           <>
             <Stack.Screen

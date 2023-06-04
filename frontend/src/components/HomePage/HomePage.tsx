@@ -40,7 +40,7 @@ export default function HomePage() {
           />
         </View>
         <View style={styles.products}>
-          <Tab.Navigator>
+          <Tab.Navigator initialRouteName="burger">
             {TYPES.map((keyProduct) => {
               return (
                 <Tab.Screen
