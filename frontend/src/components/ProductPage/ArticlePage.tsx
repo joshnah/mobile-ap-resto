@@ -101,7 +101,7 @@ const ModalWindow = (props: any) => {
             <FormControl mt="3">
               <FormControl.Label>Prix</FormControl.Label>
               <Input
-                value={price}
+                value={String(price)}
                 onChangeText={setPrice}
                 testID="product-price"
               />
